@@ -27,3 +27,7 @@ set("clock.allow_streaming_errors",true)
 set("frame.audio.samplerate",48000)
 set("frame.audio.channels",2)
 set("audio.converter.samplerate.libsamplerate.quality","fast")
+
+# Here we defined the default preferred live source of the switch "live" as the first input
+# we need to do that here so we can define update_source_metrics callback
+preferred_live_source = ref("")

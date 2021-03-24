@@ -11,5 +11,18 @@ live_input_list = [
   "sat_sat1"
 ]
 
+hls_formats = [
+  "lofi", "midfi", "hifi"
+]
+
+icecast_formats = {
+  aac = [
+    "lofi", "midfi", "hifi"
+  ],
+  mp3 = [
+    "lofi", "mifi"
+  ]
+}
+
 icecast_password = "secret"
 

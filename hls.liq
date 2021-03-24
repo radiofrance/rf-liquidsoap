@@ -1,5 +1,6 @@
 
-aac_lofi_mpegts =
+formats = [
+ ("lofi",
   %ffmpeg(
     format="mpegts",
     %audio(
@@ -8,32 +9,33 @@ aac_lofi_mpegts =
       b="32k",
       samplerate=48000,
       profile="aac_low"
-    )
-)
+    ))
+ ),
 
-aac_midfi_mpegts =
-  %ffmpeg(
-    format="mpegts",
-    %audio(
-      codec="aac",
-      channels=2,
-      b="96k",
-      samplerate=48000,
-      profile="aac_low"
-    )
-)
+ ("midfi",
+   %ffmpeg(
+     format="mpegts",
+     %audio(
+       codec="aac",
+       channels=2,
+       b="96k",
+       samplerate=48000,
+       profile="aac_low"
+     ))
+ ),
 
-aac_hifi_mpegts =
-  %ffmpeg(
-    format="mpegts",
-    %audio(
-      codec="aac",
-      channels=2,
-      b="192k",
-      samplerate=48000,
-      profile="aac_low"
-    )
-)
+ ("hifi",
+   %ffmpeg(
+     format="mpegts",
+     %audio(
+       codec="aac",
+       channels=2,
+       b="192k",
+       samplerate=48000,
+       profile="aac_low"
+     ))
+ )
+]
 
 def segment_name(~position,~extname,stream_name) =
   segment_timestamp = int_of_float(time())
@@ -70,7 +72,11 @@ end
 # HLS outputs don't have any restriction with clock
 # so we can leave them in the same clock as radio_prod
 
-def mk_hls_output(source) =
+def mk_hls_output(selected_formats, source) =
+  def mk_format(name) =
+    ("#{radio_name}_#{name}", list.assoc(name, formats))
+  end
+
   output.file.hls(
     id="hls_#{radio_name}",
     on_file_change=on_file_change,
@@ -82,11 +88,7 @@ def mk_hls_output(source) =
     segments_overhead=75,
     segment_name=segment_name,
     "/var/hls/#{radio_name}",
-    [
-      ("#{radio_name}_lofi",aac_lofi_mpegts),
-      ("#{radio_name}_midfi", aac_midfi_mpegts),
-      ("#{radio_name}_hifi", aac_hifi_mpegts)
-    ],
+    list.map(mk_format, selected_formats),
     source
   )
 end
