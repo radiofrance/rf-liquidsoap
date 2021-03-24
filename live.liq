@@ -15,13 +15,9 @@ live_input_sources = list.mapi(mk_source, live_input_list)
 
 # Define safe_blank input and its metrics
 safe_blank = blank(id="safe_blank")
-source_tag(safe_blank, "safe_blank")
+safe_blank = source_tag(safe_blank, "safe_blank")
 set_safe_blank_is_playing_metric =
   create_is_playing_metric(label_values=[radio_name,"input","safe_blank"])
-
-# Here we defined the default preferred live source of the switch "live" as the first input
-# we need to do that here so we can define update_source_metrics callback
-preferred_live_source = ref("")
 
 real_live_source = ref("")
 
@@ -147,8 +143,8 @@ radio_prod =
 
 # HLS Output
 
-mk_hls_output(radio_prod)
+mk_hls_output(hls_formats, radio_prod)
 
 # Icecast Output
 
-mk_icecast_outputs(radio_prod)
+mk_icecast_outputs(icecast_formats, radio_prod)

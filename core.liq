@@ -4,7 +4,7 @@ def source_tag(s,tag) =
   def f(_)
     [("source_tag",tag)]
   end
-  s.map_metadata(insert_missing=true,f)
+  map_metadata(insert_missing=true,f,s)
 end
 
 def mk_source(index, source_name) =
@@ -57,10 +57,10 @@ def mk_source(index, source_name) =
     )
 
   # Tag source with its name as metadata (e.g. for is_playing metric)
-  source_tag(buffered_input, source_name)
+  tagged_source = source_tag(buffered_input, source_name)
 
   {name                  = source_name,
    is_ready              = srt_input.is_ready,
    set_is_playing_metric = set_is_playing_metric,
-   source                = buffered_source}
+   source                = tagged_source}
 end
