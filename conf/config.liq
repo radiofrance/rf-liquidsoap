@@ -1,6 +1,8 @@
 
 radio_name = "franceinter"
 
+state_path = "/state/#{radio_name}.livesourcestate"
+
 live_input_list = [
   "voieA_caller1",
   "voieA_caller2",
@@ -25,4 +27,3 @@ icecast_formats = {
 }
 
 icecast_password = "secret"
-
