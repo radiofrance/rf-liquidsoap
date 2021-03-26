@@ -32,7 +32,7 @@ def post_livesource(protocol, data, headers, uri) =
                 data=data,
                 append=false,
                 perms=0o644,
-                "/tmp/franceinter.livesourcestate"
+                "/tmp/#{radio_name}.livesourcestate"
             )
         )
         (200, '{"preferred_output": #{json_of(data)}}')

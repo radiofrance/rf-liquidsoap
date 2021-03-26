@@ -22,8 +22,8 @@ set_safe_blank_is_playing_metric =
 real_live_source = ref("")
 
 # get the livesourcestate on disk if it exist
-if file.exists("/tmp/franceinter.livesourcestate") then
-  content = file.contents("/tmp/franceinter.livesourcestate")
+if file.exists("/tmp/#{radio_name}.livesourcestate") then
+  content = file.contents("/tmp/#{radio_name}.livesourcestate")
   # check that the livesource exist in input list
   if list.mem(content,live_input_list) then
     preferred_live_source := content
