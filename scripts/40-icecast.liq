@@ -69,8 +69,8 @@ def mk_output(source, type, format) =
   output.icecast(
     id="icecast_#{name}",
     fallible=true,
-    host="localhost",
-    port=8000,
+    host=icecast_host,
+    port=icecast_port,
     icy_metadata="false",
     password=icecast_password,
     mount="#{radio_name}-#{extension}",
@@ -94,8 +94,8 @@ def mk_icecast_outputs(selected_formats, source) =
     ignore(output.icecast(
       id="icecast_mp3_lofi",
       fallible=true,
-      host="localhost",
-      port=8000,
+      host=icecast_host,
+      port=icecast_port,
       icy_metadata="false",
       password=icecast_password,
       mount="#{radio_name}-lofi.mp3",

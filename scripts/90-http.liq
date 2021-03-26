@@ -49,5 +49,5 @@ def handler(h, method) =
     response
 end
 
-harbor.http.register(port=7000, method="GET", "^/livesource$", handler(get_livesource, "GET"))
-harbor.http.register(port=7000, method="POST", "^/livesource$", handler(post_livesource, "POST"))
+harbor.http.register(port=harbor_http_port, method="GET", "^/livesource$", handler(get_livesource, "GET"))
+harbor.http.register(port=harbor_http_port, method="POST", "^/livesource$", handler(post_livesource, "POST"))
