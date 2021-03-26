@@ -107,7 +107,7 @@ hlssegment_sent_create =
 
 increase_hlssegment_metrics = ref([])
 def create_hlssegment_metrics(code, increment) =
-  increase_metric = hlssegment_sent_create(label_values=["#{radio_name}","#{code}"])
+  increase_metric = hlssegment_sent_create(label_values=[radio_name,"#{code}"])
   increase_hlssegment_metrics := list.add((code, increase_metric), !increase_hlssegment_metrics)
   increase_metric(increment)
 end
