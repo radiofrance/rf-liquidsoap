@@ -1,9 +1,9 @@
 #!/usr/bin/liquidsoap
 
-%include "config.liq"
+%include "/conf/config.liq"
 %include "settings.liq"
 %include "prometheus.liq"
-%include "icecast.liq"
+#%include "icecast.liq"
 %include "hls.liq"
 %include "core.liq"
 
@@ -22,8 +22,8 @@ set_safe_blank_is_playing_metric =
 real_live_source = ref("")
 
 # get the livesourcestate on disk if it exist
-if file.exists("/tmp/franceinter.livesourcestate") then
-  content = file.contents("/tmp/franceinter.livesourcestate")
+if file.exists(state_path) then
+  content = file.contents(state_path)
   # check that the livesource exist in input list
   if list.mem(content,live_input_list) then
     preferred_live_source := content
@@ -147,4 +147,4 @@ mk_hls_output(hls_formats, radio_prod)
 
 # Icecast Output
 
-mk_icecast_outputs(icecast_formats, radio_prod)
+# mk_icecast_outputs(icecast_formats, radio_prod)

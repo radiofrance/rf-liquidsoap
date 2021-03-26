@@ -32,7 +32,7 @@ def post_livesource(protocol, data, headers, uri) =
                 data=data,
                 append=false,
                 perms=0o644,
-                "/tmp/franceinter.livesourcestate"
+                state_path
             )
         )
         (200, '{"preferred_output": #{json_of(data)}}')
@@ -51,4 +51,3 @@ end
 
 harbor.http.register(port=7000, method="GET", "^/livesource$", handler(get_livesource, "GET"))
 harbor.http.register(port=7000, method="POST", "^/livesource$", handler(post_livesource, "POST"))
-
