@@ -3,7 +3,7 @@
 %include "/conf/config.liq"
 %include "10-settings.liq"
 %include "20-prometheus.liq"
-#%include "40-icecast.liq"
+%include "40-icecast.liq"
 %include "50-hls.liq"
 %include "60-core.liq"
 
@@ -147,7 +147,7 @@ mk_hls_output(hls_formats, radio_prod)
 
 # Icecast Output
 
-#mk_icecast_outputs(icecast_formats, radio_prod)
+mk_icecast_outputs(icecast_formats, radio_prod)
 
 
 %include "90-http.liq"

@@ -22,9 +22,11 @@ icecast_formats = {
     "lofi", "midfi", "hifi"
   ],
   mp3 = [
-    "lofi", "mifi"
+    "mifi"
   ]
 }
+
+# FIXME icecast mp3 lofi doesn't work
 
 prometheus_server_port = 6000
 harbor_http_port = 7000
