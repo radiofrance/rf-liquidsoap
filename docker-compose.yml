@@ -2,7 +2,7 @@ version: "3.3"
 services:
   franceinter:
     network_mode: "host"
-    image: savonet/liquidsoap:main
+    image: savonet/liquidsoap:v2.0.0-alpha1
     container_name: franceinter
     command: /scripts/00-live.liq
     restart: unless-stopped
