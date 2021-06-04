@@ -54,7 +54,7 @@ def on_file_change(~state,fname) =
           http.post(
             headers=[("Origin", "pp1transcoder2")], # TODO get this from env ?
             data=file,
-            timeout=2.0,
+            timeout=2,
             "http://" ^ target ^ "/#{path.basename(fname)}"
           )
         log.important(label="hlssegmentpush",
