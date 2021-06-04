@@ -66,7 +66,7 @@ def mk_output(source, type, format) =
   name = "#{type}_#{name}"
   extension = "#{name}.#{type}"
 
-  output.icecast(
+  ignore(output.icecast(
     id="icecast_#{name}",
     fallible=true,
     host=icecast_host,
@@ -75,7 +75,7 @@ def mk_output(source, type, format) =
     password=icecast_password,
     mount="#{radio_name}-#{extension}",
     encoder,
-    source)
+    source))
 end
 
 def mk_icecast_outputs(selected_formats, source) =

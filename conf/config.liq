@@ -22,7 +22,7 @@ icecast_formats = {
     "lofi", "midfi", "hifi"
   ],
   mp3 = [
-    "mifi"
+    "lofi", "mifi"
   ]
 }
 

@@ -45,16 +45,16 @@ live = switch(
 )
 
 def mk_fallback_source(s) =
-  (s.is_ready, s.source)
+  (s.is_ready, (s.source:source(audio=pcm,video=none,midi=none)))
 end
 
 radio_prod = switch(
   id="fallback_prod",
   track_sensitive=false,
   [
-    ({true}, live),
+    ({true}, (live:source(audio=pcm,video=none,midi=none))),
     ...list.map(mk_fallback_source, live_input_sources),
-    ({true}, safe_blank)
+    ({true}, (safe_blank:source(audio=pcm,video=none,midi=none)))
   ]
 )
 
