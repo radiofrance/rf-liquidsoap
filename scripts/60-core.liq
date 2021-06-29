@@ -7,7 +7,7 @@ def source_tag(s,tag) =
   map_metadata(insert_missing=true,f,s)
 end
 
-def mk_source(index, source_name) =
+def mk_source(index, (source_name:string)) =
   srt_input =
     input.srt(
       id=source_name,
