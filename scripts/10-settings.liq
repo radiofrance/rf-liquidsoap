@@ -23,7 +23,6 @@ set("harbor.timeout",5.)
 set("harbor.verbose",false)
 
 # Audio settings
-set("clock.allow_streaming_errors",true)
 set("frame.audio.samplerate",48000)
 set("frame.audio.channels",2)
 set("audio.converter.samplerate.libsamplerate.quality","fast")
