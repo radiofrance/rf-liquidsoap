@@ -11,6 +11,21 @@
 # Define all inputs sources #
 #############################
 
+def mk_live_input(input) =
+  (input.name, input.port)
+end
+
+live_input_list = list.map(mk_live_input, input_list)
+
+def mk_fallback_input(input, result) =
+  if input.is_autofallback then
+    [input.name, ...result]
+  else
+    result
+end
+
+fallback_input_list = list.fold(mk_fallback_input, [], input_list)
+
 live_input_sources = list.mapi(mk_source, live_input_list)
 
 # Define safe_blank input and its metrics
@@ -25,7 +40,7 @@ real_live_source = ref("")
 if file.exists(state_path) then
   content = file.contents(state_path)
   # check that the livesource exist in input list
-  if list.mem(content,live_input_list) then
+  if list.mem_assoc(content,live_input_list) then
     preferred_live_source := content
   end
 end
@@ -53,7 +68,7 @@ radio_prod = switch(
   track_sensitive=false,
   [
     ({true}, (live:source(audio=pcm,video=none,midi=none))),
-    ...list.map(mk_fallback_source, live_input_sources),
+    ...list.map(mk_fallback_source, fallback_input_list),
     ({true}, (safe_blank:source(audio=pcm,video=none,midi=none)))
   ]
 )

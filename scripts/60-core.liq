@@ -7,13 +7,14 @@ def source_tag(s,tag) =
   map_metadata(insert_missing=true,f,s)
 end
 
-def mk_source(index, (source_name:string)) =
+def mk_source(index, s) =
+  let (source_name, port) = s
   srt_input =
     input.srt(
-      id=source_name,
+      id=(source_name:string),
       max=3.0,
       clock_safe=true,
-      port=10000+index
+      port=port
     )
 
   # Create the several latency time series for this input
