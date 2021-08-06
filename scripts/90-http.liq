@@ -11,7 +11,7 @@ end
 ## GET /livesource
 def get_livesource(protocol, data, headers, uri) =
     preferred = json_of(!preferred_live_source)
-    inputs = json_of(live_input_list)
+    inputs = json_of(list.map(fst, live_input_list))
     real = json_of(!real_live_source)
     blank = json_of(!is_blank)
     (
@@ -22,7 +22,7 @@ end
 
 ## POST /livesource
 def post_livesource(protocol, data, headers, uri) =
-    if not list.mem(data, live_input_list) then
+    if not list.mem_assoc(data, live_input_list) then
         (400, '{"error_message": "input #{data} does not exist"}')
     else
         preferred_live_source := data

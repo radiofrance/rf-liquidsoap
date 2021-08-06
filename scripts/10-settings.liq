@@ -1,5 +1,5 @@
 # General settings
-set("log.level",3)
+set("log.level",5)
 set("log.stdout", true)
 
 set("decoder.external.ffmpeg.path","/usr/bin/ffmpeg")
