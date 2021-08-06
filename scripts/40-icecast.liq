@@ -1,34 +1,40 @@
 formats = {
   aac = [
     ("lofi",
-     %fdkaac(channels=2,
-             samplerate=48000,
-             bandwidth="auto",
-             bitrate=32,
-             afterburner=true,
-             aot="mpeg4_he_aac_v2",
-             transmux="adts",
-             sbr_mode=true)),
+      %ffmpeg(
+        format="adts",
+        %audio(
+          codec="aac",
+          channels=2,
+          b="32k",
+          samplerate=48000,
+          profile="aac_he_v2"
+        ))
+    ),
 
     ("midfi",
-     %fdkaac(channels=2,
-             samplerate=48000,
-             bandwidth="auto",
-             bitrate=96,
-             afterburner=true,
-             aot="mpeg4_aac_lc",
-             transmux="adts",
-             sbr_mode=false)),
+      %ffmpeg(
+        format="adts",
+        %audio(
+          codec="aac",
+          channels=2,
+          b="96k",
+          samplerate=48000,
+          profile="aac_low"
+        ))
+    ),
 
     ("hifi",
-     %fdkaac(channels=2,
-             samplerate=48000,
-             bandwidth="auto",
-             bitrate=192,
-             afterburner=true,
-             aot="mpeg4_aac_lc",
-             transmux="adts",
-             sbr_mode=false))
+      %ffmpeg(
+        format="adts",
+        %audio(
+          codec="aac",
+          channels=2,
+          b="192k",
+          samplerate=48000,
+          profile="aac_low"
+        ))
+    )
   ],
 
   # No hifi for mp3. Lofi is handled separately
