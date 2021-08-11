@@ -37,7 +37,7 @@ formats = [
  )
 ]
 
-def segment_name(~position,~extname,stream_name) =
+def segment_name(~position,~extname=_,stream_name) =
   segment_timestamp = int_of_float(time())
   duration = int_of_float(4.0)
   # Add the codec to the segment name because it's expected by segment-forwarder

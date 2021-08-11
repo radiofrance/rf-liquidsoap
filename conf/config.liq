@@ -31,10 +31,3 @@ harbor_http_port = 7000
 icecast_host = "localhost"
 icecast_port = 8000
 icecast_password = "secret"
-
-def list.mem_assoc(x, l)
-  def rec aux(l)
-    list.case(l, false, fun (y, l) -> fst(x) == y or aux(l))
-  end
-  aux(l)
-end
