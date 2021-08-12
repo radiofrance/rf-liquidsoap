@@ -68,18 +68,16 @@ mp3_lofi =
 )
 
 def mk_output(source, type, format) =
-  let (name, encoder) = format
-  name = "#{type}_#{name}"
-  extension = "#{name}.#{type}"
+  let (quality, encoder) = format
 
   ignore(output.icecast(
-    id="icecast_#{name}",
+    id="icecast_#{type}_#{quality}",
     fallible=true,
     host=icecast_host,
     port=icecast_port,
     icy_metadata="false",
     password=icecast_password,
-    mount="#{radio_name}-#{extension}",
+    mount="#{radio_name}-#{quality}.#{type}",
     encoder,
     source))
 end
