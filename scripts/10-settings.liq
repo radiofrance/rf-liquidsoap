@@ -1,5 +1,5 @@
 # General settings
-settings.log.level.set(3)
+settings.log.level.set(liquidsoap_log_level)
 settings.log.stdout.set(true)
 
 # Disable SRT logs
