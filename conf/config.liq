@@ -3,14 +3,14 @@ radio_name = "franceinter"
 
 state_path = "/state/#{radio_name}.livesourcestate"
 
-live_input_list = [
-  "voieA_caller1",
-  "voieA_caller2",
-  "voieB_caller1",
-  "voieB_caller2",
-  "override_caller1",
-  "override_caller2",
-  "sat_sat1"
+input_list = [
+  {name="voieA_caller1", is_autofallback=true, port=10000},
+  {name="voieA_caller2", is_autofallback=true, port=10001},
+  {name="voieB_caller1", is_autofallback=true, port=10002},
+  {name="voieB_caller2", is_autofallback=true, port=10003},
+  {name="override_caller1", is_autofallback=false, port=10004},
+  {name="override_caller2", is_autofallback=false, port=10005},
+  {name="sat_sat1", is_autofallback=true, port=10006},
 ]
 
 hls_formats = [
@@ -22,7 +22,7 @@ icecast_formats = {
     "lofi", "midfi", "hifi"
   ],
   mp3 = [
-    "lofi", "mifi"
+    "lofi", "midfi"
   ]
 }
 
