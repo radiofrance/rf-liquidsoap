@@ -3,7 +3,7 @@ formats = [
  ("lofi",
   %ffmpeg(
     format="mpegts",
-    %audio(
+    %audio.raw(
       codec="aac",
       channels=2,
       b="32k",
@@ -15,7 +15,7 @@ formats = [
  ("midfi",
    %ffmpeg(
      format="mpegts",
-     %audio(
+     %audio.raw(
        codec="aac",
        channels=2,
        b="96k",
@@ -27,7 +27,7 @@ formats = [
  ("hifi",
    %ffmpeg(
      format="mpegts",
-     %audio(
+     %audio.raw(
        codec="aac",
        channels=2,
        b="192k",
@@ -81,7 +81,7 @@ def mk_hls_output(selected_formats, source) =
     id="hls_#{radio_name}",
     on_file_change=on_file_change,
     perm=422,
-    persist_at="/tmp/liquidsoap_state_#{radio_name}",
+    persist_at=state_path,
     playlist="#{radio_name}.m3u8",
     segment_duration=4.0,
     segments=15,

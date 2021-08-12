@@ -1,7 +1,3 @@
-# Prometheus server settings
-set("prometheus.server",true)
-set("prometheus.server.port", prometheus_server_port)
-
 ############################################################
 # Define Prometheus metrics factories and helper functions #
 ############################################################

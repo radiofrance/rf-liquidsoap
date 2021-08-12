@@ -144,6 +144,8 @@ radio_prod =
     radio_prod
   )
 
+radio_prod = ffmpeg.raw.encode.audio(%ffmpeg(%audio.raw), radio_prod)
+
 # Outputs
 
 # HLS Output
