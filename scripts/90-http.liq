@@ -9,9 +9,9 @@ def write_http_response(code, data) =
 end
 
 ## GET /livesource
-def get_livesource(protocol, data, headers, uri) =
+def get_livesource(_, _, _, _) =
     preferred = json_of(!preferred_live_source)
-    inputs = json_of(live_input_list)
+    inputs = json_of(list.map(fun (s) -> s.name, input_sources))
     real = json_of(!real_live_source)
     blank = json_of(!is_blank)
     (
@@ -21,8 +21,8 @@ def get_livesource(protocol, data, headers, uri) =
 end
 
 ## POST /livesource
-def post_livesource(protocol, data, headers, uri) =
-    if not list.mem(data, live_input_list) then
+def post_livesource(_, data, _, _) =
+    if not list.exists(fun (s) -> s.name == data, input_sources) then
         (400, '{"error_message": "input #{data} does not exist"}')
     else
         preferred_live_source := data
