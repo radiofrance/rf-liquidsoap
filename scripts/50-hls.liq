@@ -47,6 +47,7 @@ end
 
 def on_file_change(~state,fname) =
   if state == "closed" and file.extension(fname) != '.m3u8' then
+    log.info("Segment #{fname} written on disk.")
     def make_callback_upload_segment(target) =
       def upload_segment() =
         file = file.contents(fname)
@@ -55,7 +56,7 @@ def on_file_change(~state,fname) =
             headers=[("Origin", "pp1transcoder2")], # TODO get this from env ?
             data=file,
             timeout=2,
-            "http://" ^ target ^ "/#{path.basename(fname)}"
+            target ^ "/#{path.basename(fname)}"
           )
         log.important(label="hlssegmentpush",
                       '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", "response": "#{uploadsegment.status_code}", "protocol": "#{uploadsegment.protocol_version}", "target": "' ^ target ^ '"}')
@@ -64,8 +65,10 @@ def on_file_change(~state,fname) =
       end
       upload_segment
     end
-    log.debug("Uploading #{fname} to http://segmentforward-preprod.uzine.radiofrance.fr/#{path.basename(fname)}") # TODO get hostname from env
-    thread.run.recurrent(delay=0.,fast=false,make_callback_upload_segment("segmentforward-preprod.uzine.radiofrance.fr"))
+    if enable_upload_hls_segments then
+      log.info("Uploading #{fname} to #{hls_segments_http_post_target}/#{path.basename(fname)}")
+      thread.run.recurrent(delay=0.,fast=false,make_callback_upload_segment(hls_segments_http_post_target))
+    end
   end
 end
 
