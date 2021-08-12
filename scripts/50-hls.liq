@@ -50,6 +50,7 @@ def on_file_change(~state,fname) =
     log.info("Segment #{fname} written on disk.")
     def make_callback_upload_segment(target) =
       def upload_segment() =
+        log.info("Uploading #{fname} to #{target}/#{path.basename(fname)}")
         file = file.contents(fname)
         uploadsegment =
           http.post(
@@ -65,9 +66,25 @@ def on_file_change(~state,fname) =
       end
       upload_segment
     end
+    def make_callback_segment_todo_file() =
+      def segment_todo_file() =
+
+        log.info("Writting #{path.remove_extension(fname)}" ^ ".todo")
+        file.write(
+            data="",
+            "#{path.remove_extension(fname)}" ^ ".todo"
+        )
+        log.important(label="hlssegmentcreated",
+                      '{"timestamp": "#{time()}", "file": "#{fname}"}')
+        (-1.)
+      end
+      segment_todo_file
+    end
     if enable_upload_hls_segments then
-      log.info("Uploading #{fname} to #{hls_segments_http_post_target}/#{path.basename(fname)}")
       thread.run.recurrent(delay=0.,fast=false,make_callback_upload_segment(hls_segments_http_post_target))
+    end
+    if enable_hls_segments_todo_files then
+      thread.run.recurrent(delay=0.,fast=false,make_callback_segment_todo_file())
     end
   end
 end
