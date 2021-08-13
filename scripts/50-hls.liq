@@ -3,7 +3,7 @@ formats = [
  ("lofi",
   %ffmpeg(
     format="mpegts",
-    %audio(
+    %audio.raw(
       codec="aac",
       channels=2,
       b="32k",
@@ -15,7 +15,7 @@ formats = [
  ("midfi",
    %ffmpeg(
      format="mpegts",
-     %audio(
+     %audio.raw(
        codec="aac",
        channels=2,
        b="96k",
@@ -27,7 +27,7 @@ formats = [
  ("hifi",
    %ffmpeg(
      format="mpegts",
-     %audio(
+     %audio.raw(
        codec="aac",
        channels=2,
        b="192k",
