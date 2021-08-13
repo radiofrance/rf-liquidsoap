@@ -16,6 +16,10 @@ input_list = [
 hls_formats = [
   "lofi", "midfi", "hifi"
 ]
+enable_upload_hls_segments = true
+hls_segments_http_post_target = "http://segmentforward-preprod.uzine.radiofrance.fr"
+
+enable_hls_segments_todo_files = false
 
 icecast_formats = {
   aac = [
@@ -31,3 +35,4 @@ harbor_http_port = 7000
 icecast_host = "localhost"
 icecast_port = 8000
 icecast_password = "secret"
+liquidsoap_log_level = 3

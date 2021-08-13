@@ -47,15 +47,17 @@ end
 
 def on_file_change(~state,fname) =
   if state == "closed" and file.extension(fname) != '.m3u8' then
+    log.info("Segment #{fname} written on disk.")
     def make_callback_upload_segment(target) =
       def upload_segment() =
+        log.info("Uploading #{fname} to #{target}/#{path.basename(fname)}")
         file = file.contents(fname)
         uploadsegment =
           http.post(
             headers=[("Origin", "pp1transcoder2")], # TODO get this from env ?
             data=file,
             timeout=2,
-            "http://" ^ target ^ "/#{path.basename(fname)}"
+            target ^ "/#{path.basename(fname)}"
           )
         log.important(label="hlssegmentpush",
                       '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", "response": "#{uploadsegment.status_code}", "protocol": "#{uploadsegment.protocol_version}", "target": "' ^ target ^ '"}')
@@ -64,8 +66,26 @@ def on_file_change(~state,fname) =
       end
       upload_segment
     end
-    log.debug("Uploading #{fname} to http://segmentforward-preprod.uzine.radiofrance.fr/#{path.basename(fname)}") # TODO get hostname from env
-    thread.run.recurrent(delay=0.,fast=false,make_callback_upload_segment("segmentforward-preprod.uzine.radiofrance.fr"))
+    def make_callback_segment_todo_file() =
+      def segment_todo_file() =
+
+        log.info("Writting #{path.remove_extension(fname)}" ^ ".todo")
+        file.write(
+            data="",
+            "#{path.remove_extension(fname)}" ^ ".todo"
+        )
+        log.important(label="hlssegmentcreated",
+                      '{"timestamp": "#{time()}", "file": "#{fname}"}')
+        (-1.)
+      end
+      segment_todo_file
+    end
+    if enable_upload_hls_segments then
+      thread.run.recurrent(delay=0.,fast=false,make_callback_upload_segment(hls_segments_http_post_target))
+    end
+    if enable_hls_segments_todo_files then
+      thread.run.recurrent(delay=0.,fast=false,make_callback_segment_todo_file())
+    end
   end
 end
 
@@ -81,7 +101,7 @@ def mk_hls_output(selected_formats, source) =
     id="hls_#{radio_name}",
     on_file_change=on_file_change,
     perm=422,
-    persist_at="/tmp/liquidsoap_state_#{radio_name}",
+    persist_at=state_path,
     playlist="#{radio_name}.m3u8",
     segment_duration=4.0,
     segments=15,

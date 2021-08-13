@@ -1,31 +1,32 @@
 # General settings
-set("log.level",3)
-set("log.stdout", true)
-
-set("decoder.external.ffmpeg.path","/usr/bin/ffmpeg")
-set("decoder.external.ffprobe.path","/usr/bin/ffprobe")
+settings.log.level.set(liquidsoap_log_level)
+settings.log.stdout.set(true)
 
 # Disable SRT logs
-set("srt.log",false)
+settings.srt.log.set(false)
 
 # Scheduler setting
 # liquidsoap --conf-descr-key scheduler
 # 1 fast queue
-set("scheduler.fast_queues",1)
+settings.scheduler.fast_queues.set(1)
 # 4 generic queues because "There should at least be one."
 # and we upload 3 HLS segment in parallel.
-set("scheduler.generic_queues",4)
+settings.scheduler.generic_queues.set(4)
 
 # Harbor HTTP server settings
-set("harbor.bind_addrs",["127.0.0.1"])
-set("harbor.max_connections",10)
-set("harbor.timeout",5.)
-set("harbor.verbose",false)
+settings.harbor.bind_addrs.set(["127.0.0.1"])
+settings.harbor.max_connections.set(10)
+settings.harbor.timeout.set(5.)
+settings.harbor.verbose.set(false)
 
 # Audio settings
-set("frame.audio.samplerate",48000)
-set("frame.audio.channels",2)
-set("audio.converter.samplerate.libsamplerate.quality","fast")
+settings.frame.audio.samplerate.set(48000)
+settings.frame.audio.channels.set(2)
+settings.audio.converter.samplerate.libsamplerate.quality.set("fast")
+
+# Prometheus server settings
+settings.prometheus.server.set(true)
+settings.prometheus.server.port.set(prometheus_server_port)
 
 # Here we defined the default preferred live source of the switch "live" as the first input
 # we need to do that here so we can define update_source_metrics callback

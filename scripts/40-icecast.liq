@@ -50,7 +50,8 @@ formats = {
          b="128k",
          samplerate=48000,
          compression_level=2
-       )))
+       ))
+    )
   ]
 }
 
@@ -107,4 +108,5 @@ def mk_icecast_outputs(selected_formats, source) =
       mean(source)
     ))
   end
+
 end
