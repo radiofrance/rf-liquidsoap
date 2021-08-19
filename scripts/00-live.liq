@@ -1,6 +1,5 @@
 #!/usr/bin/liquidsoap
 
-%include "/conf/config.liq"
 %include "10-settings.liq"
 %include "20-prometheus.liq"
 %include "40-icecast.liq"
