@@ -3,7 +3,7 @@ formats = {
     ("lofi",
       %ffmpeg(
         format="adts",
-        %audio(
+        %audio.raw(
           codec="aac",
           channels=2,
           b="32k",
@@ -15,7 +15,7 @@ formats = {
     ("midfi",
       %ffmpeg(
         format="adts",
-        %audio(
+        %audio.raw(
           codec="aac",
           channels=2,
           b="96k",
@@ -27,7 +27,7 @@ formats = {
     ("hifi",
       %ffmpeg(
         format="adts",
-        %audio(
+        %audio.raw(
           codec="aac",
           channels=2,
           b="192k",
@@ -40,11 +40,23 @@ formats = {
   # No hifi for mp3. Lofi is handled separately
   # because it is in mono
   mp3 = [
+    ("lofi",
+     %ffmpeg(
+       format="mp3",
+       id3v2_version=0,
+       %audio.raw(
+         codec="libmp3lame",
+         channels=1,
+         b="32k",
+         samplerate=48000,
+         compression_level=2
+       ))
+    ),
     ("midfi",
      %ffmpeg(
        format="mp3",
        id3v2_version=0,
-       %audio(
+       %audio.raw(
          codec="libmp3lame",
          channels=2,
          b="128k",
@@ -54,19 +66,6 @@ formats = {
     )
   ]
 }
-
-mp3_lofi =
-  %ffmpeg(
-    format="mp3",
-    id3v2_version=0,
-    %audio(
-      codec="libmp3lame",
-      channels=1,
-      b="32k",
-      samplerate=48000,
-      compression_level=2
-    )
-)
 
 def mk_output(source, type, format) =
   let (quality, encoder) = format
@@ -94,19 +93,5 @@ def mk_icecast_outputs(selected_formats, source) =
 
   list.iter(mk_output(source, "mp3"), mp3_formats)
   list.iter(mk_output(source, "aac"), aac_formats)
-
-  if list.mem("lofi", selected_formats.mp3) then
-    ignore(output.icecast(
-      id="icecast_mp3_lofi",
-      fallible=true,
-      host=icecast_host,
-      port=icecast_port,
-      icy_metadata="false",
-      password=icecast_password,
-      mount="#{radio_name}-lofi.mp3",
-      mp3_lofi,
-      mean(source)
-    ))
-  end
 
 end
