@@ -4,7 +4,9 @@ services:
     network_mode: "host"
     image: savonet/liquidsoap:main
     container_name: franceinter
-    command: /scripts/00-live.liq
+    command:
+    - /conf/franceinter.liq
+    - /scripts/00-live.liq
     restart: unless-stopped
     user: liquidsoap
     volumes:
