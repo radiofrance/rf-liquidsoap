@@ -9,7 +9,7 @@ def write_http_response(code, data) =
 end
 
 ## GET /readiness
-def get_readiness
+def get_readiness(_, _, _, _) =
     (200, '')
 end
 
