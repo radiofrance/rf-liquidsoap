@@ -32,7 +32,7 @@ def post_livesource(_, data, _, _) =
                 data=data,
                 append=false,
                 perms=0o644,
-                state_path
+                livesource_state_path
             )
         )
         (200, '{"preferred_output": #{json_of(data)}}')
