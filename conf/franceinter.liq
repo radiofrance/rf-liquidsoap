@@ -1,8 +1,9 @@
-
 radio_name = "franceinter"
 
 hls_state_path = "/state/#{radio_name}.hlsstate"
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
+
+hls_segments_directory = "/var/hls/#{radio_name}"
 
 input_list = [
   {name="voieA_caller1", is_autofallback=true, port=10000},

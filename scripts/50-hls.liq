@@ -107,7 +107,7 @@ def mk_hls_output(selected_formats, source) =
     segments=15,
     segments_overhead=75,
     segment_name=segment_name,
-    "/var/hls/#{radio_name}",
+    hls_segments_directory,
     list.map(mk_format, selected_formats),
     source
   )
