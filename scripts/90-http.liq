@@ -8,6 +8,11 @@ def write_http_response(code, data) =
     )
 end
 
+## GET /readiness
+def get_readiness
+    (200, '')
+end
+
 ## GET /livesource
 def get_livesource(_, _, _, _) =
     preferred = json_of(!preferred_live_source)
@@ -49,5 +54,6 @@ def handler(h, method) =
     response
 end
 
+harbor.http.register(port=harbor_http_port, method="GET", "^/readiness$", handler(get_readiness, "GET"))
 harbor.http.register(port=harbor_http_port, method="GET", "^/livesource$", handler(get_livesource, "GET"))
 harbor.http.register(port=harbor_http_port, method="POST", "^/livesource$", handler(post_livesource, "POST"))
