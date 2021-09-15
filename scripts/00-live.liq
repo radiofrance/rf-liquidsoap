@@ -21,8 +21,8 @@ set_safe_blank_is_playing_metric =
 real_live_source = ref("")
 
 # get the livesourcestate on disk if it exist
-if file.exists(state_path) then
-  content = file.contents(state_path)
+if file.exists(livesource_state_path) then
+  content = file.contents(livesource_state_path)
   # check that the livesource exist in input list
   if list.exists(fun (s) -> s.name == content, input_sources) then
     preferred_live_source := content
