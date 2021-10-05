@@ -97,6 +97,8 @@ def mk_hls_output(selected_formats, source) =
     ("#{radio_name}_#{name}", list.assoc(name, formats))
   end
 
+  file.mkdir(perms=0o755, hls_segments_directory)
+
   output.file.hls(
     id="hls_#{radio_name}",
     on_file_change=on_file_change,
