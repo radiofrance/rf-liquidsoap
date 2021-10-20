@@ -8,7 +8,7 @@ formats = {
           channels=2,
           b="32k",
           samplerate=48000,
-          profile="aac_he_v2"
+          profile="aac_low"
         ))
     ),
 
