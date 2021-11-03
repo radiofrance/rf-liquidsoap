@@ -14,7 +14,7 @@ settings.scheduler.fast_queues.set(1)
 settings.scheduler.generic_queues.set(4)
 
 # Harbor HTTP server settings
-settings.harbor.bind_addrs.set(["127.0.0.1"])
+settings.harbor.bind_addrs.set(["0.0.0.0"])
 settings.harbor.max_connections.set(10)
 settings.harbor.timeout.set(5.)
 settings.harbor.verbose.set(false)
