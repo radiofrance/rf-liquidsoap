@@ -15,10 +15,10 @@ end
 
 ## GET /livesource
 def get_livesource(_, _, _, _) =
-  preferred = json_of(!preferred_live_source)
-  inputs = json_of(list.map(fun (s) -> s.name, input_sources))
-  real = json_of(!real_live_source)
-  blank = json_of(!is_blank)
+  preferred = json.stringify(!preferred_live_source)
+  inputs = json.stringify(list.map(fun (s) -> s.name, input_sources))
+  real = json.stringify(!real_live_source)
+  blank = json.stringify(!is_blank)
   (
     200,
     '{"preferred_output": #{preferred}, "inputs": #{inputs}, "real_output": #{real}, "is_output_blank": #{blank}}'
@@ -40,7 +40,7 @@ def post_livesource(_, data, _, _) =
         livesource_state_path
       )
     )
-    (200, '{"preferred_output": #{json_of(data)}}')
+    (200, '{"preferred_output": #{json.stringify(data)}}')
   end
 end
 
