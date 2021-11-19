@@ -1,7 +1,7 @@
 [
  ("lofi",
   %ffmpeg(
-    format="adts",
+    format="mpegts",
     %audio.raw(
       codec="aac",
       channels=2,
@@ -12,7 +12,7 @@
  ),
  ("midfi",
   %ffmpeg(
-    format="adts",
+    format="mpegts",
     %audio.raw(
       codec="aac",
       channels=2,
@@ -23,7 +23,7 @@
  ),
  ("hifi",
   %ffmpeg(
-    format="adts",
+    format="mpegts",
     %audio.raw(
       codec="aac",
       channels=2,

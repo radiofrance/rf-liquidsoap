@@ -1,34 +1,37 @@
 [
  ("lofi",
   %ffmpeg(
-    format="adts",
+    format="mpegts",
     %audio.raw(
-      codec="aac",
+      codec="libfdk_aac",
       channels=2,
       b="32k",
       samplerate=48000,
+      afterburner=1,
       profile="aac_low"
     ))
  ),
  ("midfi",
   %ffmpeg(
-    format="adts",
+    format="mpegts",
     %audio.raw(
-      codec="aac",
+      codec="libfdk_aac",
       channels=2,
       b="96k",
       samplerate=48000,
+      afterburner=1,
       profile="aac_low"
     ))
  ),
  ("hifi",
   %ffmpeg(
-    format="adts",
+    format="mpegts",
     %audio.raw(
-      codec="aac",
+      codec="libfdk_aac",
       channels=2,
       b="192k",
       samplerate=48000,
+      afterburner=1,
       profile="aac_low"
     ))
  )

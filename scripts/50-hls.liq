@@ -1,9 +1,9 @@
 
 formats =
-  if aac_encoder == "aac" then
-    %include "./formats/icecast-aac.liq"
+  if aac_encoder == "libfdkaac" then
+    %include "./formats/hls-libfdk-aac.liq"
   else
-    %include "./formats/icecast-fdk-aac.liq"
+    %include "./formats/hls-aac.liq"
   end
 
 def segment_name(~position,~extname=_,stream_name) =
