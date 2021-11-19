@@ -15,6 +15,8 @@ input_list = [
   {name="sat_sat1", is_autofallback=true, port=10006},
 ]
 
+aac_encoder = "aac"
+
 hls_formats = [
   "lofi", "midfi", "hifi"
 ]
@@ -22,8 +24,6 @@ enable_upload_hls_segments = true
 hls_segments_http_post_target = "http://segmentforward-preprod.uzine.radiofrance.fr"
 
 enable_hls_segments_todo_files = false
-
-aac_encoder = "aac"
 
 icecast_formats = {
   aac = [

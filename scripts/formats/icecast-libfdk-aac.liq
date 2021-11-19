@@ -3,21 +3,25 @@
   %ffmpeg(
     format="adts",
     %audio.raw(
-      codec="aac",
+      codec="libfdk_aac",
       channels=2,
       b="32k",
       samplerate=48000,
-      profile="aac_low"
+      afterburner=1,
+      eld_sbr=1,
+      profile="aac_he_v2"
     ))
  ),
  ("midfi",
   %ffmpeg(
     format="adts",
     %audio.raw(
-      codec="aac",
+      codec="libfdk_aac",
       channels=2,
       b="96k",
       samplerate=48000,
+      afterburner=1,
+      eld_sbr=0,
       profile="aac_low"
     ))
  ),
@@ -25,10 +29,12 @@
   %ffmpeg(
     format="adts",
     %audio.raw(
-      codec="aac",
+      codec="libfdk_aac",
       channels=2,
       b="192k",
       samplerate=48000,
+      afterburner=1,
+      eld_sbr=0,
       profile="aac_low"
     ))
  )
