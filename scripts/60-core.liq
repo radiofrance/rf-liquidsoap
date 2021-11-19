@@ -12,7 +12,7 @@ def mk_source(s) =
     input.srt(
       id=(s.name:string),
       max=3.0,
-      clock_safe=true,
+      clock_safe=false,
       port=s.port
     )
 
@@ -30,8 +30,8 @@ def mk_source(s) =
   is_preferred_livesource_set =
     is_preferred_livesource_metric(label_values=[radio_name,"input",s.name])
 
-  thread.run.recurrent(
-    delay=0.,
+  thread.run(
+    every=0.1,
     update_source_metrics(
       is_ready_metric_set,
       duration_unready_seconds_metric_increase,
@@ -46,18 +46,8 @@ def mk_source(s) =
   set_is_playing_metric =
     create_is_playing_metric(label_values=[radio_name,"input",s.name])
 
-  # Wrap input in a buffer
-  buffered_input =
-    buffer(
-      id="#{s.name}_buffer",
-      buffer=1.0,
-      max=3.0,
-      fallible=true,
-      srt_input
-    )
-
   # Tag source with its name as metadata (e.g. for is_playing metric)
-  tagged_source = source_tag(buffered_input, s.name)
+  tagged_source = source_tag(srt_input, s.name)
 
   {name                  = s.name,
    is_autofallback       = s.is_autofallback,
