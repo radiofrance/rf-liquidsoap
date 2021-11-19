@@ -1,41 +1,10 @@
 
-formats = [
- ("lofi",
-  %ffmpeg(
-    format="mpegts",
-    %audio.raw(
-      codec="aac",
-      channels=2,
-      b="32k",
-      samplerate=48000,
-      profile="aac_low"
-    ))
- ),
-
- ("midfi",
-   %ffmpeg(
-     format="mpegts",
-     %audio.raw(
-       codec="aac",
-       channels=2,
-       b="96k",
-       samplerate=48000,
-       profile="aac_low"
-     ))
- ),
-
- ("hifi",
-   %ffmpeg(
-     format="mpegts",
-     %audio.raw(
-       codec="aac",
-       channels=2,
-       b="192k",
-       samplerate=48000,
-       profile="aac_low"
-     ))
- )
-]
+formats =
+  if aac_encoder == "libfdkaac" then
+    %include "./formats/hls-libfdk-aac.liq"
+  else
+    %include "./formats/hls-aac.liq"
+  end
 
 def segment_name(~position,~extname=_,stream_name) =
   segment_timestamp = int_of_float(time())

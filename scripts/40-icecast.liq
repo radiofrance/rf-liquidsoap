@@ -1,70 +1,13 @@
 formats = {
-  aac = [
-    ("lofi",
-      %ffmpeg(
-        format="adts",
-        %audio.raw(
-          codec="aac",
-          channels=2,
-          b="32k",
-          samplerate=48000,
-          profile="aac_low"
-        ))
-    ),
-
-    ("midfi",
-      %ffmpeg(
-        format="adts",
-        %audio.raw(
-          codec="aac",
-          channels=2,
-          b="96k",
-          samplerate=48000,
-          profile="aac_low"
-        ))
-    ),
-
-    ("hifi",
-      %ffmpeg(
-        format="adts",
-        %audio.raw(
-          codec="aac",
-          channels=2,
-          b="192k",
-          samplerate=48000,
-          profile="aac_low"
-        ))
-    )
-  ],
-
-  # No hifi for mp3. Lofi is handled separately
-  # because it is in mono
-  mp3 = [
-    ("lofi",
-     %ffmpeg(
-       format="mp3",
-       id3v2_version=0,
-       %audio.raw(
-         codec="libmp3lame",
-         channels=1,
-         b="32k",
-         samplerate=48000,
-         compression_level=2
-       ))
-    ),
-    ("midfi",
-     %ffmpeg(
-       format="mp3",
-       id3v2_version=0,
-       %audio.raw(
-         codec="libmp3lame",
-         channels=2,
-         b="128k",
-         samplerate=48000,
-         compression_level=2
-       ))
-    )
-  ]
+  aac =
+  if aac_encoder == "libfdkaac" then
+    %include "./formats/icecast-libfdk-aac.liq"
+  else
+    %include "./formats/icecast-aac.liq"
+  end
+  ,
+  mp3 =
+    %include "./formats/icecast-mp3.liq"
 }
 
 def mk_output(source, type, format) =
