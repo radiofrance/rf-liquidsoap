@@ -49,8 +49,8 @@ def update_source_metrics(
   is_preferred_livesource_set,
   source_name,
   s
-) =
-  def callback() =
+) = fun () ->
+  begin
     if s.is_ready() then
       is_ready_metric_set(1.)
     else
@@ -62,9 +62,7 @@ def update_source_metrics(
     else
       is_preferred_livesource_set(0.)
     end
-    0.1
   end
-  callback
 end
 
 # "is_playing" is defined for each input and is set to 1 if the input is
