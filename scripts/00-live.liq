@@ -75,8 +75,8 @@ duration_unready_seconds_metric_increase =
 is_preferred_livesource_set =
   is_preferred_livesource_metric(label_values=[radio_name,"output","radio_prod"])
 
-thread.run.recurrent(
-  delay=0.,
+thread.run(
+  every=0.1,
   update_source_metrics(
     is_ready_metric_set,
     duration_unready_seconds_metric_increase,

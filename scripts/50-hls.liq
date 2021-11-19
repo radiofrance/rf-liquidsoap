@@ -48,8 +48,8 @@ end
 def on_file_change(~state,fname) =
   if state == "closed" and file.extension(fname) != '.m3u8' then
     log.info("Segment #{fname} written on disk.")
-    def make_callback_upload_segment(target) =
-      def upload_segment() =
+    def upload_segment(target) = fun () ->
+      begin
         log.info("Uploading #{fname} to #{target}/#{path.basename(fname)}")
         file = file.contents(fname)
         uploadsegment =
@@ -62,13 +62,10 @@ def on_file_change(~state,fname) =
         log.important(label="hlssegmentpush",
                       '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", "response": "#{uploadsegment.status_code}", "protocol": "#{uploadsegment.protocol_version}", "target": "' ^ target ^ '"}')
         increase_hlssegment_sent_metric(uploadsegment.status_code, 1.)
-        (-1.)
       end
-      upload_segment
     end
-    def make_callback_segment_todo_file() =
-      def segment_todo_file() =
-
+    def segment_todo_file() = fun () ->
+      begin
         log.info("Writting #{path.remove_extension(fname)}" ^ ".todo")
         file.write(
             data="",
@@ -76,15 +73,13 @@ def on_file_change(~state,fname) =
         )
         log.important(label="hlssegmentcreated",
                       '{"timestamp": "#{time()}", "file": "#{fname}"}')
-        (-1.)
       end
-      segment_todo_file
     end
     if enable_upload_hls_segments then
-      thread.run.recurrent(delay=0.,fast=false,make_callback_upload_segment(hls_segments_http_post_target))
+      thread.run(fast=false,upload_segment(hls_segments_http_post_target))
     end
     if enable_hls_segments_todo_files then
-      thread.run.recurrent(delay=0.,fast=false,make_callback_segment_todo_file())
+      thread.run(fast=false,segment_todo_file())
     end
   end
 end
