@@ -4,7 +4,13 @@ def source_tag(s,tag) =
   def f(_)
     [("source_tag",tag)]
   end
-  map_metadata(insert_missing=true,f,s)
+  s = map_metadata(insert_missing=true,f,s)
+  s = insert_metadata(s)
+  thread.run(
+    every=0.1,
+    {s.insert_metadata([("source_tag",tag)])}
+  )
+  s
 end
 
 def mk_source(s) =
