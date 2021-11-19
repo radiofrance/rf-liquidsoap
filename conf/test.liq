@@ -23,6 +23,8 @@ hls_segments_http_post_target = "http://segmentforward-preprod.uzine.radiofrance
 
 enable_hls_segments_todo_files = false
 
+aac_encoder = "aac"
+
 icecast_formats = {
   aac = [
     "lofi", "midfi", "hifi"
