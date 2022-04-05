@@ -30,7 +30,7 @@ release_gitlab:
     - echo "running release_job"
   release:
     name: 'Release $CI_COMMIT_TAG'
-    description: ''
+    description: '$(cat CHANGELOG.md)'
     tag_name: '$CI_COMMIT_TAG'                       
     ref: '$CI_COMMIT_TAG'
     milestones:
