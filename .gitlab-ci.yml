@@ -33,7 +33,4 @@ release_gitlab:
     description: '$(cat CHANGELOG.md)'
     tag_name: '$CI_COMMIT_TAG'                       
     ref: '$CI_COMMIT_TAG'
-    milestones:
-      - 'm1'
-      - 'm2'
-      - 'm3'
+
