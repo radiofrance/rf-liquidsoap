@@ -1,4 +1,7 @@
 
+# Define hostname variable by env
+hls_segments_http_post_origin = getenv(HOSTNAME)
+
 formats =
   if aac_encoder == "libfdkaac" then
     %include "./formats/hls-libfdk-aac.liq"
@@ -23,7 +26,7 @@ def on_file_change(~state,fname) =
         file = file.contents(fname)
         uploadsegment =
           http.post(
-            headers=[("Origin", "hostname")],
+            headers=[("Origin", "hls_segments_http_post_origin")],
             data=file,
             timeout=2,
             target ^ "/#{path.basename(fname)}"
