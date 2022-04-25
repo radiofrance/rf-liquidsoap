@@ -10,7 +10,6 @@
 # Define all inputs sources #
 #############################
 
-hostname = getenv(HOSTNAME)
 input_sources = list.map(mk_source, input_list)
 
 # Define safe_blank input and its metrics
