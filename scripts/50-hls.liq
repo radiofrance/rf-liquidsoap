@@ -23,7 +23,7 @@ def on_file_change(~state,fname) =
         file = file.contents(fname)
         uploadsegment =
           http.post(
-            headers=[("Origin", "pp1transcoder2")], # TODO get this from env ?
+            headers=[("Origin", "var_hostname")],
             data=file,
             timeout=2,
             target ^ "/#{path.basename(fname)}"
