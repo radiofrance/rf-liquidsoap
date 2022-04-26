@@ -1,4 +1,5 @@
 radio_name = "franceinter"
+hls_segments_http_post_origin = "hostname"
 
 hls_state_path = "/state/#{radio_name}.hlsstate"
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
