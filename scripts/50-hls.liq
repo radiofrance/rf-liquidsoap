@@ -1,7 +1,4 @@
 
-# Define hostname variable by env
-hls_segments_http_post_origin = getenv("HOSTNAME")
-
 formats =
   if aac_encoder == "libfdkaac" then
     %include "./formats/hls-libfdk-aac.liq"
