@@ -2,7 +2,7 @@ version: "3.3"
 services:
   franceinter:
     network_mode: "host"
-    image: savonet/liquidsoap:v2.0.4
+    image: savonet/liquidsoap:v2.0.2
     container_name: franceinter
     command:
     - /conf/test.liq
