@@ -25,7 +25,7 @@ def on_file_change(~state,fname) =
           http.post(
             headers=[("Origin", "hls_segments_http_post_origin")],
             data=file,
-            timeout=2,
+            timeout_ms=2000,
             target ^ "/#{path.basename(fname)}"
           )
         log.important(label="hlssegmentpush",
