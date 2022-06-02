@@ -2,15 +2,15 @@ version: "3.3"
 services:
   franceinter:
     network_mode: "host"
-    image: savonet/liquidsoap:main
+    image: savonet/liquidsoap:v2.0.4
     container_name: franceinter
     command:
-    - /conf/franceinter.liq
+    - /conf/test.liq
     - /scripts/00-live.liq
     restart: unless-stopped
     user: liquidsoap
     volumes:
-    - ./conf/:/conf/
+    - ./example/conf/:/conf/
     - ./scripts/:/scripts/
     - ./hls/:/var/hls/franceinter/
     - ./state/:/state/

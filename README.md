@@ -50,6 +50,6 @@ Requirement : ffmpeg compiled with [SRT](https://github.com/Haivision/srt) suppo
 # static file
 ffmpeg -re -i $AUDIOFILE -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000
 # live stream
-export LIVESTREAM='https://stream.radiofrance.fr/fip/fip.m3u8?id=radiofrance'
+export LIVESTREAM='https://stream.radiofrance.fr/fip/fip_hifi.m3u8?id=radiofrance'
 ffmpeg -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000
 ```
