@@ -102,7 +102,7 @@ def update_is_playing_metrics(metadata) =
   sources = [
     ...input_sources,
     {name                  = "safe_blank",
-     is_autofallback       = false,
+     is_autofallback       = true,
      is_ready              = safe_blank.is_ready,
      set_is_playing_metric = set_safe_blank_is_playing_metric,
      source                = safe_blank}
