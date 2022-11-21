@@ -106,6 +106,9 @@ def create_hlssegment_metrics(code, increment) =
   increase_metric(increment)
 end
 def increase_hlssegment_sent_metric(code, increment) =
-  increase_metric = list.assoc(default=create_hlssegment_metrics(code), code, !increase_hlssegment_metrics)
+  def default(increment) =
+    create_hlssegment_metrics(code, increment)
+  end
+  increase_metric = list.assoc(default=default, code, !increase_hlssegment_metrics)
   increase_metric(increment)
 end
