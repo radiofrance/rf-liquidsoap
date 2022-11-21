@@ -31,10 +31,23 @@ def mk_icecast_outputs(selected_formats, source) =
     list.mem(name, selected)
   end
 
-  mp3_formats = list.filter(filter(selected_formats.mp3), formats.mp3)
-  aac_formats = list.filter(filter(selected_formats.aac), formats.aac)
+  def default_filter_mp3(entry) =
+    filter(selected_formats.mp3, entry)
+  end
+  def default_filter_aac(entry) =
+    filter(selected_formats.aac, entry)
+  end
+  mp3_formats = list.filter(default_filter_mp3, formats.mp3)
+  aac_formats = list.filter(default_filter_aac, formats.aac)
 
-  list.iter(mk_output(source, "mp3"), mp3_formats)
-  list.iter(mk_output(source, "aac"), aac_formats)
+  def create_mk_output_mp3(format) =
+    mk_output(source, "mp3", format)
+  end
+  def create_mk_output_aac(format) =
+    mk_output(source, "aac", format)
+  end
+
+  list.iter(create_mk_output_mp3, mp3_formats)
+  list.iter(create_mk_output_aac, aac_formats)
 
 end
