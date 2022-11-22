@@ -1,4 +1,4 @@
-[
+let formats.hls.aac = [
  ("lofi",
   %ffmpeg(
     format="mpegts",

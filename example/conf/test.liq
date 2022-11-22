@@ -26,14 +26,14 @@ hls_segments_http_post_target = "http://segmentforward-preprod.uzine.radiofrance
 
 enable_hls_segments_todo_files = false
 
-icecast_formats = {
-  aac = [
+icecast_formats = [
+  ("aac", [
     "lofi", "midfi", "hifi"
-  ],
-  mp3 = [
+  ]),
+  ("mp3", [
     "lofi", "midfi"
-  ]
-}
+  ])
+]
 
 prometheus_server_port = 6000
 harbor_http_port = 7000
