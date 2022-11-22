@@ -18,7 +18,7 @@ def mk_source(s) =
     input.srt(
       id=(s.name:string),
       max=3.0,
-      clock_safe=false,
+      clock_safe=true,
       port=s.port
     )
 
@@ -52,8 +52,20 @@ def mk_source(s) =
   set_is_playing_metric =
     create_is_playing_metric(label_values=[radio_name,"input",s.name])
 
+  # Wrap input in a buffer
+  # This is needed for each SRT input to have their own clock (in addition to clock_safe=true in the SRT input)
+  # whithout it, if an SRT caller connect to the input but don't send any stream data, the script will deadlock
+  buffered_input =
+    buffer(
+      id="#{s.name}_buffer",
+      buffer=1.0,
+      max=1.0,
+      fallible=true,
+      srt_input
+    )
+
   # Tag source with its name as metadata (e.g. for is_playing metric)
-  tagged_source = source_tag(srt_input, s.name)
+  tagged_source = source_tag(buffered_input, s.name)
 
   {name                  = s.name,
    is_autofallback       = s.is_autofallback,
