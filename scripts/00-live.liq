@@ -46,19 +46,19 @@ live = switch(
 
 def mk_fallback_source(result, s) =
   if s.is_autofallback then
-    [...result, (s.is_ready, (s.source:source(audio=pcm,video=none,midi=none)))]
+    [...result, (s.source:source(audio=pcm,video=none,midi=none))]
   else
     result
   end
 end
 
-radio_prod = switch(
+radio_prod = fallback(
   id="fallback_prod",
   track_sensitive=false,
   [
-    ({true}, (live:source(audio=pcm,video=none,midi=none))),
+    (live:source(audio=pcm,video=none,midi=none)),
     ...list.fold(mk_fallback_source, [], input_sources),
-    ({true}, (safe_blank:source(audio=pcm,video=none,midi=none)))
+    (safe_blank:source(audio=pcm,video=none,midi=none))
   ]
 )
 
