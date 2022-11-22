@@ -2,6 +2,7 @@
 
 %include "10-settings.liq"
 %include "20-prometheus.liq"
+%include "30-formats.liq"
 %include "40-icecast.liq"
 %include "50-hls.liq"
 %include "60-core.liq"
