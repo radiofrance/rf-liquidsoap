@@ -69,7 +69,6 @@ def mk_source(s) =
 
   {name                  = s.name,
    is_autofallback       = s.is_autofallback,
-   is_ready              = srt_input.is_ready,
    set_is_playing_metric = set_is_playing_metric,
    source                = tagged_source}
 end

@@ -30,10 +30,10 @@ icecast_formats = [
   ("aac", [
     "lofi", "midfi", "hifi"
   ]),
-  ("mp3, [
+  ("mp3", [
     "lofi", "midfi"
   ])
-}
+]
 
 prometheus_server_port = 6000
 harbor_http_port = 7000
