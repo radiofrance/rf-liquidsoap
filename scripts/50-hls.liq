@@ -1,9 +1,9 @@
 
-formats =
+available_hls_formats =
   if aac_encoder == "libfdkaac" then
-    %include "./formats/hls-libfdk-aac.liq"
+    formats.hls.fdkaac
   else
-    %include "./formats/hls-aac.liq"
+    formats.hls.aac
   end
 
 def segment_name(~position,~extname=_,stream_name) =
@@ -25,7 +25,7 @@ def on_file_change(~state,fname) =
           http.post(
             headers=[("Origin", hls_segments_http_post_origin)],
             data=file,
-            timeout=2,
+            timeout_ms=2000,
             target ^ "/#{path.basename(fname)}"
           )
         log.important(label="hlssegmentpush",
@@ -58,7 +58,7 @@ end
 
 def mk_hls_output(selected_formats, source) =
   def mk_format(name) =
-    ("#{radio_name}_#{name}", list.assoc(name, formats))
+    ("#{radio_name}_#{name}", list.assoc(name, available_hls_formats))
   end
 
   file.mkdir(perms=0o755, hls_segments_directory)

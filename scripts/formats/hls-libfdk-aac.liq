@@ -1,4 +1,4 @@
-[
+let formats.hls.fdkaac = [
  ("lofi",
   %ffmpeg(
     format="mpegts",
@@ -32,7 +32,7 @@
       b="192k",
       samplerate=48000,
       afterburner=1,
-      profile="aac_low"
+    profile="aac_low"
     ))
  )
 ]
