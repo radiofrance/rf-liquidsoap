@@ -2,6 +2,7 @@
 
 %include "10-settings.liq"
 %include "20-prometheus.liq"
+%include "30-formats.liq"
 %include "40-icecast.liq"
 %include "50-hls.liq"
 %include "60-core.liq"
@@ -45,19 +46,19 @@ live = switch(
 
 def mk_fallback_source(result, s) =
   if s.is_autofallback then
-    [...result, (s.is_ready, (s.source:source(audio=pcm,video=none,midi=none)))]
+    [...result, (s.source:source(audio=pcm,video=none,midi=none))]
   else
     result
   end
 end
 
-radio_prod = switch(
+radio_prod = fallback(
   id="fallback_prod",
   track_sensitive=false,
   [
-    ({true}, (live:source(audio=pcm,video=none,midi=none))),
+    (live:source(audio=pcm,video=none,midi=none)),
     ...list.fold(mk_fallback_source, [], input_sources),
-    ({true}, (safe_blank:source(audio=pcm,video=none,midi=none)))
+    (safe_blank:source(audio=pcm,video=none,midi=none))
   ]
 )
 
@@ -102,7 +103,7 @@ def update_is_playing_metrics(metadata) =
   sources = [
     ...input_sources,
     {name                  = "safe_blank",
-     is_autofallback       = false,
+     is_autofallback       = true,
      is_ready              = safe_blank.is_ready,
      set_is_playing_metric = set_safe_blank_is_playing_metric,
      source                = safe_blank}
