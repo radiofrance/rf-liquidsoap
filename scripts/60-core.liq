@@ -19,7 +19,8 @@ def mk_source(s) =
       id=(s.name:string),
       max=3.0,
       clock_safe=true,
-      port=s.port
+      port=s.port,
+      stats_interval=-1
     )
 
   # Create the several latency time series for this input
