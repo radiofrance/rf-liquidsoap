@@ -7,7 +7,7 @@ def source_tag(s,tag) =
   s = metadata.map(id=(tag:string),insert_missing=true,f,s)
   s = insert_metadata(id=(tag:string),s)
   thread.run(
-    every=0.1,
+    every=1.,
     {s.insert_metadata([("source_tag",tag)])}
   )
   s
@@ -38,7 +38,7 @@ def mk_source(s) =
     is_preferred_livesource_metric(label_values=[radio_name,"input",s.name])
 
   thread.run(
-    every=0.1,
+    every=1.,
     update_source_metrics(
       is_ready_metric_set,
       duration_unready_seconds_metric_increase,

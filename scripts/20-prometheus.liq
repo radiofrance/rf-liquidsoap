@@ -17,11 +17,11 @@ latency_metrics_create =
 # not in ready state
 # "is_preferred_livesource" is defined for each input and is set to 1
 # if the input is to be the output and to 0 otherwise.
-# These metrics must be updated every 100ms by the
+# These metrics must be updated every 1s by the
 # update_source_metrics callback. The duration_unready will never
 # be exact and will underestimate the real duration as the callback
 # will actually be executed every 100ms+something and not precisely
-# every 100ms.
+# every 1s.
 is_ready_metric_create =
   prometheus.gauge(
     labels=["radio","type","name"],
@@ -55,7 +55,7 @@ def update_source_metrics(
       is_ready_metric_set(1.)
     else
       is_ready_metric_set(0.)
-      duration_unready_seconds_metric_increase(0.1)
+      duration_unready_seconds_metric_increase(1.)
     end
     if !preferred_live_source == source_name then
       is_preferred_livesource_set(1.)
