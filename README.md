@@ -1,26 +1,67 @@
 # Radio France Liquidsoap script
 
 ## Setup
+
 ### With docker compose
 ```bash
-mkdir hls state
-sudo chown -R 10000:10001 hls state
-docker-compose up
+# Start
+docker-compose up -d
+
+# Logs
+docker-compose logs -f
+
+# Stop
+docker-compose stop
+
+# Stop and clean
+docker-compose down -v
 ```
 
 ## Listening
-By default the encoder send blank HLS segments, that mean if it's started, you can already listen the blank stream.
+
+By default the encoder send blank HLS segments/feeds icecast with blank audio,
+which means that if it's started, you can already listen the blank stream.
+
+### HLS
 
 ```bash
-ffplay http://localhost:8080/live.m3u8
-vlc http://localhost:8080/live.m3u8
+ffplay http://localhost:8080/franceinter/franceinter.m3u8
+vlc http://localhost:8080/franceinter/franceinter.m3u8
+```
+
+Playlists and .ts segments can be browsed in nginx.
+
+### Icecast
+
+```bash
+# AAC
+## high quality
+ffplay https://localhost:8000/franceinter-hifi.aac
+vlc  https://localhost:8000/franceinter-hifi.aac
+
+## mid quality
+ffplay https://localhost:8000/franceinter-midfi.aac
+vlc  https://localhost:8000/franceinter-midfi.aac
+
+## low quality
+ffplay https://localhost:8000/franceinter-lofi.aac
+vlc  https://localhost:8000/franceinter-lofi.aac
+
+# MP3
+## mid quality
+ffplay https://localhost:8000/franceinter-midfi.mp3
+vlc  https://localhost:8000/franceinter-midfi.mp3
+
+## low quality
+ffplay https://localhost:8000/franceinter-lofi.mp3
+vlc  https://localhost:8000/franceinter-lofi.mp3
 ```
 
 ## HTTP API
 
 ```
-# get
-curl -s localhost:7000/livesource
+# get livesource status
+$ curl -s localhost:7000/livesource
 {
   "preferred_output": "voieA_caller1",
   "inputs": [
@@ -37,18 +78,22 @@ curl -s localhost:7000/livesource
 }
 
 # Switch live source
-curl -s -d voieA_caller1 http://localhost:7000/livesource
+$ curl -s -d voieA_caller1 http://localhost:7000/livesource
 {"preferred_output": "voieA_caller1"}
 ```
 
-### Sending audio to the streaming server
+## Sending audio to the streaming server
 
-#### Using ffmpeg
-Requirement : ffmpeg compiled with [SRT](https://github.com/Haivision/srt) support (debian bullseye ffmpeg or https://johnvansickle.com/ffmpeg/ for example)
+### Using ffmpeg
+
+Requirement: `ffmpeg` compiled with [SRT](https://github.com/Haivision/srt)
+support (debian bullseye `ffmpeg` or https://johnvansickle.com/ffmpeg/ for
+example)
 
 ```bash
 # static file
 ffmpeg -re -i $AUDIOFILE -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000
+
 # live stream
 export LIVESTREAM='https://stream.radiofrance.fr/fip/fip_hifi.m3u8?id=radiofrance'
 ffmpeg -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000

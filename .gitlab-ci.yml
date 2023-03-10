@@ -7,7 +7,7 @@ liquidsoap-lint:
   stage: test
   image: savonet/liquidsoap:v2.1.4
   script:
-    - liquidsoap -c ./example/conf/test.liq ./scripts/00-live.liq
+    - liquidsoap -c ./tests/liquidsoap/test.liq ./scripts/00-live.liq
 
 release:
   stage: release
