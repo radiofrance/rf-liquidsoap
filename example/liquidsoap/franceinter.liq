@@ -4,7 +4,7 @@ hls_segments_http_post_origin = "hostname"
 hls_state_path = "/state/#{radio_name}.hlsstate"
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
 
-hls_segments_directory = "/var/hls/#{radio_name}"
+hls_segments_directory = "/tmp/#{radio_name}"
 
 input_list = [
   {name="voieA_caller1", is_autofallback=true, port=10000},
@@ -21,8 +21,8 @@ aac_encoder = "aac"
 hls_formats = [
   "lofi", "midfi", "hifi"
 ]
-enable_upload_hls_segments = true
-hls_segments_http_post_target = "http://segmentforward-preprod.uzine.radiofrance.fr"
+enable_upload_hls_segments = false
+hls_segments_http_post_target = "http://segmentforwarder"
 
 enable_hls_segments_todo_files = false
 
@@ -35,9 +35,9 @@ icecast_formats = [
   ])
 ]
 
-prometheus_server_port = 6000
+prometheus_server_port = 6001
 harbor_http_port = 7000
-icecast_host = "localhost"
+icecast_host = "icecast"
 icecast_port = 8000
 icecast_password = "secret"
 liquidsoap_log_level = 3
