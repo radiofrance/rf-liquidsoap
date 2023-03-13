@@ -1,0 +1,8 @@
+example/
+tests/
+.git/
+.gitignore
+.gitlab-ci.yml
+renovate.json
+Dockerfile
+docker-compose.yml
