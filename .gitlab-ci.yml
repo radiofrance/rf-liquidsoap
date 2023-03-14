@@ -1,33 +1,33 @@
 stages:
-  - test
-  - release
-  - release_gitlab
+- test
+- release
+- release_gitlab
 
 liquidsoap-lint:
   stage: test
   image: savonet/liquidsoap:v2.1.4
   script:
-    - liquidsoap -c ./example/conf/test.liq ./scripts/00-live.liq
+  - liquidsoap -c ./tests/liquidsoap/test.liq ./scripts/00-live.liq
 
 release:
   stage: release
   image:
     name: gcr.io/kaniko-project/executor:debug
   only:
-    - /^master.*$/
-    - tags
+  - /^master.*$/
+  - tags
   script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64)\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG:-$CI_COMMIT_SHA}
+  - mkdir -p /kaniko/.docker
+  - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64)\"}}}" > /kaniko/.docker/config.json
+  - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG:-$CI_COMMIT_SHA}
 
 release_gitlab:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   rules:
-    - if: $CI_COMMIT_TAG                  # Run this job when a tag is created manually
+  - if: $CI_COMMIT_TAG            # Run this job when a tag is created manually
   script:
-    - echo "running release_job"
+  - echo "running release_job"
   release:
     name: 'Release $CI_COMMIT_TAG'
     description: '$(cat CHANGELOG.md)'
