@@ -1,16 +1,161 @@
 version: "3.3"
 services:
-  franceinter:
-    network_mode: "host"
-    image: savonet/liquidsoap:v2.1.4
-    container_name: franceinter
+  # Liquidsoap
+  liquidsoap-franceinter:
     command:
-    - /conf/test.liq
+    - /conf/franceinter.liq
     - /scripts/00-live.liq
+    container_name: liquidsoap-franceinter
+    image: savonet/liquidsoap:v2.1.4
+    networks:
+    - default
     restart: unless-stopped
-    user: liquidsoap
+    ports:
+    - 6001:6001/tcp
+    - 10000:10000/tcp
+    - 10001:10001/tcp
+    - 10002:10002/tcp
+    - 10003:10003/tcp
+    - 10004:10004/tcp
+    - 10005:10005/tcp
+    - 10006:10006/tcp
     volumes:
-    - ./example/conf/:/conf/
-    - ./scripts/:/scripts/
-    - ./hls/:/var/hls/franceinter/
-    - ./state/:/state/
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/:/scripts/:ro
+    - data_hls:/tmp/
+    - data_liquidsoap:/state/
+
+  # SRT source
+  srt-franceinter:
+    command:
+    - /usr/bin/ffmpeg
+    - -i
+    - "https://icecast.radiofrance.fr/fip-hifi.aac?id=rf-liquidsoap"
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s16le
+    - "srt://liquidsoap-franceinter:10000"
+    container_name: srt-franceinter
+    entrypoint: []
+    image: savonet/liquidsoap:v2.1.4
+    networks:
+    - default
+    restart: unless-stopped
+
+  # Streaming services
+  icecast:
+    container_name: icecast
+    environment:
+    - ICECAST_SOURCE_PASSWORD=secret
+    - ICECAST_ADMIN_PASSWORD=secret
+    - ICECAST_PASSWORD=secret
+    - ICECAST_RELAY_PASSWORD=secret
+    - ICECAST_HOSTNAME=icecast
+    expose:
+    - 8000
+    image: moul/icecast
+    ports:
+    - 8000:8000
+  hls:
+    container_name: hls
+    expose:
+    - "80"
+    image: nginx:alpine
+    networks:
+    - default
+    ports:
+    - 8080:8080/tcp
+    restart: unless-stopped
+    volumes:
+    - ./example/nginx/:/etc/nginx/conf.d/:ro
+    - data_hls:/hls:ro
+
+  # Monitoring
+  grafana:
+    container_name: grafana
+    depends_on:
+    - prometheus
+    environment:
+    - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+    - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    - GF_USERS_ALLOW_SIGN_UP=false
+    - GF_LOG_LEVEL=warn
+    image: grafana/grafana:latest
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+    - default
+    ports:
+    - 3000:3000/tcp
+    restart: unless-stopped
+    volumes:
+    - ./example/grafana/provisioning:/etc/grafana/provisioning:ro
+    - data_grafana:/var/lib/grafana
+  prometheus:
+    command:
+    - '--config.file=/etc/prometheus/prometheus.yml'
+    - '--storage.tsdb.path=/prometheus'
+    - '--web.console.libraries=/etc/prometheus/console_libraries'
+    - '--web.console.templates=/etc/prometheus/consoles'
+    - '--storage.tsdb.retention.time=200h'
+    - '--web.enable-lifecycle'
+    - '--log.level=warn'
+    container_name: prometheus
+    image: prom/prometheus:latest
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+    - default
+    restart: unless-stopped
+    ports:
+    - 9090:9090/tcp
+    volumes:
+    - ./example/prometheus/:/etc/prometheus/:ro
+    - data_prometheus:/prometheus
+
+  # Alerting
+  # alertmanager:
+  #   command:
+  #   - '--config.file=/etc/alertmanager/config.yml'
+  #   - '--storage.path=/alertmanager'
+  #   - '--log.level=warn'
+  #   container_name: alertmanager
+  #   depends_on:
+  #   - prometheus
+  #   expose:
+  #   - 9093:9093/tcp
+  #   image: prom/alertmanager:latest
+  #   labels:
+  #     org.label-schema.group: "monitoring"
+  #   networks:
+  #   - default
+  #   restart: unless-stopped
+  #   volumes:
+  #   - ./example/alertmanager:/etc/alertmanager
+
+  # Container metrics
+  # cadvisor:
+  #   container_name: cadvisor
+  #   depends_on:
+  #   - redis
+  #   image: gcr.io/cadvisor/cadvisor:latest
+  #   ports:
+  #   - 8081:8080/tcp
+  #   volumes:
+  #   - /:/rootfs:ro
+  #   - /var/run:/var/run:rw
+  #   - /sys:/sys:ro
+  #   - /var/lib/docker/:/var/lib/docker:ro
+  # redis:
+  #   container_name: redis
+  #   image: redis:latest
+  #   ports:
+  #   - 6379:6379
+
+volumes:
+  data_grafana: {}
+  data_hls: {}
+  data_liquidsoap: {}
+  data_prometheus: {}
