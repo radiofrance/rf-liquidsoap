@@ -112,3 +112,21 @@ def increase_hlssegment_sent_metric(code, increment) =
   increase_metric = list.assoc(default=default, code, !increase_hlssegment_metrics)
   increase_metric(increment)
 end
+
+# SRT metrics per source (input queues and buffers)
+# SRT sourceA (network) -> input.srt -> buffered_input ---------> radio_live
+#                                                        ^  ^
+# SRT sourceB (network) -> input.srt -> buffered_input --|  |
+#                                                           |
+# SRT sourceC (network) -> input.srt -> buffered_input -----|
+srt_input_queue_length_create = prometheus.gauge(
+  labels=["radio", "type", "name"],
+  help="Length of the SRT input queue, before hitting the buffer",
+  "liquidsoap_srt_input_queue_length"
+)
+
+srt_input_buffer_length_create = prometheus.gauge(
+  labels=["radio", "type", "name"],
+  help="Length of the SRT buffer",
+  "liquidsoap_srt_input_buffer_length"
+)

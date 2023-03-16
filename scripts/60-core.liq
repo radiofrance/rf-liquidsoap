@@ -20,7 +20,7 @@ def mk_source(s) =
       max=3.0,
       clock_safe=true,
       port=s.port,
-      stats_interval=-1
+      stats_interval=1000
     )
 
   # Create the several latency time series for this input
@@ -32,10 +32,22 @@ def mk_source(s) =
     is_ready_metric_create(label_values=[radio_name,"input",s.name])
 
   duration_unready_seconds_metric_increase =
-    duration_unready_seconds_metric_create(label_values=[radio_name,"input",s.name])
+    duration_unready_seconds_metric_create(
+      label_values=[radio_name,"input",s.name]
+    )
 
   is_preferred_livesource_set =
     is_preferred_livesource_metric(label_values=[radio_name,"input",s.name])
+
+  srt_input_queue_length_set =
+    srt_input_queue_length_create(label_values=[radio_name,"input",s.name])
+
+  thread.run(
+    every=1.,
+    {srt_input_queue_length_set(
+      float(srt_input.stats().pktRcvBuf)
+    )}
+  )
 
   thread.run(
     every=1.,
@@ -54,8 +66,9 @@ def mk_source(s) =
     create_is_playing_metric(label_values=[radio_name,"input",s.name])
 
   # Wrap input in a buffer
-  # This is needed for each SRT input to have their own clock (in addition to clock_safe=true in the SRT input)
-  # whithout it, if an SRT caller connect to the input but don't send any stream data, the script will deadlock
+  # This is needed for each SRT input to have their own clock (in addition to
+  # clock_safe=true in the SRT input) whithout it, if an SRT caller connect to
+  # the input but don't send any stream data, the script will deadlock
   buffered_input =
     buffer(
       id="#{s.name}_buffer",
@@ -64,6 +77,14 @@ def mk_source(s) =
       fallible=true,
       srt_input
     )
+
+  set_srt_input_buffer_length =
+    srt_input_buffer_length_create(label_values=[radio_name,"input",s.name])
+
+  thread.run(
+    every=1.,
+    {set_srt_input_buffer_length(float(buffered_input.buffer_length()))}
+  )
 
   # Tag source with its name as metadata (e.g. for is_playing metric)
   tagged_source = source_tag(buffered_input, s.name)
