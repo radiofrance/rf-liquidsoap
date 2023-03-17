@@ -39,14 +39,32 @@ def mk_source(s) =
   is_preferred_livesource_set =
     is_preferred_livesource_metric(label_values=[radio_name,"input",s.name])
 
-  srt_input_queue_length_set =
-    srt_input_queue_length_create(label_values=[radio_name,"input",s.name])
+  srt_input_bytes_available_set =
+    srt_input_bytes_available_create(label_values=[radio_name,"input",s.name])
+
+  srt_input_packet_received_buffer_set =
+    srt_input_packet_received_buffer_create(label_values=[radio_name,"input",s.name])
+
+  srt_input_packet_received_set =
+    srt_input_packet_received_create(label_values=[radio_name,"input",s.name])
+
+  srt_input_packet_drop_set =
+    srt_input_packet_drop_create(label_values=[radio_name,"input",s.name])
+
+  srt_input_packet_loss_set =
+    srt_input_packet_loss_create(label_values=[radio_name,"input",s.name])
+
+  def update_srt_metrics =
+    srt_input_bytes_available_set(float(srt_input.stats().byteAvailRcvBuf))
+    srt_input_packet_received_buffer_set(float(srt_input.stats().pktRcvBuf))
+    srt_input_packet_received_set(float(srt_input.stats().pktRecvTotal))
+    srt_input_packet_drop_set(float(srt_input.stats().pktRcvDropTotal))
+    srt_input_packet_loss_set(float(srt_input.stats().pktRcvLossTotal))
+  end
 
   thread.run(
     every=1.,
-    {srt_input_queue_length_set(
-      float(srt_input.stats().pktRcvBuf)
-    )}
+    {update_srt_metrics}
   )
 
   thread.run(

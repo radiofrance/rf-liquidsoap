@@ -119,10 +119,36 @@ end
 # SRT sourceB (network) -> input.srt -> buffered_input --|  |
 #                                                           |
 # SRT sourceC (network) -> input.srt -> buffered_input -----|
-srt_input_queue_length_create = prometheus.gauge(
+
+# See https://github.com/Haivision/srt/blob/master/docs/API/statistics.md
+srt_input_bytes_available_create = prometheus.gauge(
   labels=["radio", "type", "name"],
-  help="Length of the SRT input queue, before hitting the buffer",
-  "liquidsoap_srt_input_queue_length"
+  help="SRT stat byteAvailRcvBuf",
+  "liquidsoap_srt_input_bytes_available"
+)
+
+srt_input_packet_received_buffer_create = prometheus.gauge(
+  labels=["radio", "type", "name"],
+  help="SRT stat pktRcvBuf",
+  "liquidsoap_srt_input_packet_received_buffer"
+)
+
+srt_input_packet_received_create = prometheus.gauge(
+  labels=["radio", "type", "name"],
+  help="SRT stat pktRecvTotal (cumulative)",
+  "liquidsoap_srt_input_packet_received_total"
+)
+
+srt_input_packet_drop_create = prometheus.gauge(
+  labels=["radio", "type", "name"],
+  help="SRT stat pktRcvDropTotal (cumulative)",
+  "liquidsoap_srt_input_packet_drop_total"
+)
+
+srt_input_packet_loss_create = prometheus.gauge(
+  labels=["radio", "type", "name"],
+  help="SRT stat pktRcvLossTotal (cumulative)",
+  "liquidsoap_srt_input_packet_loss_total"
 )
 
 srt_input_buffer_length_create = prometheus.gauge(
