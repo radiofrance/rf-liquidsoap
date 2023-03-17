@@ -120,7 +120,9 @@ end
 #                                                           |
 # SRT sourceC (network) -> input.srt -> buffered_input -----|
 
-# See https://github.com/Haivision/srt/blob/master/docs/API/statistics.md
+# See:
+# https://www.liquidsoap.info/doc-2.1.4/reference.html#input.srt
+# https://github.com/Haivision/srt/blob/master/docs/API/statistics.md
 srt_input_bytes_available_create = prometheus.gauge(
   labels=["radio", "type", "name"],
   help="SRT stat byteAvailRcvBuf",
