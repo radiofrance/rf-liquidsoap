@@ -1,6 +1,19 @@
 version: "3.3"
 services:
   # Liquidsoap
+  liquidsoap-test:
+    command:
+    - -c
+    - /conf/test.liq
+    - /scripts/00-live.liq
+    container_name: liquidsoap-test
+    image: savonet/liquidsoap:v2.1.4
+    networks:
+    - default
+    volumes:
+    - ./tests/liquidsoap/:/conf/:ro
+    - ./scripts/:/scripts/:ro
+
   liquidsoap-franceinter:
     command:
     - /conf/franceinter.liq
