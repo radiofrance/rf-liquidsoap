@@ -1,4 +1,4 @@
-radio_name = "franceinter"
+radio_name = "testradio"
 hls_segments_http_post_origin = "hostname"
 
 hls_state_path = "/tmp/#{radio_name}.hlsstate"
