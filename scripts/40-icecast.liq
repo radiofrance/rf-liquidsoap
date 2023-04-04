@@ -14,10 +14,13 @@ def mk_output(source, file_extension, quality, encoder) =
   # Wrap the source in a buffer to avoid blocking the whole
   # streaming thread when icecast is down
   source = buffer(source)
-  clock.assign_new(id="icecast", [source])
+
+  # Assign a unique id to the new clock
+  id = icecast_#{quality}#{file_extension}"
+  clock.assign_new(id=id, [source])
 
   output.icecast(
-    id="icecast_#{quality}#{file_extension}",
+    id=id,
     fallible=true,
     host=icecast_host,
     port=icecast_port,
