@@ -11,6 +11,10 @@ available_icecast_formats = [
 ]
 
 def mk_output(source, file_extension, quality, encoder) =
+  # Wrap the source in a buffer to avoid blocking the whole
+  # streaming thread when icecast is down
+  source = buffer(source)
+
   output.icecast(
     id="icecast_#{quality}#{file_extension}",
     fallible=true,
