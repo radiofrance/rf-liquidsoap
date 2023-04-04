@@ -1,6 +1,6 @@
 icecast_aac_encoder =
   if aac_encoder == "libfdkaac" then
-    formats.icecast.fdkaac 
+    formats.icecast.fdkaac
   else
     formats.icecast.aac
   end
@@ -14,6 +14,7 @@ def mk_output(source, file_extension, quality, encoder) =
   # Wrap the source in a buffer to avoid blocking the whole
   # streaming thread when icecast is down
   source = buffer(source)
+  clock.assign_new(id="icecast", [source])
 
   output.icecast(
     id="icecast_#{quality}#{file_extension}",
