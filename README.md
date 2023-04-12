@@ -36,25 +36,25 @@ Playlists and .ts segments can be browsed in nginx.
 ```bash
 # AAC
 ## high quality
-ffplay https://localhost:8000/franceinter-hifi.aac
-vlc  https://localhost:8000/franceinter-hifi.aac
+ffplay http://localhost:8000/franceinter-hifi.aac
+vlc  http://localhost:8000/franceinter-hifi.aac
 
 ## mid quality
-ffplay https://localhost:8000/franceinter-midfi.aac
-vlc  https://localhost:8000/franceinter-midfi.aac
+ffplay http://localhost:8000/franceinter-midfi.aac
+vlc  http://localhost:8000/franceinter-midfi.aac
 
 ## low quality
-ffplay https://localhost:8000/franceinter-lofi.aac
-vlc  https://localhost:8000/franceinter-lofi.aac
+ffplay http://localhost:8000/franceinter-lofi.aac
+vlc  http://localhost:8000/franceinter-lofi.aac
 
 # MP3
 ## mid quality
-ffplay https://localhost:8000/franceinter-midfi.mp3
-vlc  https://localhost:8000/franceinter-midfi.mp3
+ffplay http://localhost:8000/franceinter-midfi.mp3
+vlc  http://localhost:8000/franceinter-midfi.mp3
 
 ## low quality
-ffplay https://localhost:8000/franceinter-lofi.mp3
-vlc  https://localhost:8000/franceinter-lofi.mp3
+ffplay http://localhost:8000/franceinter-lofi.mp3
+vlc  http://localhost:8000/franceinter-lofi.mp3
 ```
 
 ## HTTP API
