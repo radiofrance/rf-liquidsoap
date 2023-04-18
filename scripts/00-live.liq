@@ -144,17 +144,25 @@ radio_prod =
     radio_prod
   )
 
+# Output LUFS analysis to prometheus metrics
+set_metric_audio_lufs =
+  audit_lufs_metric_create(label_values=[radio_name,"output", "radio_prod"])
+
+radio_prod = lufs(window=5., radio_prod)
+
+thread.run(
+  every=5.,
+  {set_metric_audio_lufs(radio_prod.lufs())}
+)
+
 radio_prod = ffmpeg.raw.encode.audio(%ffmpeg(%audio.raw), radio_prod)
 
 # Outputs
 
 # HLS Output
-
 mk_hls_output(hls_formats, radio_prod)
 
 # Icecast Output
-
 mk_icecast_outputs(icecast_formats, radio_prod)
-
 
 %include "90-http.liq"
