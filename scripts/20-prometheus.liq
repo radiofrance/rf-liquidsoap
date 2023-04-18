@@ -82,7 +82,17 @@ create_is_playing_metric =
 is_blank_metric_create =
   prometheus.gauge(
     labels=["radio","type","name"],
-    help="Is source blank?","liquidsoap_source_is_blank"
+    help="Is source blank?",
+    "liquidsoap_source_is_blank"
+  )
+
+# "output_lufs" is a metric containing audio output level in LUFS according
+# to the EBU R128 standards
+audit_lufs_metric_create =
+  prometheus.gauge(
+    labels=["radio", "type", "name"],
+    help="Audio LUFS Analysis",
+    "liquidsoap_output_lufs_5s"
   )
 
 # "hlsssegment_sent" is an output-only metric counting the number of
