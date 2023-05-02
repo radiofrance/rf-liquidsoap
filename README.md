@@ -98,3 +98,7 @@ ffmpeg -re -i $AUDIOFILE -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000
 export LIVESTREAM='https://stream.radiofrance.fr/fip/fip_hifi.m3u8?id=radiofrance'
 ffmpeg -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000
 ```
+
+## Example usage architecture
+
+![Transcoder connectivity](.res/2023-05-02.archi-transcoders.png)
