@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-  # Liquidsoap
+  # Test validity of liquidsoap configuration
   liquidsoap-test:
     command:
     - -c
@@ -14,6 +14,7 @@ services:
     - ./tests/liquidsoap/:/conf/:ro
     - ./scripts/:/scripts/:ro
 
+  # Run liquidsoap and create "myradio" stream
   liquidsoap-myradio:
     command:
     - /conf/myradio.liq
@@ -25,6 +26,7 @@ services:
     restart: unless-stopped
     ports:
     - 6001:6001/tcp
+    - 7000:7000/tcp
     - 10000:10000/tcp
     - 10001:10001/tcp
     - 10002:10002/tcp
@@ -38,26 +40,64 @@ services:
     - data_hls:/tmp/
     - data_liquidsoap:/state/
 
-  # SRT source
-  srt-myradio:
+  # Feed liquidsoap with an example SRT source (https://datafruits.fm)
+  source-datafruits:
     command:
     - /usr/bin/ffmpeg
     - -i
-    - "https://icecast.radiofrance.fr/fip-hifi.aac?id=rf-liquidsoap"
+    - "https://streampusher-relay.club/datafruits.mp3?id=github.com_radiofrance_rf-liquidsoap"
     - -vn
     - -f
     - wav
     - -codec:a
     - pcm_s16le
-    - "srt://liquidsoap-myradio:10000"
-    container_name: srt-myradio
+    - "srt://liquidsoap-myradio:10000" # voieA_caller1
+    container_name: source-datafruits
     entrypoint: []
     image: savonet/liquidsoap:v2.1.4
     networks:
     - default
     restart: unless-stopped
 
-  # Streaming services
+  # Feed liquidsoap with an example SRT source (https://p-node.org/)
+  source-pnode:
+    command:
+    - /usr/bin/ffmpeg
+    - -i
+    - "https://stream.p-node.org/pnode.mp3?id=github.com_radiofrance_rf-liquidsoap"
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s16le
+    - "srt://liquidsoap-myradio:10002" # voieB_caller1
+    container_name: source-pnode
+    entrypoint: []
+    image: savonet/liquidsoap:v2.1.4
+    networks:
+    - default
+    restart: unless-stopped
+
+  # Feed liquidsoap with an example SRT source (https://modular-station.com/)
+  source-modularstation:
+    command:
+    - /usr/bin/ffmpeg
+    - -i
+    - "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s16le
+    - "srt://liquidsoap-myradio:10004" # override_caller1
+    container_name: source-modularstation
+    entrypoint: []
+    image: savonet/liquidsoap:v2.1.4
+    networks:
+    - default
+    restart: unless-stopped
+
+  # Streaming services: icecast
   icecast:
     container_name: icecast
     environment:
@@ -71,6 +111,8 @@ services:
     image: moul/icecast
     ports:
     - 8000:8000
+
+  # Streaming services: hls (nginx)
   hls:
     container_name: hls
     expose:
