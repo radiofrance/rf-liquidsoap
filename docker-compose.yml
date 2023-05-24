@@ -40,19 +40,19 @@ services:
     - data_hls:/tmp/
     - data_liquidsoap:/state/
 
-  # Feed liquidsoap with an example SRT source (https://datafruits.fm)
-  source-datafruits:
+  # Feed liquidsoap with an example SRT source (https://modular-station.com/)
+  source-voieA-caller1:
     command:
     - /usr/bin/ffmpeg
     - -i
-    - "https://streampusher-relay.club/datafruits.mp3?id=github.com_radiofrance_rf-liquidsoap"
+    - "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
     - -vn
     - -f
     - wav
     - -codec:a
     - pcm_s16le
     - "srt://liquidsoap-myradio:10000" # voieA_caller1
-    container_name: source-datafruits
+    container_name: source-voieA-caller1
     entrypoint: []
     image: savonet/liquidsoap:v2.1.4
     networks:
@@ -60,7 +60,7 @@ services:
     restart: unless-stopped
 
   # Feed liquidsoap with an example SRT source (https://p-node.org/)
-  source-pnode:
+  source-voieB-caller1:
     command:
     - /usr/bin/ffmpeg
     - -i
@@ -71,26 +71,26 @@ services:
     - -codec:a
     - pcm_s16le
     - "srt://liquidsoap-myradio:10002" # voieB_caller1
-    container_name: source-pnode
+    container_name: source-voieB-caller1
     entrypoint: []
     image: savonet/liquidsoap:v2.1.4
     networks:
     - default
     restart: unless-stopped
 
-  # Feed liquidsoap with an example SRT source (https://modular-station.com/)
-  source-modularstation:
+  # Feed liquidsoap with an example SRT source (https://datafruits.fm)
+  source-override-caller1:
     command:
     - /usr/bin/ffmpeg
     - -i
-    - "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
+    - "https://streampusher-relay.club/datafruits.mp3?id=github.com_radiofrance_rf-liquidsoap"
     - -vn
     - -f
     - wav
     - -codec:a
     - pcm_s16le
     - "srt://liquidsoap-myradio:10004" # override_caller1
-    container_name: source-modularstation
+    container_name: source-override-caller1
     entrypoint: []
     image: savonet/liquidsoap:v2.1.4
     networks:
