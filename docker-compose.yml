@@ -14,11 +14,11 @@ services:
     - ./tests/liquidsoap/:/conf/:ro
     - ./scripts/:/scripts/:ro
 
-  liquidsoap-franceinter:
+  liquidsoap-myradio:
     command:
-    - /conf/franceinter.liq
+    - /conf/myradio.liq
     - /scripts/00-live.liq
-    container_name: liquidsoap-franceinter
+    container_name: liquidsoap-myradio
     image: savonet/liquidsoap:v2.1.4
     networks:
     - default
@@ -39,7 +39,7 @@ services:
     - data_liquidsoap:/state/
 
   # SRT source
-  srt-franceinter:
+  srt-myradio:
     command:
     - /usr/bin/ffmpeg
     - -i
@@ -49,8 +49,8 @@ services:
     - wav
     - -codec:a
     - pcm_s16le
-    - "srt://liquidsoap-franceinter:10000"
-    container_name: srt-franceinter
+    - "srt://liquidsoap-myradio:10000"
+    container_name: srt-myradio
     entrypoint: []
     image: savonet/liquidsoap:v2.1.4
     networks:

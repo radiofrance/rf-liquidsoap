@@ -14,8 +14,8 @@ artifact: ## Build binary artifact
 test: ## Run test
 	docker-compose up liquidsoap-test
 
-reload: ## Retart liquidsoap container to refresh their configuration
-	docker-compose restart liquidsoap-test liquidsoap-franceinter
+reload: ## Restart liquidsoap container to refresh their configuration
+	docker-compose restart liquidsoap-test liquidsoap-myradio
 	docker-compose ps
 	docker-compose logs -f
 

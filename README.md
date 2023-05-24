@@ -25,8 +25,8 @@ which means that if it's started, you can already listen the blank stream.
 ### HLS
 
 ```bash
-ffplay http://localhost:8080/franceinter/franceinter.m3u8
-vlc http://localhost:8080/franceinter/franceinter.m3u8
+ffplay http://localhost:8080/myradio/myradio.m3u8
+vlc http://localhost:8080/myradio/myradio.m3u8
 ```
 
 Playlists and .ts segments can be browsed in nginx.
@@ -36,25 +36,25 @@ Playlists and .ts segments can be browsed in nginx.
 ```bash
 # AAC
 ## high quality
-ffplay http://localhost:8000/franceinter-hifi.aac
-vlc  http://localhost:8000/franceinter-hifi.aac
+ffplay http://localhost:8000/myradio-hifi.aac
+vlc  http://localhost:8000/myradio-hifi.aac
 
 ## mid quality
-ffplay http://localhost:8000/franceinter-midfi.aac
-vlc  http://localhost:8000/franceinter-midfi.aac
+ffplay http://localhost:8000/myradio-midfi.aac
+vlc  http://localhost:8000/myradio-midfi.aac
 
 ## low quality
-ffplay http://localhost:8000/franceinter-lofi.aac
-vlc  http://localhost:8000/franceinter-lofi.aac
+ffplay http://localhost:8000/myradio-lofi.aac
+vlc  http://localhost:8000/myradio-lofi.aac
 
 # MP3
 ## mid quality
-ffplay http://localhost:8000/franceinter-midfi.mp3
-vlc  http://localhost:8000/franceinter-midfi.mp3
+ffplay http://localhost:8000/myradio-midfi.mp3
+vlc  http://localhost:8000/myradio-midfi.mp3
 
 ## low quality
-ffplay http://localhost:8000/franceinter-lofi.mp3
-vlc  http://localhost:8000/franceinter-lofi.mp3
+ffplay http://localhost:8000/myradio-lofi.mp3
+vlc  http://localhost:8000/myradio-lofi.mp3
 ```
 
 ## HTTP API
