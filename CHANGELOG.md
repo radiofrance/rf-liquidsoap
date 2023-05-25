@@ -17,6 +17,8 @@ Features:
 
 - Improve docker-compose.yml, Makefile and examples
 - Improve CHANGELOG.md
+- Add GREETINGS.md
+- Improve README.md
 
 ## 1.0.6 (2023-04-18)
 

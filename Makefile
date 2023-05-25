@@ -15,6 +15,7 @@ test: ## Run test
 	@docker-compose up liquidsoap-test
 
 reload: ## Restart liquidsoap container to refresh their configuration
+	@docker-compose up -d
 	@docker-compose restart liquidsoap-test liquidsoap-myradio
 	@docker-compose ps
 	@docker-compose logs -f

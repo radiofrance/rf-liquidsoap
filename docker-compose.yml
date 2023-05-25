@@ -82,6 +82,7 @@ services:
   source-override-caller1:
     command:
     - /usr/bin/ffmpeg
+    - -re
     - -i
     - "https://streampusher-relay.club/datafruits.mp3?id=github.com_radiofrance_rf-liquidsoap"
     - -vn
