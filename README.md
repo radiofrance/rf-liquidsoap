@@ -1,57 +1,124 @@
-# Radio France Liquidsoap script
+# Radio France's Liquidsoap scripts
 
-This project contains Radio France's liquidsoap scripts, used in our production
-environments to produce multi-sourced resilient HLS and Icecast streams.
+<p align="center">
+  <img width="600" height="200" src=".res/Logo_Radio_France.svg">
+</p>
+<p align="center">
+  [<a href="CHANGELOG.md">CHANGELOG</a> -
+   <a href="#license">LICENSE</a>]
+</p>
 
-It is associated with a demo monitoring stack, for metrics and alerts, based
-on the Prometheus metrics exposed by our liquidsoap configuration. This stack
-is a simplified version of the one we use in our production environments.
+This project contains the [Liquidsoap](https://www.liquidsoap.info/) scripts
+used at [Radio France](https://radiofrance.fr) in production to produce
+multi-sourced resilient [HLS](https://developer.apple.com/streaming/) and
+[Icecast](https://icecast.org/) streams.
 
-An example radio implementation called "myradio" is also provided, using
-existing internet radio as SRT sources. At Radio France, those SRT sources
-contain the audio coming from our studios. Each radio is fed multiple times with
-the same audio content, coming from multiple network paths, which allows us to be
-resilient and to perform maintenances without service interruption.
+It includes a demo monitoring stack for metrics, alerts and dashboards, based on
+[Prometheus](https://prometheus.io/),
+[Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/) and
+[Grafana](https://grafana.com/). This stack is a simplified version of the one
+we use in our production environments.
+
+An example station implementation called `myradio` is provided, using other
+online radios as SRT sources. At Radio France, those SRT sources are coming from
+our studios. Each liquidsoap process (supposedly one per station) is fed
+multiple times with the same audio content coming from different network paths,
+which allows us to be resilient and to perform maintenances without service
+interruptions.
 
 ## Design
 
-For each radio, liquidsoap will consume a set of active/fallback SRT sources to
-produce a single output stream called `radio_prod`. In the eventuallity a SRT
+![Basic implementation architecture](.res/basic.png)
+
+For each station (sometimes called "radio" in this repository), a Liquidsoap
+process will consume a set of active/fallback SRT sources to produce a single
+output stream called `radio_prod`. In the eventuallity the current preferred SRT
 source should fail, `radio_prod` will fallback to the next available source.
+Some sources can be excluded from the autofallback loop, waiting for a manual
+switch.
 
-The output stream is then encoded multiple times with AAC and MP3 encoders, and
-pushed to an icecast server. AAC audio segments are also created locally and/or
-pushed on a remote service called `segmentforwarder`. This service is not
-provided in this repository, we can tell you it allows us to index those
-segments, build our HLS playlists, timeshift and push the segments to our CDN
-providers.
+The output stream `radio_prod` is encoded multiple times with different encoders
+and with multiple quality profiles. We provide some encoder settings as
+"profiles" in the [common liquidsoap script](scripts/formats/) (mp3, aac,
+libfdk-aac...)
 
-For each radio you may want to build, the `autofallback` SRT inputs, listening
-ports and output formats are defined in a configuration file (see
-[myradio.liq](example/liquidsoap/myradio.liq)).
+After the encoding, there are two output methods running in parallel:
+
+- Icecast: Liquidsoap connects as a source to an icecast server and pushes audio
+
+- HLS: adaptative / rolling playlists and audio segments are created locally and
+  can be served by a simple HTTP server like NGINX. There is a purge mecanism
+  that will get rid of old audio segments. Segments can also be pushed
+  on a remote service we called `segmentforwarder`. Please note that this custom
+  external service is not provided in this repository, but we can tell you it
+  allows us to index those segments, build our HLS playlists, timeshift and push
+  the segments to our CDN providers.
+
+At Radio France we have many stations to stream. In this project, the Liquidsoap
+configuration files are split in two. This separation allows us to industrialize
+our station definitions:
+
+- The `scripts/` folder contains a common set of liquidsoap scripts that are
+  reused for each station. You may see it as a versionned "template folder" or
+  "app". When we bring changes to these configuration files all of our streams
+  are impacted.
+
+- Per station configuration is achieved in a another file, provided in the
+  [start command](docker-compose.yml#L20) of the Liquidsoap process: for each
+  stream we build, the `autofallback` SRT inputs, listening ports and output
+  formats are defined in their own standalone file (see
+  [myradio.liq](example/liquidsoap/myradio.liq) for an complete example). You
+  can see this as an inventory file. (To be honnest, we have so many stations to
+  define we actually generate those files with an external templating tool)
+
+In the common Liquidsoap configuration, [Prometheus](scripts/20-prometheus.liq)
+metrics are created and exposed on a dedicated port, allowing the real time
+monitoring of buffers, audio levels and SRT input state.
 
 ## Getting started
+
+### Requirements
+
+- `make`
+- `docker`
+
+### Start containers
 
 ```bash
 make help
 make start
 ```
 
-## Listening
+You can safely press `ctrl+c` to stop displaying logs
+
+### Checking service state
+
+```
+make status
+make logs
+```
+
+### Listening
 
 By default, the liquidsoap main loop produces blank audio when nothing is fed
 into the SRT input ports. It means that if liquidsoap is started, you can
 already listen to the blank stream using the Icecast URL or the HLS playlist.
 
-In the following example we use `ffplay` as our audio player, but you could
-use anything you want: a custom web player, android app, vlc, browser, etc.
+In the following example we use `ffplay` as our audio player, but you could use
+anything you want: a custom web player, mobile app, `vlc`, a native player
+inside a browser, etc.
 
-Listening URLs for the `myradio` example are the following:
+Listening URLs for the `myradio` example station are:
 
-### HLS
+#### HLS
+
+To listen to the HLS adaptative playlist:
 
 ```bash
 ffplay http://localhost:8080/myradio/myradio.m3u8
+# Use letter 'c' in the ffplay window to switch between playlists.
+# Default playlist order with ffplay: lofi, midfi, hifi. You may experience a
+# different order according to your player.
 ```
 
 For convenience, playlists and HLS .ts segments can be browsed thanks to the
@@ -61,7 +128,7 @@ nginx server:
 chrome http://localhost:8080/
 ```
 
-### Icecast
+#### Icecast
 
 ```bash
 # AAC
@@ -82,18 +149,20 @@ ffplay http://localhost:8000/myradio-midfi.mp3
 ffplay http://localhost:8000/myradio-lofi.mp3
 ```
 
-## Reading the logs
+### Using HTTP API
+
+The HTTP API allow you to switch between sources or get information about the
+output stream.
+
+You can easily get current status:
 
 ```
-make status
-make logs
-```
-
-## HTTP API
-
-```
-# get livesource status
 $ curl -s localhost:7000/livesource
+```
+
+You will get the following response:
+
+```
 {
   "preferred_output": "voieA_caller1",
   "inputs": [
@@ -108,29 +177,95 @@ $ curl -s localhost:7000/livesource
   "real_output": "safe_blank",
   "is_output_blank": true
 }
-
-# Switch live source
-$ curl -s -d voieA_caller1 http://localhost:7000/livesource
-{"preferred_output": "voieA_caller1"}
 ```
 
-## Sending audio to the streaming server
+`preferred_output` is the preferred SRT source that liquidsoap will select to
+build the output stream (highest priority input).
 
-### Using ffmpeg
+`real_output` is the real source currently used by liquidsoap to build the output
+stream
 
-Requirement: `ffmpeg` compiled with [SRT](https://github.com/Haivision/srt)
-support (debian bullseye `ffmpeg` or https://johnvansickle.com/ffmpeg/ for
-example)
+`is_output_blank` returns true when audio is blank (no sound).
+
+To manually switch between SRT sources:
+
+```
+$ curl -s -d <input> http://localhost:7000/livesource
+```
+
+For example:
+
+```
+$ curl -s -d override_caller1 http://localhost:7000/livesource
+{"preferred_output": "override_caller1"}
+```
+
+### Show default exposed URLs and useful ports
+
+```
+make info
+```
+
+### Sending audio to the streaming server with SRT
+
+We provide examples in the containers prefixed with `source-`.
+
+To send audio to the SRT source, you can use
+[srt-live-transmit](https://github.com/Haivision/srt/blob/master/docs/apps/srt-live-transmit.md)
+or `ffmpeg` compiled with [SRT](https://github.com/Haivision/srt)
+support (Debian Bullseye `ffmpeg` or https://johnvansickle.com/ffmpeg/ for
+example).
+
+You don't have to use a container:
 
 ```bash
 # static file
-ffmpeg -re -i $AUDIOFILE -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000
+ffmpeg -re -i $AUDIOFILE -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 
 # live stream
-export LIVESTREAM='https://stream.radiofrance.fr/fip/fip_hifi.m3u8?id=radiofrance'
-ffmpeg -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10000
+export LIVESTREAM='https://stream.radiofrance.fr/fip/fip_hifi.m3u8?id=liquidsoap'
+ffmpeg -re -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 ```
 
-## Example usage architecture
+The port `:10001` should be modified to match the SRT input you want to use.
+Each SRT input in the fallback loop has its own port.
+
+
+## Radio France architecture
 
 ![Transcoder connectivity](.res/2023-05-02.archi-transcoders.png)
+
+Our liquidsoap usage is documented in the following presentations:
+
+- [FOSDEM (2020)](https://archive.fosdem.org/2020/schedule/event/om_audio_streaming/) (Maxime Bugeia)
+- [Liquidshop 1.0 (2021)](http://www.liquidsoap.info/liquidshop/1/) (Youenn Piolet) - [video](https://www.youtube.com/watch?v=UnHfgDmi9_w) - [slides](http://www.liquidsoap.info/liquidshop/1/slides/piolet.pdf)
+
+## Authors, acknowledgements
+
+This repository is maintained by Radio France.
+
+Fondation Team, Direction du Numérique, 2020-now
+
+Many thanks to Romain Beauxis, Samuel Mimram, the awesome liquidsoap community,
+contributers and open source radio broadcasters that allowed a national
+broadcaster like Radio France to build its streaming platform with open source
+tools.
+
+Greetings to all current and past members from the Fondation Team.
+Special thanks to Maxime Bugeia for his precious work on this project.
+
+Also see [`GREETINGS.md`](/GREETINGS.md).
+
+## Contributions and questions
+
+Feel free to open issues if you have questions.
+
+Pull requests are welcome, but we will be extra carreful in the merge process
+since it has to match our needs.
+
+## License
+
+rf-liquidsoap is released under the CeCILL-B ([en](/Licence_CeCILL-B_V1-en.txt),
+[fr](/Licence_CeCILL-B_V1-fr.txt)) license.
+
+https://cecill.info/

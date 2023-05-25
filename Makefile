@@ -11,28 +11,31 @@ artifact: ## Build binary artifact
 	@rm -rf /tmp/rf-liquidsoap-$(version)/
 	@md5sum rf-liquidsoap-$(version).tar.gz
 
-test: ## Run test
-	@docker-compose up liquidsoap-test
+test: ## Run test on the liquidsoap configuration
+	@docker compose up liquidsoap-test
 
-reload: ## Restart liquidsoap container to refresh their configuration
-	@docker-compose up -d
-	@docker-compose restart liquidsoap-test liquidsoap-myradio
-	@docker-compose ps
-	@docker-compose logs -f
+reload: ## Update containers if needed and restart liquidsoap
+	@docker compose up -d
+	@docker compose restart liquidsoap-test liquidsoap-myradio
+	@docker compose ps
+	@docker compose logs -f
 
 start: ## Start everything
-	@docker-compose up -d
-	@docker-compose ps
-	@docker-compose logs -f
+	@docker compose up -d
+	@docker compose ps
+	@docker compose logs -f
 
 stop: ## Stop all containers
-	@docker-compose down
+	@docker compose down
 
 status: ## Show status of docker containers
-	@docker-compose ps -a
+	@docker compose ps -a
 
 clean: ## Stop and remove all containers, networks and volumes
-	@docker-compose down -v
+	@docker compose down -v
 
 logs: ## Show logs
-	@docker-compose logs -f
+	@docker compose logs -f
+
+info: ## Show useful default URLs and service ports
+	@cat .res/info.txt

@@ -1,55 +1,51 @@
-This repository is maintained by Radio France.
-Fondation Team, Direction du Numérique, 2020-202?
+This repository is maintained by [Radio France](https://www.radiofrance.fr/).
+
+Fondation Team, Direction du Numérique (2020-now)
 
 Many thanks to Romain Beauxis, Samuel Mimram, the awesome liquidsoap community,
 contributers and open source radio broadcasters that allowed a national
 broadcaster like Radio France to build its streaming platform with open source
 tools.
 
-Greetings to all current and past members from the Fondation Team.
-Special thanks to Maxime Bugeia for his precious work on this project.
+![mess](.res/mess.png)
 
-Feel free to open issues if you have questions.
-Pull requests are welcome, but we will be extra carreful in the merge process
-since it has to match our needs.
+                                 -************+
+                                 -#############
+                                 -***#########*
+                                 :+++****#####*
+                                 :=++++******#*
+                                 :==++++*******
+                                 :===++++******+=:.
+                                 :=====+++*********+-.
+                                 :=====+++++**********+:
+                                 -+++++++++++************:
+                                 -*****+++++++************+.
+                                 -**********+++*************-
+                                 ...   .:-=+*****************-
+                                            .=****************:
+                                              .+***************.
+          .--------------:                      =**************=
+          =*************#.                       +#*****++++***+
+          **************+                        -###******++++*
+          **************+         We hire!       -#####******++*
+          =**************.                       +#######*****++
+          :**************+                      :++++++++++++==-
+           +***************:
+           .****************+:
+            .****************##+=::.  ..:.
+             .+************##############-
+               =***********##############-
+                .+********###############-
+                  .=******###############-
+                     :+***###############-
+                        :-+*#############-
+                            .:-==++****++:
 
-
-```
-                               -************+
-                               -#############
-                               -***#########*
-                               :+++****#####*
-                               :=++++******#*
-                               :==++++*******
-                               :===++++******+=:.
-                               :=====+++*********+-.
-                               :=====+++++**********+:
-                               -+++++++++++************:
-                               -*****+++++++************+.
-                               -**********+++*************-
-                               ...   .:-=+*****************-
-                                          .=****************:
-                                            .+***************.
-        .--------------:                      =**************=
-        =*************#.                       +#*****++++***+
-        **************+                        -###******++++*
-        **************+         We hire!       -#####******++*
-        =**************.                       +#######*****++
-        :**************+                      :++++++++++++==-
-         +***************:
-         .****************+:
-          .****************##+=::.  ..:.
-           .+************##############-
-             =***********##############-
-              .+********###############-
-                .=******###############-
-                   :+***###############-
-                      :-+*#############-
-                          .:-==++****++:
-
-```
 
 [radiofrance.fr](https://radiofrance.fr/)
+
 [Welcome To The Jungle](https://www.welcometothejungle.com/fr/companies/radio-france)
 
-![mess](.res/mess.png)
+Greetings to all current and past members from the Fondation Team. Special
+thanks to Maxime Bugeia for his [precious
+work](https://github.com/mbugeia/srt2hls) on this project.
