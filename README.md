@@ -48,7 +48,7 @@ switch.
 The output stream `radio_prod` is encoded multiple times with different encoders
 and with multiple quality profiles. We provide some encoder settings as
 "profiles" in the [common Liquidsoap script](scripts/formats/) (mp3, aac,
-libfdk-aac...)
+libfdk-aac...).
 
 After the encoding, there are two output methods running in parallel:
 
@@ -110,7 +110,7 @@ make logs
 
 ### Cleanup
 
-This stack is portable and can be stopped/removed with
+This stack is portable and can be stopped/removed with:
 
 ```
 make clean
@@ -228,15 +228,16 @@ make info
 
 ### Sending audio to the streaming server with SRT
 
-We provide examples in the containers prefixed with `source-`.
-
 To send audio to the SRT source, you can use
 [srt-live-transmit](https://github.com/Haivision/srt/blob/master/docs/apps/srt-live-transmit.md)
-or `ffmpeg` compiled with [SRT](https://github.com/Haivision/srt)
-support (Debian Bullseye `ffmpeg` or https://johnvansickle.com/ffmpeg/ for
-example).
+or `ffmpeg` compiled with [SRT](https://github.com/Haivision/srt) support
+(Debian Bullseye `ffmpeg` or https://johnvansickle.com/ffmpeg/ for example).
 
-You don't have to use a container:
+We provide examples in the containers prefixed with `source-`. By default, they
+will start with `make start` but you can replace them by something more suitable
+for your needs.
+
+You can also feed the SRT sources manually:
 
 ```bash
 # static file
@@ -248,7 +249,8 @@ ffmpeg -re -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 ```
 
 The port `:10001` should be modified to match the SRT input you want to use.
-Each SRT input in the fallback loop has its own port.
+Each SRT input in the fallback loop has its own port. See
+[`input_list`](example/liquidsoap/myradio.liq#L9) to find port definitions.
 
 ## Monitoring
 
@@ -320,7 +322,7 @@ similar to the ones we use at Radio France, they can be modified in
 
 [Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/) is here
 to handle alerts defined in Prometheus. An example container can be found in the
-`docker-compose.yml` file
+`docker-compose.yml` file.
 
 ## Radio France architecture
 
