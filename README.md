@@ -1,5 +1,8 @@
 # Radio France's Liquidsoap scripts
 
+[![Official Website](https://img.shields.io/badge/Official%20Website-radiofrance.fr-blue?style=flat-square&logo=scpfoundation&logoColor=white)](https://radiofrance.fr)
+[![GitHub Repo stars](https://img.shields.io/github/stars/radiofrance/rf-liquidsoap?style=flat-square)](https://github.com/radiofrance/rf-liquidsoap/stargazers)
+
 <p align="center">
   <img width="600" height="200" src=".res/Logo_Radio_France.svg">
 </p>
@@ -8,7 +11,7 @@
    <a href="#license">LICENSE</a>]
 </p>
 
-This project contains the [Liquidsoap](https://www.liquidsoap.info/) scripts
+This project contains the [Liquidsoap](https://www.Liquidsoap.info/) scripts
 used at [Radio France](https://radiofrance.fr) in production to produce
 multi-sourced resilient [HLS](https://developer.apple.com/streaming/) and
 [Icecast](https://icecast.org/) streams.
@@ -21,10 +24,15 @@ we use in our production environments.
 
 An example station implementation called `myradio` is provided, using other
 online radios as SRT sources. At Radio France, those SRT sources are coming from
-our studios. Each liquidsoap process (supposedly one per station) is fed
+our studios. Each Liquidsoap process (supposedly one per station) is fed
 multiple times with the same audio content coming from different network paths,
 which allows us to be resilient and to perform maintenances without service
 interruptions.
+
+If you want to know more about Radio France's streaming infrastructure:
+
+- [FOSDEM (2020)](https://archive.fosdem.org/2020/schedule/event/om_audio_streaming/) ([Maxime Bugeia](https://github.com/mbugeia))
+- [Liquidshop 1.0 (2021)](http://www.Liquidsoap.info/liquidshop/1/) ([Youenn Piolet](https://github.com/uZer)) - [video](https://www.youtube.com/watch?v=UnHfgDmi9_w) - [slides](http://www.Liquidsoap.info/liquidshop/1/slides/piolet.pdf)
 
 ## Design
 
@@ -39,7 +47,7 @@ switch.
 
 The output stream `radio_prod` is encoded multiple times with different encoders
 and with multiple quality profiles. We provide some encoder settings as
-"profiles" in the [common liquidsoap script](scripts/formats/) (mp3, aac,
+"profiles" in the [common Liquidsoap script](scripts/formats/) (mp3, aac,
 libfdk-aac...)
 
 After the encoding, there are two output methods running in parallel:
@@ -58,7 +66,7 @@ At Radio France we have many stations to stream. In this project, the Liquidsoap
 configuration files are split in two. This separation allows us to industrialize
 our station definitions:
 
-- The `scripts/` folder contains a common set of liquidsoap scripts that are
+- The `scripts/` folder contains a common set of Liquidsoap scripts that are
   reused for each station. You may see it as a versionned "template folder" or
   "app". When we bring changes to these configuration files all of our streams
   are impacted.
@@ -67,7 +75,7 @@ our station definitions:
   [start command](docker-compose.yml#L20) of the Liquidsoap process: for each
   stream we build, the `autofallback` SRT inputs, listening ports and output
   formats are defined in their own standalone file (see
-  [myradio.liq](example/liquidsoap/myradio.liq) for an complete example). You
+  [myradio.liq](example/Liquidsoap/myradio.liq) for an complete example). You
   can see this as an inventory file. (To be honnest, we have so many stations to
   define we actually generate those files with an external templating tool)
 
@@ -100,8 +108,8 @@ make logs
 
 ### Listening
 
-By default, the liquidsoap main loop produces blank audio when nothing is fed
-into the SRT input ports. It means that if liquidsoap is started, you can
+By default, the Liquidsoap main loop produces blank audio when nothing is fed
+into the SRT input ports. It means that if Liquidsoap is started, you can
 already listen to the blank stream using the Icecast URL or the HLS playlist.
 
 In the following example we use `ffplay` as our audio player, but you could use
@@ -112,7 +120,8 @@ Listening URLs for the `myradio` example station are:
 
 #### HLS
 
-To listen to the HLS adaptative playlist:
+To listen to the [HLS](https://datatracker.ietf.org/doc/html/rfc8216) adaptative
+playlist:
 
 ```bash
 ffplay http://localhost:8080/myradio/myradio.m3u8
@@ -179,13 +188,14 @@ You will get the following response:
 }
 ```
 
-`preferred_output` is the preferred SRT source that liquidsoap will select to
+`preferred_output` is the preferred SRT source that Liquidsoap will select to
 build the output stream (highest priority input).
 
-`real_output` is the real source currently used by liquidsoap to build the output
-stream
+`real_output` is the real source currently used by Liquidsoap to build the
+output stream. If the preferred livesource is unavailable, you can read here
+which source Liquidsoap is currently using as a fallback.
 
-`is_output_blank` returns true when audio is blank (no sound).
+`is_output_blank` is a boolean set to true when audio is blank (no sound).
 
 To manually switch between SRT sources:
 
@@ -223,22 +233,25 @@ You don't have to use a container:
 ffmpeg -re -i $AUDIOFILE -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 
 # live stream
-export LIVESTREAM='https://stream.radiofrance.fr/fip/fip_hifi.m3u8?id=liquidsoap'
+export LIVESTREAM='https://stream.radiofrance.fr/fip/fip_hifi.m3u8?id=Liquidsoap'
 ffmpeg -re -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 ```
 
 The port `:10001` should be modified to match the SRT input you want to use.
 Each SRT input in the fallback loop has its own port.
 
-
 ## Radio France architecture
 
 ![Transcoder connectivity](.res/2023-05-02.archi-transcoders.png)
 
-Our liquidsoap usage is documented in the following presentations:
+Our Liquidsoap infrastructure and usages are documented in the presentations
+at the top of this document.
 
-- [FOSDEM (2020)](https://archive.fosdem.org/2020/schedule/event/om_audio_streaming/) (Maxime Bugeia)
-- [Liquidshop 1.0 (2021)](http://www.liquidsoap.info/liquidshop/1/) (Youenn Piolet) - [video](https://www.youtube.com/watch?v=UnHfgDmi9_w) - [slides](http://www.liquidsoap.info/liquidshop/1/slides/piolet.pdf)
+You can read more about us here:
+
+- [AMA Reddit (fr)](https://www.reddit.com/r/france/comments/fsvgfu/ama_nous_sommes_les_%C3%A9quipes_techniques_du/)
+- [Open Source Observatory (European Commission)](https://joinup.ec.europa.eu/collection/open-source-observatory-osor/news/close-collaboration)
+- [Xuanta de Galicia (es)](https://www.mancomun.gal/noticias/radio-france-contribue-con-software-de-codigo-aberto/)
 
 ## Authors, acknowledgements
 
@@ -246,7 +259,7 @@ This repository is maintained by Radio France.
 
 Fondation Team, Direction du Numérique, 2020-now
 
-Many thanks to Romain Beauxis, Samuel Mimram, the awesome liquidsoap community,
+Many thanks to Romain Beauxis, Samuel Mimram, the awesome Liquidsoap community,
 contributers and open source radio broadcasters that allowed a national
 broadcaster like Radio France to build its streaming platform with open source
 tools.
@@ -258,7 +271,7 @@ Also see [`GREETINGS.md`](/GREETINGS.md).
 
 ## Contributions and questions
 
-Feel free to open issues if you have questions.
+Feel free to fork and open issues if you have questions.
 
 Pull requests are welcome, but we will be extra carreful in the merge process
 since it has to match our needs.

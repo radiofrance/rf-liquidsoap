@@ -1,24 +1,13 @@
 # CHANGELOG.md
 
-Known issues:
-
-- Situations where SRT inputs get stuck with "No room to store incoming packets"
-  when sources are flapping / restarting too fast / due to network errors.
-
-- SRT input buffers tend to get consumed faster than the source is able to
-  produce audio, leading to unwanted temporary source switch after buffer
-  exhaustion. This behavior gets worse with network congestion / packet loss. A
-  "catch back" mecanism or an adaptative buffer could help but needs
-  investigations.
-
 ## unreleased / no tag
 
 Features:
 
 - Improve docker-compose.yml, Makefile and examples
 - Improve CHANGELOG.md
-- Add GREETINGS.md
 - Improve README.md
+- Add GREETINGS.md
 
 ## 1.0.6 (2023-04-18)
 
@@ -40,3 +29,14 @@ Features:
 - add new SRT and input buffer metrics
 - add a Makefile
 - improve docker-compose.yml
+
+# Known issues
+
+- Situations where SRT inputs get stuck with "No room to store incoming packets"
+  when sources are flapping / restarting too fast / due to network errors.
+
+- SRT input buffers tend to get consumed faster than the source is able to
+  produce audio, leading to unwanted temporary source switch after buffer
+  exhaustion. This behavior gets worse with network congestion / packet loss. A
+  "catch back" mecanism or an adaptative buffer could help but needs
+  investigations.
