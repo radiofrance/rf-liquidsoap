@@ -242,11 +242,13 @@ ffmpeg -re -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 The port `:10001` should be modified to match the SRT input you want to use.
 Each SRT input in the fallback loop has its own port.
 
-## Monitoring the stack
+## Monitoring
 
-Multiple endpoints are provided for the monitoring of the stack, they
+Multiple endpoints are provided for the monitoring of the stack. Most of them
+are based on the following prometheus metrics, created in the Liquidsoap
+scripts.
 
-### Exported Prometheus metrics
+### Exported Prometheus metrics in Liquidsoap
 
 | Name                                        | Type    | Description                            |
 |-------------------------------------------- | ------- | -------------------------------------- |
@@ -274,6 +276,40 @@ Multiple endpoints are provided for the monitoring of the stack, they
 | liquidsoap_srt_input_packet_received_total  | gauge   | SRT stat pktRecvTotal (cumulative) |
 | liquidsoap_time_of_last_data_timestamp      | gauge   | Last time source produced some data. |
 
+### Prometheus metric exploration
+
+![Prometheus Screenshot](.res/prometheus.png)
+
+You can explore scrapped metrics and generate basic graphs from the Prometheus
+web interface:
+
+`http://localhost:9090/graph`
+
+Learn more about the request syntax on [Prometheus
+website](https://prometheus.io/docs/prometheus/latest/querying/basics/)
+
+You can check Prometheus metric scrapping status in the web interface too:
+
+`http://localhost:9090/targets`
+
+### Grafana
+
+If you want to save the dashboards you created in Prometheus or to benefit
+from better visualization tools, you can use Grafana to browse, edit and save
+advanced dashboards.
+
+`http://localhost:3000/`
+
+You can get the default credentials from the [`docker-compose.yml`
+file](docker-compose.yml#L142). During first connexion, Grafan may ask you to
+change those credentials.
+
+
+### Alertmanager
+
+[Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/) is here
+to handle alerts defined in Prometheus. An example container can be found in the
+`docker-compose.yml` file
 
 ## Radio France architecture
 
