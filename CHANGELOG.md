@@ -20,7 +20,7 @@ Features:
 Bugfix:
 
 - Prevent freezes of the main loop protecting input sources with a buffer.
-  We were experiencings icecast server restarts due to this issue.
+  We were experiencing icecast server restarts due to this issue.
 
 ## 1.0.4 (2023-03-17)
 
