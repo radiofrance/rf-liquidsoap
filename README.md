@@ -55,7 +55,7 @@ After the encoding, there are two output methods running in parallel:
 - Icecast: Liquidsoap connects as a source to an icecast server and pushes audio
 
 - HLS: adaptative / rolling playlists and audio segments are created locally and
-  can be served by a simple HTTP server like NGINX. There is a purge mecanism
+  can be served by a simple HTTP server like NGINX. There is a purge mechanism
   that will get rid of old audio segments. Segments can also be pushed
   on a remote service we called `segmentforwarder`. Please note that this custom
   external service is not provided in this repository, but we can tell you it
@@ -160,7 +160,7 @@ ffplay http://localhost:8000/myradio-lofi.mp3
 
 ### Using HTTP API
 
-The HTTP API allow you to switch between sources or get information about the
+The HTTP API allows you to switch between sources or get information about the
 output stream.
 
 You can easily get current status:
@@ -244,7 +244,7 @@ Each SRT input in the fallback loop has its own port.
 
 ![Transcoder connectivity](.res/2023-05-02.archi-transcoders.png)
 
-Our Liquidsoap infrastructure and usages are documented in the presentations
+Our Liquidsoap infrastructure and usage are documented in the presentations
 at the top of this document.
 
 You can read more about us here:
