@@ -244,11 +244,11 @@ Each SRT input in the fallback loop has its own port.
 
 ## Monitoring
 
-Multiple endpoints are provided for the monitoring of the stack. Most of them
+Multiple endpoints are provided for the supervision of the stack. Most of them
 are based on the following prometheus metrics, created in the Liquidsoap
 scripts.
 
-### Exported Prometheus metrics in Liquidsoap
+### Exported Prometheus metrics in the Liquidsoap script
 
 | Name                                        | Type    | Description                            |
 |-------------------------------------------- | ------- | -------------------------------------- |
@@ -278,12 +278,12 @@ scripts.
 
 ### Prometheus metric exploration
 
-![Prometheus Screenshot](.res/prometheus.png)
-
 You can explore scrapped metrics and generate basic graphs from the Prometheus
 web interface:
 
 `http://localhost:9090/graph`
+
+![Prometheus screenshot](.res/prometheus.png)
 
 Learn more about the request syntax on [Prometheus
 website](https://prometheus.io/docs/prometheus/latest/querying/basics/)
@@ -298,12 +298,15 @@ If you want to save the dashboards you created in Prometheus or to benefit
 from better visualization tools, you can use Grafana to browse, edit and save
 advanced dashboards.
 
-`http://localhost:3000/`
+`http://localhost:3000/dashboards`
 
 You can get the default credentials from the [`docker-compose.yml`
-file](docker-compose.yml#L142). During first connexion, Grafan may ask you to
-change those credentials.
+file](docker-compose.yml#L142). After your first login, Grafana may ask you to
+change those credentials. We provided some example dashboards similar to the one
+we use at Radio France, they can be modified in
+[`example/grafana/provisioning/dashboards`](example/grafana/provisioning/dashboards/)
 
+![Grafana screenshot](.res/grafana.png)
 
 ### Alertmanager
 
