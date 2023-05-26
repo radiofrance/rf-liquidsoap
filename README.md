@@ -108,6 +108,14 @@ make status
 make logs
 ```
 
+### Cleanup
+
+This stack is portable and can be stopped/removed with
+
+```
+make clean
+```
+
 ### Listening
 
 By default, the Liquidsoap main loop produces blank audio when nothing is fed
@@ -300,10 +308,10 @@ advanced dashboards.
 
 `http://localhost:3000/dashboards`
 
-You can get the default credentials from the [`docker-compose.yml`
-file](docker-compose.yml#L142). After your first login, Grafana may ask you to
-change those credentials. We provided some example dashboards similar to the one
-we use at Radio France, they can be modified in
+You can get the default credentials from the
+[`docker-compose.yml`](docker-compose.yml#L142). After your first login, Grafana
+may ask you to change those credentials. We provided some example dashboards
+similar to the ones we use at Radio France, they can be modified in
 [`example/grafana/provisioning/dashboards`](example/grafana/provisioning/dashboards/)
 
 ![Grafana screenshot](.res/grafana.png)
