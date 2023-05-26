@@ -242,6 +242,39 @@ ffmpeg -re -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 The port `:10001` should be modified to match the SRT input you want to use.
 Each SRT input in the fallback loop has its own port.
 
+## Monitoring the stack
+
+Multiple endpoints are provided for the monitoring of the stack, they
+
+### Exported Prometheus metrics
+
+| Name                                        | Type    | Description                            |
+|-------------------------------------------- | ------- | -------------------------------------- |
+| liquidsoap_hlssegment_sent                  | counter | Number of HLS segment send to segment-forwarder |
+| liquidsoap_input_latency_seconds            | gauge   | Mean input latency over the chosen window |
+| liquidsoap_input_max_latency_seconds        | gauge   | Max input latency since start |
+| liquidsoap_input_peak_latency_seconds       | gauge   | Peak input latency over the chosen window |
+| liquidsoap_output_latency_seconds           | gauge   | Mean output latency over the chosen window |
+| liquidsoap_output_lufs_5s                   | gauge   | Audio LUFS Analysis of radio_prod with 5s windows |
+| liquidsoap_output_max_latency_seconds       | gauge   | Max output latency since start |
+| liquidsoap_output_peak_latency_seconds      | gauge   | Peak output latency over the chosen window |
+| liquidsoap_overall_latency_seconds          | gauge   | Mean overall latency over the chosen window |
+| liquidsoap_overall_max_latency_seconds      | gauge   | Max overall latency since start |
+| liquidsoap_overall_peak_latency_seconds     | gauge   | Peak overall latency over the chosen window |
+| liquidsoap_source_is_blank                  | gauge   | Is source blank? (no audio) |
+| liquidsoap_source_is_playing                | gauge   | Is source playing? |
+| liquidsoap_source_is_preferred_livesource   | gauge   | Is source the preferred livesource? |
+| liquidsoap_source_is_ready                  | gauge   | Is source ready? |
+| liquidsoap_source_unready_duration_seconds  | counter | Cumulative duration in seconds of the source in unready state |
+| liquidsoap_srt_input_buffer_length          | gauge   | Length of the SRT buffer |
+| liquidsoap_srt_input_bytes_available        | gauge   | SRT stat byteAvailRcvBuf |
+| liquidsoap_srt_input_packet_drop_total      | gauge   | SRT stat pktRcvDropTotal (cumulative) |
+| liquidsoap_srt_input_packet_loss_total      | gauge   | SRT stat pktRcvLossTotal (cumulative) |
+| liquidsoap_srt_input_packet_received_buffer | gauge   | SRT stat pktRcvBuf |
+| liquidsoap_srt_input_packet_received_total  | gauge   | SRT stat pktRecvTotal (cumulative) |
+| liquidsoap_time_of_last_data_timestamp      | gauge   | Last time source produced some data. |
+
+
 ## Radio France architecture
 
 ![Transcoder connectivity](.res/2023-05-02.archi-transcoders.png)

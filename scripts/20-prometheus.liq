@@ -39,7 +39,7 @@ duration_unready_seconds_metric_create =
 is_preferred_livesource_metric =
   prometheus.gauge(
     labels=["radio","type","name"],
-    help="Is source is the preferred livesource?",
+    help="Is source the preferred livesource?",
     "liquidsoap_source_is_preferred_livesource"
   )
 
