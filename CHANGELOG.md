@@ -4,9 +4,11 @@
 
 Features:
 
+- Add new dashboard for LUFS levels
+- Add new graphs in liquidsoap dashboard for SRT inputs, packet loss, drops...
+- improve README.md
 - Improve docker-compose.yml, Makefile and examples
 - Improve CHANGELOG.md
-- Improve README.md
 - Add GREETINGS.md
 
 ## 1.0.6 (2023-04-18)

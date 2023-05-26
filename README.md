@@ -1,6 +1,7 @@
 # Radio France's Liquidsoap scripts
 
-[![Official Website](https://img.shields.io/badge/Official%20Website-radiofrance.fr-blue?style=flat-square&logo=scpfoundation&logoColor=white)](https://radiofrance.fr)
+[![Official Website](https://img.shields.io/badge/Official%20Website-radiofrance.fr-blue?style=flat-square&logo=world&logoColor=white)](https://radiofrance.fr)
+[![About Us](https://img.shields.io/badge/Official%20Website-radiofrance.com-blue?style=flat-square&logo=scpfoundation&logoColor=white)](https://radiofrance.com)
 [![GitHub Repo stars](https://img.shields.io/github/stars/radiofrance/rf-liquidsoap?style=flat-square)](https://github.com/radiofrance/rf-liquidsoap/stargazers)
 
 <p align="center">
@@ -14,7 +15,7 @@
 This project contains the [Liquidsoap](https://www.Liquidsoap.info/) scripts
 used at [Radio France](https://radiofrance.fr) in production to produce
 multi-sourced resilient [HLS](https://developer.apple.com/streaming/) and
-[Icecast](https://icecast.org/) streams.
+[Icecast](https://icecast.org/) streams for our 77 radio stations.
 
 It includes a demo monitoring stack for metrics, alerts and dashboards, based on
 [Prometheus](https://prometheus.io/),
@@ -29,7 +30,7 @@ multiple times with the same audio content coming from different network paths,
 which allows us to be resilient and to perform maintenances without service
 interruptions.
 
-If you want to know more about Radio France's streaming infrastructure:
+If you want to know more about our streaming infrastructure:
 
 - [FOSDEM (2020)](https://archive.fosdem.org/2020/schedule/event/om_audio_streaming/) ([Maxime Bugeia](https://github.com/mbugeia))
 - [Liquidshop 1.0 (2021)](http://www.Liquidsoap.info/liquidshop/1/) ([Youenn Piolet](https://github.com/uZer)) - [video](https://www.youtube.com/watch?v=UnHfgDmi9_w) - [slides](http://www.Liquidsoap.info/liquidshop/1/slides/piolet.pdf)
@@ -60,15 +61,14 @@ After the encoding, there are two output methods running in parallel:
   on a remote service we called `segmentforwarder`. Please note that this custom
   external service is not provided in this repository, but we can tell you it
   allows us to index those segments, build our HLS playlists, timeshift and push
-  the segments to our CDN providers.
+  the segments to CDN providers.
 
-At Radio France we have many stations to stream. In this project, the Liquidsoap
-configuration files are split in two. This separation allows us to industrialize
-our station definitions:
+In this project, the Liquidsoap configuration files are split in two. This
+separation allows us to industrialize the station definitions:
 
 - The `scripts/` folder contains a common set of Liquidsoap scripts that are
   reused for each station. You may see it as a versionned "template folder" or
-  "app". When we bring changes to these configuration files all of our streams
+  "app". When we bring changes to these configuration files, all of our streams
   are impacted.
 
 - Per station configuration is achieved in a another file, provided in the
@@ -122,7 +122,7 @@ By default, the Liquidsoap main loop produces blank audio when nothing is fed
 into the SRT input ports. It means that if Liquidsoap is started, you can
 already listen to the blank stream using the Icecast URL or the HLS playlist.
 
-In the following example we use `ffplay` as our audio player, but you could use
+In the following examples we use `ffplay` as audio player, but you could use
 anything you want: a custom web player, mobile app, `vlc`, a native player
 inside a browser, etc.
 
@@ -324,7 +324,7 @@ similar to the ones we use at Radio France, they can be modified in
 to handle alerts defined in Prometheus. An example container can be found in the
 `docker-compose.yml` file.
 
-## Radio France architecture
+## Our architecture
 
 ![Transcoder connectivity](.res/2023-05-02.archi-transcoders.png)
 
