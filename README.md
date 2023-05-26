@@ -83,6 +83,8 @@ In the common Liquidsoap configuration, [Prometheus](scripts/20-prometheus.liq)
 metrics are created and exposed on a dedicated port, allowing the real time
 monitoring of buffers, audio levels and SRT input state.
 
+![Advanced implementation architecture](.res/advanced.png)
+
 ## Getting started
 
 ### Requirements
