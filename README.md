@@ -32,6 +32,7 @@ interruptions.
 
 If you want to know more about our streaming infrastructure:
 
+- [Liquidshop 3.0 (2023)](http://www.Liquidsoap.info/liquidshop/1/) ([Youenn Piolet](https://github.com/uZer)) - [video]() - `slides .res/2023-05-30.liquidshop3.presentation.md`
 - [FOSDEM (2020)](https://archive.fosdem.org/2020/schedule/event/om_audio_streaming/) ([Maxime Bugeia](https://github.com/mbugeia))
 - [Liquidshop 1.0 (2021)](http://www.Liquidsoap.info/liquidshop/1/) ([Youenn Piolet](https://github.com/uZer)) - [video](https://www.youtube.com/watch?v=UnHfgDmi9_w) - [slides](http://www.Liquidsoap.info/liquidshop/1/slides/piolet.pdf)
 
@@ -91,6 +92,8 @@ monitoring of buffers, audio levels and SRT input state.
 
 - `make`
 - `docker`
+- a player, like `vlc`, `ffplay` or a browser
+- `curl` to make calls to the HTTP API
 
 ### Start containers
 
