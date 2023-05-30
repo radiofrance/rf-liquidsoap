@@ -1,36 +1,36 @@
 Useful URLs and exposed services with default configuration.
 
 # Liquidsoap container (liquidsoap-myradio)
-http://localhost:6001/metrics     # Liquidsoap Prometheus Metrics
-http://localhost:7000/livesource  # Liquidsoap HTTP API
-srt://localhost:10000             # Liquidsoap SRT input port voieA_caller1
-srt://localhost:10001             # Liquidsoap SRT input port voieA_caller2
-srt://localhost:10002             # Liquidsoap SRT input port voieB_caller1
-srt://localhost:10003             # Liquidsoap SRT input port voieB_caller2
-srt://localhost:10004             # Liquidsoap SRT input port override_caller1
-srt://localhost:10005             # Liquidsoap SRT input port override_caller2
-srt://localhost:10006             # Liquidsoap SRT input port sat_sat1
+http://127.0.0.1:6001/metrics     # Liquidsoap Prometheus Metrics
+http://127.0.0.1:7000/livesource  # Liquidsoap HTTP API
+srt://127.0.0.1:10000             # Liquidsoap SRT input port voieA_caller1
+srt://127.0.0.1:10001             # Liquidsoap SRT input port voieA_caller2
+srt://127.0.0.1:10002             # Liquidsoap SRT input port voieB_caller1
+srt://127.0.0.1:10003             # Liquidsoap SRT input port voieB_caller2
+srt://127.0.0.1:10004             # Liquidsoap SRT input port override_caller1
+srt://127.0.0.1:10005             # Liquidsoap SRT input port override_caller2
+srt://127.0.0.1:10006             # Liquidsoap SRT input port sat_sat1
 
 # Icecast2
-http://localhost:8000                    # Icecast status and mountpoints
-http://localhost:8000/myradio-hifi.aac   # Icecast mountpoint (AAC hifi)
-http://localhost:8000/myradio-midfi.aac  # Icecast mountpoint (AAC midfi)
-http://localhost:8000/myradio-lofi.aac   # Icecast mountpoint (AAC lofi)
-http://localhost:8000/myradio-midfi.mp3  # Icecast mountpoint (MP3 midfi)
-http://localhost:8000/myradio-lofi.mp3   # Icecast mountpoint (MP3 lofi)
+http://127.0.0.1:8000                    # Icecast status and mountpoints
+http://127.0.0.1:8000/myradio-hifi.aac   # Icecast mountpoint (AAC hifi)
+http://127.0.0.1:8000/myradio-midfi.aac  # Icecast mountpoint (AAC midfi)
+http://127.0.0.1:8000/myradio-lofi.aac   # Icecast mountpoint (AAC lofi)
+http://127.0.0.1:8000/myradio-midfi.mp3  # Icecast mountpoint (MP3 midfi)
+http://127.0.0.1:8000/myradio-lofi.mp3   # Icecast mountpoint (MP3 lofi)
 
 # NGINX (HLS, only AAC audio)
-http://localhost:8080                             # Browse HLS files
-http://localhost:8080/myradio/myradio.m3u8        # HLS playlist
-http://localhost:8080/myradio/myradio_hifi.m3u8   # HLS playlist (enforce hifi)
-http://localhost:8080/myradio/myradio_midfi.m3u8  # HLS playlist (enforce midfi)
-http://localhost:8080/myradio/myradio_lofi.m3u8   # HLS playlist (enforce lofi)
+http://127.0.0.1:8080                             # Browse HLS files
+http://127.0.0.1:8080/myradio/myradio.m3u8        # HLS playlist
+http://127.0.0.1:8080/myradio/myradio_hifi.m3u8   # HLS playlist (enforce hifi)
+http://127.0.0.1:8080/myradio/myradio_midfi.m3u8  # HLS playlist (enforce midfi)
+http://127.0.0.1:8080/myradio/myradio_lofi.m3u8   # HLS playlist (enforce lofi)
 
 # Prometheus
-http://localhost:9090           # Prometheus web interface
+http://127.0.0.1:9090           # Prometheus web interface
 
 # Grafana (default credentials: admin / admin)
-http://localhost:3000           # Grafana web interface
+http://127.0.0.1:3000           # Grafana web interface
 
 # Switch livesource (please replace override_caller1 with anything you need)
-curl -s -d override_caller1 http://localhost:7000/livesource
+curl -s -d override_caller1 http://127.0.0.1:7000/livesource

@@ -137,7 +137,7 @@ To listen to the [HLS](https://datatracker.ietf.org/doc/html/rfc8216) adaptative
 playlist:
 
 ```bash
-ffplay http://localhost:8080/myradio/myradio.m3u8
+ffplay http://127.0.0.1:8080/myradio/myradio.m3u8
 # Use letter 'c' in the ffplay window to switch between playlists.
 # Default playlist order with ffplay: lofi, midfi, hifi. You may experience a
 # different order according to your player.
@@ -147,7 +147,7 @@ For convenience, playlists and HLS .ts segments can be browsed thanks to the
 nginx server:
 
 ```
-chrome http://localhost:8080/
+chrome http://127.0.0.1:8080/
 ```
 
 #### Icecast
@@ -155,20 +155,20 @@ chrome http://localhost:8080/
 ```bash
 # AAC
 ## high quality
-ffplay http://localhost:8000/myradio-hifi.aac
+ffplay http://127.0.0.1:8000/myradio-hifi.aac
 
 ## mid quality
-ffplay http://localhost:8000/myradio-midfi.aac
+ffplay http://127.0.0.1:8000/myradio-midfi.aac
 
 ## low quality
-ffplay http://localhost:8000/myradio-lofi.aac
+ffplay http://127.0.0.1:8000/myradio-lofi.aac
 
 # MP3
 ## mid quality
-ffplay http://localhost:8000/myradio-midfi.mp3
+ffplay http://127.0.0.1:8000/myradio-midfi.mp3
 
 ## low quality
-ffplay http://localhost:8000/myradio-lofi.mp3
+ffplay http://127.0.0.1:8000/myradio-lofi.mp3
 ```
 
 ### Using HTTP API
@@ -179,7 +179,7 @@ output stream.
 You can easily get current status:
 
 ```
-$ curl -s localhost:7000/livesource
+$ curl -s 127.0.0.1:7000/livesource
 ```
 
 You will get the following response:
@@ -213,13 +213,13 @@ which source Liquidsoap is currently using as a fallback.
 To manually switch between SRT sources:
 
 ```
-$ curl -s -d <input> http://localhost:7000/livesource
+$ curl -s -d <input> http://127.0.0.1:7000/livesource
 ```
 
 For example:
 
 ```
-$ curl -s -d override_caller1 http://localhost:7000/livesource
+$ curl -s -d override_caller1 http://127.0.0.1:7000/livesource
 {"preferred_output": "override_caller1"}
 ```
 
@@ -294,7 +294,7 @@ scripts.
 You can explore scrapped metrics and generate basic graphs from the Prometheus
 web interface:
 
-`http://localhost:9090/graph`
+`http://127.0.0.1:9090/graph`
 
 ![Prometheus screenshot](.res/prometheus.png)
 
@@ -303,7 +303,7 @@ website](https://prometheus.io/docs/prometheus/latest/querying/basics/)
 
 You can check Prometheus metric scrapping status in the web interface too:
 
-`http://localhost:9090/targets`
+`http://127.0.0.1:9090/targets`
 
 ### Grafana
 
@@ -311,7 +311,7 @@ If you want to save the dashboards you created in Prometheus or to benefit
 from better visualization tools, you can use Grafana to browse, edit and save
 advanced dashboards.
 
-`http://localhost:3000/dashboards`
+`http://127.0.0.1:3000/dashboards`
 
 You can get the default credentials from the
 [`docker-compose.yml`](docker-compose.yml#L142). After your first login, Grafana
