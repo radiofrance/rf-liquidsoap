@@ -32,7 +32,7 @@ interruptions.
 
 If you want to know more about our streaming infrastructure:
 
-- [Liquidshop 3.0 (2023)](http://www.Liquidsoap.info/liquidshop/1/) ([Youenn Piolet](https://github.com/uZer)) - [video]() - `slides .res/2023-05-30.liquidshop3.presentation.md`
+- [Liquidshop 3.0 (2023)](http://www.Liquidsoap.info/liquidshop/3/) ([Youenn Piolet](https://github.com/uZer)) - video (wip) - [slides](https://github.com/radiofrance/rf-liquidsoap/blob/d62f08a5de7c7521c96d3af357fa4de465a55c02/.res/2023-05-30.liquidshop3.presentation.md?plain=1#L2) `slides .res/2023-05-30.liquidshop3.presentation.md`
 - [FOSDEM (2020)](https://archive.fosdem.org/2020/schedule/event/om_audio_streaming/) ([Maxime Bugeia](https://github.com/mbugeia))
 - [Liquidshop 1.0 (2021)](http://www.Liquidsoap.info/liquidshop/1/) ([Youenn Piolet](https://github.com/uZer)) - [video](https://www.youtube.com/watch?v=UnHfgDmi9_w) - [slides](http://www.Liquidsoap.info/liquidshop/1/slides/piolet.pdf)
 
