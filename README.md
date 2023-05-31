@@ -32,9 +32,9 @@ interruptions.
 
 If you want to know more about our streaming infrastructure:
 
-- [Liquidshop 3.0 (2023)](http://www.Liquidsoap.info/liquidshop/3/) ([Youenn Piolet](https://github.com/uZer)) - video (wip) - [slides](https://github.com/radiofrance/rf-liquidsoap/blob/d62f08a5de7c7521c96d3af357fa4de465a55c02/.res/2023-05-30.liquidshop3.presentation.md?plain=1#L2) `slides .res/2023-05-30.liquidshop3.presentation.md`
 - [FOSDEM (2020)](https://archive.fosdem.org/2020/schedule/event/om_audio_streaming/) ([Maxime Bugeia](https://github.com/mbugeia))
 - [Liquidshop 1.0 (2021)](http://www.Liquidsoap.info/liquidshop/1/) ([Youenn Piolet](https://github.com/uZer)) - [video](https://www.youtube.com/watch?v=UnHfgDmi9_w) - [slides](http://www.Liquidsoap.info/liquidshop/1/slides/piolet.pdf)
+- [Liquidshop 3.0 (2023)](http://www.Liquidsoap.info/liquidshop/3/) ([Youenn Piolet](https://github.com/uZer)) - video (wip) - [slides](https://github.com/radiofrance/rf-liquidsoap/blob/d62f08a5de7c7521c96d3af357fa4de465a55c02/.res/2023-05-30.liquidshop3.presentation.md?plain=1#L2) `slides .res/2023-05-30.liquidshop3.presentation.md`
 
 ## Design
 
@@ -76,7 +76,7 @@ separation allows us to industrialize the station definitions:
   [start command](docker-compose.yml#L20) of the Liquidsoap process: for each
   stream we build, the `autofallback` SRT inputs, listening ports and output
   formats are defined in their own standalone file (see
-  [myradio.liq](example/Liquidsoap/myradio.liq) for an complete example). You
+  [myradio.liq](example/liquidsoap/myradio.liq) for a complete example). You
   can see this as an inventory file. (To be honnest, we have so many stations to
   define we actually generate those files with an external templating tool)
 
@@ -89,6 +89,8 @@ monitoring of buffers, audio levels and SRT input state.
 ## Getting started
 
 ### Requirements
+
+Everything will run in containers so you don't need much:
 
 - `make`
 - `docker`
@@ -113,7 +115,7 @@ make logs
 
 ### Cleanup
 
-This stack is portable and can be stopped/removed with:
+This stack is portable and can be stopped and removed with:
 
 ```
 make clean
@@ -125,11 +127,17 @@ By default, the Liquidsoap main loop produces blank audio when nothing is fed
 into the SRT input ports. It means that if Liquidsoap is started, you can
 already listen to the blank stream using the Icecast URL or the HLS playlist.
 
-In the following examples we use `ffplay` as audio player, but you could use
-anything you want: a custom web player, mobile app, `vlc`, a native player
+If you ran the complete stack with the `make start` command, 3 SRT sources will
+feed the Liquidsoap service, coming from various Internet Radios you will
+restream locally: `voieA_caller1`, `voieB_caller1` and `override_caller1`
+
+First SRT input `voieA_caller1` will be selected by default.
+
+In the following examples we use `ffplay` as the audio player, but you could use
+anything you want: a custom web player, a mobile app, `vlc`, a native player
 inside a browser, etc.
 
-Listening URLs for the `myradio` example station are:
+Listening URLs for the `myradio` example are the following:
 
 #### HLS
 
@@ -143,7 +151,7 @@ ffplay http://127.0.0.1:8080/myradio/myradio.m3u8
 # different order according to your player.
 ```
 
-For convenience, playlists and HLS .ts segments can be browsed thanks to the
+For convenience, playlists and HLS `.ts` segments can be browsed thanks to the
 nginx server:
 
 ```
@@ -331,8 +339,8 @@ to handle alerts defined in Prometheus. An example container can be found in the
 
 ![Transcoder connectivity](.res/2023-05-02.archi-transcoders.png)
 
-Our Liquidsoap infrastructure and usage are documented in the presentations
-at the top of this document.
+Our Liquidsoap infrastructure and usage are documented in the video
+presentations and slides at the top of this document.
 
 You can read more about us here:
 
@@ -351,21 +359,19 @@ contributers and open source radio broadcasters that allowed a national
 broadcaster like Radio France to build its streaming platform with open source
 tools.
 
-Greetings to all current and past members from the Fondation Team.
-Special thanks to Maxime Bugeia for his precious work on this project.
-
-Also see [`GREETINGS.md`](/GREETINGS.md).
+[Greetings](/GREETINGS.md) to all current and past members from the Fondation
+Team. Special thanks to Maxime Bugeia for his precious work on this project.
 
 ## Contributions and questions
 
-Feel free to fork and open issues if you have questions.
+Feel free to fork or open issues if you have questions.
 
-Pull requests are welcome, but we will be extra carreful in the merge process
-since it has to match our needs.
+Pull requests are welcome, but be aware we will be extra carreful in the merge
+process since it has to match our needs.
 
 ## License
 
-rf-liquidsoap is released under the CeCILL-B ([en](/Licence_CeCILL-B_V1-en.txt),
-[fr](/Licence_CeCILL-B_V1-fr.txt)) license.
+The `rf-liquidsoap` project is released under the CeCILL-B
+([en](/Licence_CeCILL-B_V1-en.txt), [fr](/Licence_CeCILL-B_V1-fr.txt)) license.
 
 https://cecill.info/
