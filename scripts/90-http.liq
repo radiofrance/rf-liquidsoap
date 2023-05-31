@@ -1,8 +1,8 @@
 ### HTTP API
 
-def write_http_response(code, data) =
+def write_http_response(status_code, data) =
   http.response(
-    code=code,
+    status_code=status_code,
     headers=[("Content-Type", "application/json")],
     data=data,
   )
@@ -46,10 +46,10 @@ end
 
 def handler(h, method) =
   def response(~protocol, ~data, ~headers, uri) =
-    let (code, data) = h(protocol, data, headers, uri)
-    log.info(label="httplog", "#{code} #{method} #{uri}")
-    log.debug(label="httplog", "#{code} #{method} #{uri} - #{data}")
-    write_http_response(code, data)
+    let (status_code, data) = h(protocol, data, headers, uri)
+    log.info(label="httplog", "#{status_code} #{method} #{uri}")
+    log.debug(label="httplog", "#{status_code} #{method} #{uri} - #{data}")
+    write_http_response(status_code, data)
   end
   response
 end

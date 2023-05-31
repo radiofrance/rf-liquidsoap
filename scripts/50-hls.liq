@@ -25,11 +25,14 @@ def on_file_change(~state,fname) =
           http.post(
             headers=[("Origin", hls_segments_http_post_origin)],
             data=file,
-            timeout_ms=2000,
+            timeout=2.,
             target ^ "/#{path.basename(fname)}"
           )
         log.important(label="hlssegmentpush",
-                      '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", "response": "#{uploadsegment.status_code}", "protocol": "#{uploadsegment.protocol_version}", "target": "' ^ target ^ '"}')
+                      '{"timestamp": "#{time()}", "request":
+                      "/#{path.basename(fname)}", "response":
+                      "#{uploadsegment.status_code}", "protocol":
+                      "#{uploadsegment.http_version}", "target": "' ^ target ^ '"}')
         increase_hlssegment_sent_metric(uploadsegment.status_code, 1.)
       end
     end
