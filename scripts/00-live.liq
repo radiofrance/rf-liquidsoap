@@ -31,7 +31,7 @@ if file.exists(livesource_state_path) then
 end
 
 def is_playing(n) =
-  fun () -> n == !preferred_live_source
+  fun () -> n == preferred_live_source()
 end
 
 def mk_switch_source(s) =
