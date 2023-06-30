@@ -57,7 +57,7 @@ def update_source_metrics(
       is_ready_metric_set(0.)
       duration_unready_seconds_metric_increase(1.)
     end
-    if !preferred_live_source == source_name then
+    if preferred_live_source() == source_name then
       is_preferred_livesource_set(1.)
     else
       is_preferred_livesource_set(0.)
@@ -112,14 +112,14 @@ hlssegment_sent_create =
 increase_hlssegment_metrics = ref([])
 def create_hlssegment_metrics(code, increment) =
   increase_metric = hlssegment_sent_create(label_values=[radio_name,"#{code}"])
-  increase_hlssegment_metrics := list.add((code, increase_metric), !increase_hlssegment_metrics)
+  increase_hlssegment_metrics := list.add((code, increase_metric), increase_hlssegment_metrics())
   increase_metric(increment)
 end
 def increase_hlssegment_sent_metric(code, increment) =
   def default(increment) =
     create_hlssegment_metrics(code, increment)
   end
-  increase_metric = list.assoc(default=default, code, !increase_hlssegment_metrics)
+  increase_metric = list.assoc(default=default, code, increase_hlssegment_metrics())
   increase_metric(increment)
 end
 
