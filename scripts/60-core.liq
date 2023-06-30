@@ -54,12 +54,15 @@ def mk_source(s) =
     srt_input_packet_loss_create(label_values=[radio_name,"input",s.name])
 
   def update_srt_metrics() =
-    let [(_, s)] = srt_input.sockets()
-    srt_input_bytes_available_set(float(s.bstats().byteAvailRcvBuf))
-    srt_input_packet_received_buffer_set(float(s.bstats().pktRcvBuf))
-    srt_input_packet_received_set(float(s.bstats().pktRecvTotal))
-    srt_input_packet_drop_set(float(s.bstats().pktRcvDropTotal))
-    srt_input_packet_loss_set(float(s.bstats().pktRcvLossTotal))
+    srt_sockets = srt_input.sockets()
+    if srt_sockets != [] then
+      let [(_, s)] = srt_sockets
+      srt_input_bytes_available_set(float(s.bstats().byteAvailRcvBuf))
+      srt_input_packet_received_buffer_set(float(s.bstats().pktRcvBuf))
+      srt_input_packet_received_set(float(s.bstats().pktRecvTotal))
+      srt_input_packet_drop_set(float(s.bstats().pktRcvDropTotal))
+      srt_input_packet_loss_set(float(s.bstats().pktRcvLossTotal))
+    end
   end
 
   thread.run(
