@@ -47,12 +47,12 @@ services:
     - -hide_banner
     - -re
     - -i
-    - "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
+    - "/audio/CHANNEL_ORDER_TEST_MULTI_5.1_-23LUFS.wav"
     - -vn
     - -f
     - wav
     - -codec:a
-    - pcm_s16le
+    - pcm_s24le
     - "srt://liquidsoap-myradio:10000" # voieA_caller1
     container_name: source-voieA-caller1
     entrypoint: []
@@ -60,6 +60,8 @@ services:
     networks:
     - default
     restart: unless-stopped
+    volumes:
+    - /home/ypiolet/rf.data/5.1/wav/:/audio/:ro
 
   # Feed liquidsoap with an example SRT source (https://p-node.org/)
   source-voieB-caller1:

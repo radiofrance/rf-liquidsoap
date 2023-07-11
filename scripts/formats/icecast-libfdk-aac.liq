@@ -5,9 +5,9 @@ let formats.icecast.fdkaac = {
       format="adts",
       %audio.raw(
         codec="libfdk_aac",
-        channels=2,
+        channels=6,
         b="32k",
-        samplerate=48000,
+        samplerate=44100,
         afterburner=1,
         eld_sbr=1,
         profile="aac_he_v2"
@@ -18,9 +18,9 @@ let formats.icecast.fdkaac = {
       format="adts",
       %audio.raw(
         codec="libfdk_aac",
-        channels=2,
+        channels=6,
         b="96k",
-        samplerate=48000,
+        samplerate=44100,
         afterburner=1,
         eld_sbr=0,
         profile="aac_low"
@@ -31,9 +31,9 @@ let formats.icecast.fdkaac = {
       format="adts",
       %audio.raw(
         codec="libfdk_aac",
-        channels=2,
+        channels=6,
         b="192k",
-        samplerate=48000,
+        samplerate=44100,
         afterburner=1,
         eld_sbr=0,
         profile="aac_low"

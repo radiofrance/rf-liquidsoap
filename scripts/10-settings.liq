@@ -23,8 +23,8 @@ settings.harbor.timeout.set(5.)
 settings.harbor.verbose.set(false)
 
 # Audio settings
-settings.frame.audio.samplerate.set(48000)
-settings.frame.audio.channels.set(2)
+settings.frame.audio.samplerate.set(44100)
+settings.frame.audio.channels.set(6)
 settings.audio.converter.samplerate.libsamplerate.quality.set("fast")
 
 # Prometheus server settings

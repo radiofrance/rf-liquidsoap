@@ -4,7 +4,7 @@ let formats.hls.fdkaac = [
     format="mpegts",
     %audio.raw(
       codec="libfdk_aac",
-      channels=2,
+      channels=6,
       b="32k",
       samplerate=48000,
       afterburner=1,
@@ -16,7 +16,7 @@ let formats.hls.fdkaac = [
     format="mpegts",
     %audio.raw(
       codec="libfdk_aac",
-      channels=2,
+      channels=6,
       b="96k",
       samplerate=48000,
       afterburner=1,
@@ -28,7 +28,7 @@ let formats.hls.fdkaac = [
     format="mpegts",
     %audio.raw(
       codec="libfdk_aac",
-      channels=2,
+      channels=6,
       b="192k",
       samplerate=48000,
       afterburner=1,

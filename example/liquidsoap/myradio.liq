@@ -16,7 +16,7 @@ input_list = [
   {name="sat_sat1", is_autofallback=true, port=10006},
 ]
 
-aac_encoder = "aac"
+aac_encoder = "fdkaac"
 
 hls_formats = [
   "lofi", "midfi", "hifi"

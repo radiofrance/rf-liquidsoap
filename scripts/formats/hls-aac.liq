@@ -4,9 +4,9 @@ let formats.hls.aac = [
     format="mpegts",
     %audio.raw(
       codec="aac",
-      channels=2,
+      channels=6,
       b="32k",
-      samplerate=48000,
+      samplerate=44100,
       profile="aac_low"
     ))
  ),
@@ -15,9 +15,9 @@ let formats.hls.aac = [
     format="mpegts",
     %audio.raw(
       codec="aac",
-      channels=2,
+      channels=6,
       b="96k",
-      samplerate=48000,
+      samplerate=44100,
       profile="aac_low"
     ))
  ),
@@ -26,9 +26,9 @@ let formats.hls.aac = [
     format="mpegts",
     %audio.raw(
       codec="aac",
-      channels=2,
+      channels=6,
       b="192k",
-      samplerate=48000,
+      samplerate=44100,
       profile="aac_low"
     ))
  )

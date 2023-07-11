@@ -6,9 +6,9 @@ let formats.icecast.mp3 = {
      id3v2_version=0,
      %audio.raw(
        codec="libmp3lame",
-       channels=1,
+       channels=2,
        b="32k",
-       samplerate=48000,
+       samplerate=44100,
        compression_level=2
      ))
     ),
@@ -20,7 +20,7 @@ let formats.icecast.mp3 = {
        codec="libmp3lame",
        channels=2,
        b="128k",
-       samplerate=48000,
+       samplerate=44100,
        compression_level=2
      ))
     )
