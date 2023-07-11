@@ -31,7 +31,7 @@ if file.exists(livesource_state_path) then
 end
 
 def is_playing(n) =
-  fun () -> n == !preferred_live_source
+  fun () -> n == preferred_live_source()
 end
 
 def mk_switch_source(s) =
@@ -46,7 +46,7 @@ live = switch(
 
 def mk_fallback_source(result, s) =
   if s.is_autofallback then
-    [...result, (s.source:source(audio=pcm,video=none,midi=none))]
+    [...result, (s.source:source(audio=pcm))]
   else
     result
   end
@@ -56,9 +56,9 @@ radio_prod = fallback(
   id="fallback_prod",
   track_sensitive=false,
   [
-    (live:source(audio=pcm,video=none,midi=none)),
+    (live:source(audio=pcm)),
     ...list.fold(mk_fallback_source, [], input_sources),
-    (safe_blank:source(audio=pcm,video=none,midi=none))
+    (safe_blank:source(audio=pcm))
   ]
 )
 
