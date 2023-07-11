@@ -5,6 +5,9 @@ settings.log.stdout.set(true)
 # Disable SRT logs
 settings.srt.log.set(false)
 
+# Prevent multiline logs
+settings.console.colorize.set("never")
+
 # Scheduler setting
 # liquidsoap --conf-descr-key scheduler
 # 1 fast queue
