@@ -19,8 +19,7 @@ def mk_source(s) =
       id=(s.name:string),
       max=3.0,
       clock_safe=true,
-      port=s.port,
-      stats_interval=1000
+      port=s.port
     )
 
   # Create the several latency time series for this input
@@ -55,11 +54,15 @@ def mk_source(s) =
     srt_input_packet_loss_create(label_values=[radio_name,"input",s.name])
 
   def update_srt_metrics() =
-    srt_input_bytes_available_set(float(srt_input.stats().byteAvailRcvBuf))
-    srt_input_packet_received_buffer_set(float(srt_input.stats().pktRcvBuf))
-    srt_input_packet_received_set(float(srt_input.stats().pktRecvTotal))
-    srt_input_packet_drop_set(float(srt_input.stats().pktRcvDropTotal))
-    srt_input_packet_loss_set(float(srt_input.stats().pktRcvLossTotal))
+    srt_sockets = srt_input.sockets()
+    if srt_sockets != [] then
+      let [(_, s)] = srt_sockets
+      srt_input_bytes_available_set(float(s.bstats().byteAvailRcvBuf))
+      srt_input_packet_received_buffer_set(float(s.bstats().pktRcvBuf))
+      srt_input_packet_received_set(float(s.bstats().pktRecvTotal))
+      srt_input_packet_drop_set(float(s.bstats().pktRcvDropTotal))
+      srt_input_packet_loss_set(float(s.bstats().pktRcvLossTotal))
+    end
   end
 
   thread.run(
