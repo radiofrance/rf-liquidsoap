@@ -29,10 +29,7 @@ def on_file_change(~state,fname) =
             target ^ "/#{path.basename(fname)}"
           )
         log.important(label="hlssegmentpush",
-                      '{"timestamp": "#{time()}", "request":
-                      "/#{path.basename(fname)}", "response":
-                      "#{uploadsegment.status_code}", "protocol":
-                      "#{uploadsegment.http_version}", "target": "' ^ target ^ '"}')
+                      '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", "response": "#{uploadsegment.status_code}", "protocol": "#{uploadsegment.http_version}", "target": "' ^ target ^ '"}')
         increase_hlssegment_sent_metric(uploadsegment.status_code, 1.)
       end
     end
