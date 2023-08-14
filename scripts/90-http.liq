@@ -10,8 +10,8 @@ def get_livesource(_, response) =
   response.json({
     preferred_output = preferred_live_source(),
     inputs = list.map(fun (s) -> s.name, input_sources),
-    real = real_live_source(),
-    blank = is_blank()
+    real_output = real_live_source(),
+    is_output_blank = is_blank()
   })
 end
 
