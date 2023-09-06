@@ -15,7 +15,7 @@ def segment_name(~position,~extname=_,stream_name) =
 end
 
 def on_file_change(~state,fname) =
-  if state == "closed" and file.extension(fname) != '.m3u8' then
+  if (state == "created" or state == "updated") and file.extension(fname) != '.m3u8' then
     log.info("Segment #{fname} written on disk.")
     def upload_segment(target) = fun () ->
       begin
