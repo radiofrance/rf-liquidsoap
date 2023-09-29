@@ -19,6 +19,9 @@ input_list = [
 aac_encoder = "aac"
 
 hls_formats = [
+  # Add "surround" here to stream in 5.1.
+  # Currently, it should be either "surround" alone
+  # or any of the other formats.
   "lofi", "midfi", "hifi"
 ]
 enable_upload_hls_segments = false
@@ -28,6 +31,9 @@ enable_hls_segments_todo_files = false
 
 icecast_formats = [
   ("aac", [
+    # Add "surround" here to stream in 5.1.
+    # Currently, it should be either "surround" alone
+    # or any of the other formats.
     "lofi", "midfi", "hifi"
   ]),
   ("mp3", [

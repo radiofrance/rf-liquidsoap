@@ -32,6 +32,18 @@ let formats.icecast.aac = {
         samplerate=48000,
         profile="aac_low"
       ))
+   ),
+   ("surround",
+    %ffmpeg(
+      format="adts",
+      %audio.raw(
+        codec="aac",
+        channels=6,
+	channel_layout="5.1",
+        b="192k",
+        samplerate=48000,
+        profile="aac_low"
+      ))
    )
   ],
   file_extension = ".aac"
