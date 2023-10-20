@@ -1,9 +1,9 @@
-let formats.icecast.fdkaac = {
+let formats.stereo.icecast.fdkaac = {
  sub_formats = [
    ("lofi",
     %ffmpeg(
       format="adts",
-      %audio.raw(
+      %audio(
         codec="libfdk_aac",
         channels=2,
         b="32k",
@@ -16,7 +16,7 @@ let formats.icecast.fdkaac = {
    ("midfi",
     %ffmpeg(
       format="adts",
-      %audio.raw(
+      %audio(
         codec="libfdk_aac",
         channels=2,
         b="96k",
@@ -29,7 +29,7 @@ let formats.icecast.fdkaac = {
    ("hifi",
     %ffmpeg(
       format="adts",
-      %audio.raw(
+      %audio(
         codec="libfdk_aac",
         channels=2,
         b="192k",
@@ -39,13 +39,18 @@ let formats.icecast.fdkaac = {
         profile="aac_low"
       ))
    ),
-   ("surround",
+  ],
+  file_extension = ".aac"
+}
+
+let formats.surround.icecast.fdkaac = {
+ sub_formats = [
+   ("hifi",
     %ffmpeg(
       format="adts",
-      %audio.raw(
+      %audio(
         codec="libfdk_aac",
-        channels=6,
-	channel_layout="5.1",
+        channel_layout=5.1,
         b="192k",
         samplerate=48000,
         afterburner=1,

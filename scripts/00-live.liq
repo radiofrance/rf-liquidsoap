@@ -155,8 +155,6 @@ thread.run(
   {set_metric_audio_lufs(radio_prod.lufs())}
 )
 
-radio_prod = ffmpeg.raw.encode.audio(%ffmpeg(%audio.raw), radio_prod)
-
 # Outputs
 
 # HLS Output

@@ -1,8 +1,8 @@
-let formats.hls.fdkaac = [
+let formats.stereo.hls.fdkaac = [
  ("lofi",
   %ffmpeg(
     format="mpegts",
-    %audio.raw(
+    %audio(
       codec="libfdk_aac",
       channels=2,
       b="32k",
@@ -14,7 +14,7 @@ let formats.hls.fdkaac = [
  ("midfi",
   %ffmpeg(
     format="mpegts",
-    %audio.raw(
+    %audio(
       codec="libfdk_aac",
       channels=2,
       b="96k",
@@ -26,7 +26,7 @@ let formats.hls.fdkaac = [
  ("hifi",
   %ffmpeg(
     format="mpegts",
-    %audio.raw(
+    %audio(
       codec="libfdk_aac",
       channels=2,
       b="192k",
@@ -34,14 +34,16 @@ let formats.hls.fdkaac = [
       afterburner=1,
     profile="aac_low"
     ))
- ),
- ("surround",
+ )
+]
+
+let formats.surround.hls.fdkaac = [
+ ("hifi",
   %ffmpeg(
     format="mpegts",
-    %audio.raw(
+    %audio(
       codec="libfdk_aac",
-      channels=6,
-      channel_layout="5.1",
+      channel_layout=5.1,
       b="192k",
       samplerate=48000,
       afterburner=1,

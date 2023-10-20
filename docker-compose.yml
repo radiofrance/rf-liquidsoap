@@ -7,7 +7,7 @@ services:
     - /conf/test.liq
     - /scripts/00-live.liq
     container_name: liquidsoap-test
-    image: savonet/liquidsoap:v2.2.1
+    image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     volumes:
@@ -20,7 +20,7 @@ services:
     - /conf/myradio.liq
     - /scripts/00-live.liq
     container_name: liquidsoap-myradio
-    image: savonet/liquidsoap:v2.2.1
+    image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     restart: unless-stopped
@@ -112,9 +112,10 @@ services:
     - ICECAST_PASSWORD=secret
     - ICECAST_RELAY_PASSWORD=secret
     - ICECAST_HOSTNAME=icecast
+    - ICECAST_MAX_SOURCES=10
     expose:
     - 8000
-    image: moul/icecast
+    image: libretime/icecast
     ports:
     - 8000:8000
 
