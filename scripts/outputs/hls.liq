@@ -77,10 +77,10 @@ def on_file_change(~state,fname) =
                       '{"timestamp": "#{time()}", "file": "#{fname}"}')
       end
     end
-    if enable_upload_hls_segments then
+    if hls_segments_http_post_enable then
       thread.run(fast=false,upload_segment(hls_segments_http_post_target))
     end
-    if enable_hls_segments_todo_files then
+    if hls_segments_enable_todo_files then
       thread.run(fast=false,segment_todo_file())
     end
   end
