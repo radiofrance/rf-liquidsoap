@@ -1,3 +1,4 @@
+# HLS output
 
 available_hls_formats =
   if aac_encoder == "libfdkaac" then
@@ -5,6 +6,38 @@ available_hls_formats =
   else
     formats.hls.aac
   end
+
+## Prometheus metrics
+
+# "hlsssegment_sent" is an output-only metric counting the number of
+# HLS segments sent for each status code.
+# As we don't know all the status codes beforehand we use a assoc list
+# (aka map or dict) named increase_hlssegment_metrics to map status
+# code to time serie and create_hlsssegment_metric as a helper
+# function to dynamically create the time serie if it is not already
+# in the list.
+# These metrics are updated at on_file_change hook of HLS output.
+hlssegment_sent_create =
+  prometheus.counter(
+    labels=["radio","code"],
+    help="Number of HLS segment send to segment-forwarder","liquidsoap_hlssegment_sent"
+  )
+
+increase_hlssegment_metrics = ref([])
+def create_hlssegment_metrics(code, increment) =
+  increase_metric = hlssegment_sent_create(label_values=[radio_name,"#{code}"])
+  increase_hlssegment_metrics := list.add((code, increase_metric), increase_hlssegment_metrics())
+  increase_metric(increment)
+end
+def increase_hlssegment_sent_metric(code, increment) =
+  def default(increment) =
+    create_hlssegment_metrics(code, increment)
+  end
+  increase_metric = list.assoc(default=default, code, increase_hlssegment_metrics())
+  increase_metric(increment)
+end
+
+## HLS segments
 
 def segment_name(~position,~extname=_,stream_name) =
   segment_timestamp = int_of_float(time())

@@ -3,8 +3,6 @@
 %include "10-settings.liq"
 %include "20-prometheus.liq"
 %include "30-formats.liq"
-%include "40-icecast.liq"
-%include "50-hls.liq"
 %include "60-core.liq"
 
 #############################
@@ -155,12 +153,5 @@ thread.run(
   {set_metric_audio_lufs(radio_prod.lufs())}
 )
 
-# Outputs
-
-# HLS Output
-mk_hls_output(hls_formats, radio_prod)
-
-# Icecast Output
-mk_icecast_outputs(icecast_formats, radio_prod)
-
+%include "80-outputs.liq"
 %include "90-http.liq"
