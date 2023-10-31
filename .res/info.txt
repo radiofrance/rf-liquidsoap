@@ -1,23 +1,35 @@
 Useful URLs and exposed services with default configuration.
 
 # Liquidsoap container (liquidsoap-myradio)
-http://127.0.0.1:6001/metrics     # Liquidsoap Prometheus Metrics
-http://127.0.0.1:7000/livesource  # Liquidsoap HTTP API
-srt://127.0.0.1:10000             # Liquidsoap SRT input port voieA_caller1
-srt://127.0.0.1:10001             # Liquidsoap SRT input port voieA_caller2
-srt://127.0.0.1:10002             # Liquidsoap SRT input port voieB_caller1
-srt://127.0.0.1:10003             # Liquidsoap SRT input port voieB_caller2
-srt://127.0.0.1:10004             # Liquidsoap SRT input port override_caller1
-srt://127.0.0.1:10005             # Liquidsoap SRT input port override_caller2
-srt://127.0.0.1:10006             # Liquidsoap SRT input port sat_sat1
+http://127.0.0.1:6001/metrics     # Liquidsoap (myradio) Prometheus Metrics
+http://127.0.0.1:7000/livesource  # Liquidsoap (myradio) HTTP API
+srt://127.0.0.1:10000             # Liquidsoap (myradio) SRT input port voieA_caller1
+srt://127.0.0.1:10001             # Liquidsoap (myradio) SRT input port voieA_caller2
+srt://127.0.0.1:10002             # Liquidsoap (myradio) SRT input port voieB_caller1
+srt://127.0.0.1:10003             # Liquidsoap (myradio) SRT input port voieB_caller2
+srt://127.0.0.1:10004             # Liquidsoap (myradio) SRT input port override_caller1
+srt://127.0.0.1:10005             # Liquidsoap (myradio) SRT input port override_caller2
+srt://127.0.0.1:10006             # Liquidsoap (myradio) SRT input port sat_sat1
+
+# Liquidsoap container (liquidsoap-myradiosurround)
+http://127.0.0.1:6011/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
+http://127.0.0.1:7010/livesource  # Liquidsoap (myradiosurround) HTTP API
+srt://127.0.0.1:10010             # Liquidsoap (myradiosurround) SRT input port voieA_caller1
+srt://127.0.0.1:10011             # Liquidsoap (myradiosurround) SRT input port voieA_caller2
+srt://127.0.0.1:10012             # Liquidsoap (myradiosurround) SRT input port voieB_caller1
+srt://127.0.0.1:10013             # Liquidsoap (myradiosurround) SRT input port voieB_caller2
+srt://127.0.0.1:10014             # Liquidsoap (myradiosurround) SRT input port override_caller1
+srt://127.0.0.1:10015             # Liquidsoap (myradiosurround) SRT input port override_caller2
+srt://127.0.0.1:10016             # Liquidsoap (myradiosurround) SRT input port sat_sat1
 
 # Icecast2
-http://127.0.0.1:8000                    # Icecast status and mountpoints
-http://127.0.0.1:8000/myradio-hifi.aac   # Icecast mountpoint (AAC hifi)
-http://127.0.0.1:8000/myradio-midfi.aac  # Icecast mountpoint (AAC midfi)
-http://127.0.0.1:8000/myradio-lofi.aac   # Icecast mountpoint (AAC lofi)
-http://127.0.0.1:8000/myradio-midfi.mp3  # Icecast mountpoint (MP3 midfi)
-http://127.0.0.1:8000/myradio-lofi.mp3   # Icecast mountpoint (MP3 lofi)
+http://127.0.0.1:8000                            # Icecast status and mountpoints
+http://127.0.0.1:8000/myradio-hifi.aac           # Icecast mountpoint (AAC hifi)
+http://127.0.0.1:8000/myradio-midfi.aac          # Icecast mountpoint (AAC midfi)
+http://127.0.0.1:8000/myradio-lofi.aac           # Icecast mountpoint (AAC lofi)
+http://127.0.0.1:8000/myradio-midfi.mp3          # Icecast mountpoint (MP3 midfi)
+http://127.0.0.1:8000/myradio-lofi.mp3           # Icecast mountpoint (MP3 lofi)
+http://127.0.0.1:8000/myradiosurround-hifi.aac   # Icecast mountpoint (AAC hifi surround)
 
 # NGINX (HLS, only AAC audio)
 http://127.0.0.1:8080                             # Browse HLS files
@@ -25,6 +37,7 @@ http://127.0.0.1:8080/myradio/myradio.m3u8        # HLS playlist
 http://127.0.0.1:8080/myradio/myradio_hifi.m3u8   # HLS playlist (enforce hifi)
 http://127.0.0.1:8080/myradio/myradio_midfi.m3u8  # HLS playlist (enforce midfi)
 http://127.0.0.1:8080/myradio/myradio_lofi.m3u8   # HLS playlist (enforce lofi)
+http://127.0.0.1:8080/myradiosurround/myradiosurround_hifi.m3u8   # HLS playlist (enforce lofi)
 
 # Prometheus
 http://127.0.0.1:9090           # Prometheus web interface

@@ -16,18 +16,25 @@ input_list = [
   {name="sat_sat1", is_autofallback=true, port=10006},
 ]
 
-formats_picker = fun (formats) -> formats.surround
+formats_picker = fun (formats) -> formats.stereo
 
 aac_encoder = "aac"
 
-hls_formats = ["hifi"]
+hls_formats = [
+  "lofi", "midfi", "hifi"
+]
 enable_upload_hls_segments = false
 hls_segments_http_post_target = "http://segmentforwarder"
 
 enable_hls_segments_todo_files = false
 
 icecast_formats = [
-  ("aac", ["hifi"])
+  ("aac", [
+    "lofi", "midfi", "hifi"
+  ]),
+  ("mp3", [
+    "lofi", "midfi"
+  ])
 ]
 
 prometheus_server_port = 6001
