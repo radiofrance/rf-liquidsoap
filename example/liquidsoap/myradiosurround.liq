@@ -1,11 +1,14 @@
 radio_name = "myradiosurround"
-hls_segments_http_post_origin = "hostname"
 
-hls_state_path = "/state/#{radio_name}.hlsstate"
-livesource_state_path = "/state/#{radio_name}.livesourcestate"
+# Radio settings
+formats_picker = fun (formats) -> formats.surround
+aac_encoder = "aac"
+harbor_http_port = 7010
+prometheus_server_port = 6011
+liquidsoap_log_level = 3
 
-hls_segments_directory = "/tmp/#{radio_name}"
 
+# SRT inputs configuration
 input_list = [
   {name="voieA_caller1", is_autofallback=true, port=10010},
   {name="voieA_caller2", is_autofallback=true, port=10011},
@@ -15,24 +18,24 @@ input_list = [
   {name="override_caller2", is_autofallback=false, port=10015},
   {name="sat_sat1", is_autofallback=true, port=10016},
 ]
+livesource_state_path = "/state/#{radio_name}.livesourcestate"
 
-formats_picker = fun (formats) -> formats.surround
 
-aac_encoder = "aac"
-
-hls_formats = ["hifi"]
-enable_upload_hls_segments = false
-hls_segments_http_post_target = "http://segmentforwarder"
-
+# HLS output configuration
+hls_segments_directory = "/tmp/#{radio_name}"
+hls_state_path = "/state/#{radio_name}.hlsstate"
 enable_hls_segments_todo_files = false
-
-icecast_formats = [
-  ("aac", ["hifi"])
+enable_upload_hls_segments = false
+hls_segments_http_post_origin = "hostname"
+hls_segments_http_post_target = "http://segmentforwarder"
+hls_formats = [
+  "hifi"
 ]
 
-prometheus_server_port = 6011
-harbor_http_port = 7010
+# ICECAST output configuration
 icecast_host = "icecast"
 icecast_port = 8000
 icecast_password = "secret"
-liquidsoap_log_level = 3
+icecast_formats = [
+  ("aac", ["hifi"])
+]
