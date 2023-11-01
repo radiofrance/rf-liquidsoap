@@ -1,18 +1,31 @@
 version: "3.3"
 services:
-  # Test validity of liquidsoap configuration
-  liquidsoap-test:
+  # Test validity of liquidsoap configurations
+  liquidsoap-test-transcoder:
     command:
     - -c
-    - /conf/test.liq
+    - /conf/myradio.liq
     - /scripts/transcoder/00-live.liq
-    container_name: liquidsoap-test
+    container_name: liquidsoap-test-transcoder
     image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     volumes:
-    - ./tests/liquidsoap/:/conf/:ro
+    - ./example/liquidsoap/:/conf/:ro
     - ./scripts/transcoder/:/scripts/transcoder/:ro
+
+  liquidsoap-test-streamer:
+    command:
+    - -c
+    - /conf/mystreamer.liq
+    - /scripts/streamer/00-live.liq
+    container_name: liquidsoap-test-streamer
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    volumes:
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/streamer/:/scripts/streamer/:ro
 
   # Run liquidsoap and create "myradio" stream
   liquidsoap-myradio:
@@ -128,20 +141,38 @@ services:
     - default
     restart: unless-stopped
 
-  # Feed liquidsoap with an example SRT source (https://modular-station.com/)
+  # Feed liquidsoap with an example SRT source with liquidsoap (local playlist)
+  source-mystreamer:
+    command:
+    - /conf/mystreamer.liq
+    - /scripts/streamer/00-live.liq
+    container_name: source-mystreamer
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    restart: unless-stopped
+    ports:
+    - 6021:6021/tcp
+    - 7020:7020/tcp
+    volumes:
+    - ./example/audio/:/audio/:ro
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/streamer/:/scripts/streamer/:ro
+
+  # Feed liquidsoap with an example SRT source (local file)
   source-surround:
     command:
     - /usr/bin/ffmpeg
     - -hide_banner
     - -re
     - -i
-    - /audio/CHANNEL_ORDER_TEST_MUSIC_MULTI_5.1_-23LUFS.wav
+    - /audio/lib/CHANNEL_ORDER_TEST_MUSIC_MULTI_5.1_-23LUFS.wav
     - -vn
     - -f
     - wav
     - -codec:a
     - pcm_s24le
-    - "srt://liquidsoap-myradiosurround:10010" # voieA_caller1
+    - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
     container_name: source-surround
     entrypoint: []
     image: savonet/liquidsoap:rolling-release-v2.2.x

@@ -16,7 +16,8 @@ scrape_configs:
   static_configs:
   - targets: [
       'liquidsoap-myradio:6001',
-      'liquidsoap-myradiosurround:6001',
+      'liquidsoap-myradiosurround:6011',
+      'liquidsoap-mystreamer:6021',
     ]
 
 - job_name: 'prometheus'
