@@ -45,5 +45,16 @@ let formats.surround.hls.aac = [
       samplerate=48000,
       profile="aac_low"
     ))
+ ),
+ ("insane",
+  %ffmpeg(
+    format="mpegts",
+    %audio(
+      codec="aac",
+      channel_layout=5.1,
+      b="320k",
+      samplerate=48000,
+      profile="aac_low"
+    ))
  )
 ]

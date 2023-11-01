@@ -57,6 +57,19 @@ let formats.surround.icecast.fdkaac = {
         eld_sbr=0,
         profile="aac_low"
       ))
+   ),
+   ("insane",
+    %ffmpeg(
+      format="adts",
+      %audio(
+        codec="libfdk_aac",
+        channel_layout=5.1,
+        b="320k",
+        samplerate=48000,
+        afterburner=1,
+        eld_sbr=0,
+        profile="aac_low"
+      ))
    )
   ],
   file_extension = ".aac"

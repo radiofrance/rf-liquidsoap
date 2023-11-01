@@ -37,5 +37,5 @@ icecast_host = "icecast"
 icecast_port = 8000
 icecast_password = "secret"
 icecast_formats = [
-  ("aac", ["hifi"])
+  ("aac", ["insane"])
 ]
