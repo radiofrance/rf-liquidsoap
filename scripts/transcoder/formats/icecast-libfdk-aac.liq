@@ -51,7 +51,7 @@ let formats.surround.icecast.fdkaac = {
       %audio(
         codec="libfdk_aac",
         channel_layout=5.1,
-        b="192k",
+        b="256k",
         samplerate=48000,
         afterburner=1,
         eld_sbr=0,

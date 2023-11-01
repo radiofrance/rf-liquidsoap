@@ -2,7 +2,7 @@ radio_name = "myradiosurround"
 
 # Radio settings
 formats_picker = fun (formats) -> formats.surround
-aac_encoder = "aac"
+aac_encoder = "fdkaac"
 harbor_http_port = 7010
 prometheus_server_port = 9011
 liquidsoap_log_level = 3

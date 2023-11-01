@@ -49,5 +49,8 @@ http://127.0.0.1:9090           # Prometheus web interface
 # Grafana (default credentials: admin / admin)
 http://127.0.0.1:3000           # Grafana web interface
 
-# Switch livesource (please replace override_caller1 with anything you need)
+# Switch livesource for myradio (please replace override_caller1 with anything you need)
 curl -s -d override_caller1 http://127.0.0.1:7000/livesource
+
+# Switch livesource for myradiosurround (please replace override_caller1 with anything you need)
+curl -s -d override_caller1 http://127.0.0.1:7010/livesource
