@@ -5,20 +5,20 @@ services:
     command:
     - -c
     - /conf/test.liq
-    - /scripts/00-live.liq
+    - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test
     image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     volumes:
     - ./tests/liquidsoap/:/conf/:ro
-    - ./scripts/:/scripts/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
 
   # Run liquidsoap and create "myradio" stream
   liquidsoap-myradio:
     command:
     - /conf/myradio.liq
-    - /scripts/00-live.liq
+    - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
     image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
@@ -36,14 +36,14 @@ services:
     - 10006:10006/tcp
     volumes:
     - ./example/liquidsoap/:/conf/:ro
-    - ./scripts/:/scripts/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
     - data_hls:/tmp/
     - data_liquidsoap:/state/
 
   liquidsoap-myradiosurround:
     command:
     - /conf/myradiosurround.liq
-    - /scripts/00-live.liq
+    - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradiosurround
     image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
@@ -61,7 +61,7 @@ services:
     - 10016:10016/tcp
     volumes:
     - ./example/liquidsoap/:/conf/:ro
-    - ./scripts/:/scripts/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
     - data_hls:/tmp/
     - data_liquidsoap:/state/
 
