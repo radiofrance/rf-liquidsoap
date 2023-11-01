@@ -38,7 +38,7 @@ services:
     - default
     restart: unless-stopped
     ports:
-    - 6001:6001/tcp
+    - 9001:9001/tcp
     - 7000:7000/tcp
     - 10000:10000/tcp
     - 10001:10001/tcp
@@ -63,7 +63,7 @@ services:
     - default
     restart: unless-stopped
     ports:
-    - 6011:6011/tcp
+    - 9011:9011/tcp
     - 7010:7010/tcp
     - 10010:10010/tcp
     - 10011:10011/tcp
@@ -152,7 +152,7 @@ services:
     - default
     restart: unless-stopped
     ports:
-    - 6021:6021/tcp
+    - 9021:9021/tcp
     - 7020:7020/tcp
     volumes:
     - ./example/audio/:/audio/:ro

@@ -4,7 +4,7 @@ radio_name = "myradio"
 formats_picker = fun (formats) -> formats.stereo
 aac_encoder = "aac"
 harbor_http_port = 7000
-prometheus_server_port = 6001
+prometheus_server_port = 9001
 liquidsoap_log_level = 3
 
 

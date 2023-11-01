@@ -14,11 +14,10 @@ scrape_configs:
 - job_name: 'liquidsoap'
   scrape_interval: 5s
   static_configs:
-  - targets: [
-      'liquidsoap-myradio:6001',
-      'liquidsoap-myradiosurround:6011',
-      'liquidsoap-mystreamer:6021',
-    ]
+  - targets:
+    - liquidsoap-myradio:9001
+    - liquidsoap-myradiosurround:9011
+    - liquidsoap-mystreamer:9021
 
 - job_name: 'prometheus'
   scrape_interval: 10s

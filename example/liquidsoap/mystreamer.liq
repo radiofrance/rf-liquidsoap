@@ -2,7 +2,7 @@ streamer_name = "mystreamer"
 
 # Radio settings
 harbor_http_port = 7020
-prometheus_server_port = 6021
+prometheus_server_port = 9021
 liquidsoap_log_level = 3
 
 # Inputs configuration

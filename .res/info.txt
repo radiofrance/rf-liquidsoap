@@ -1,7 +1,7 @@
 Useful URLs and exposed services with default configuration.
 
 # Liquidsoap transcoder (liquidsoap-myradio)
-http://127.0.0.1:6001/metrics     # Liquidsoap (myradio) Prometheus Metrics
+http://127.0.0.1:9001/metrics     # Liquidsoap (myradio) Prometheus Metrics
 http://127.0.0.1:7000/livesource  # Liquidsoap (myradio) HTTP API
 srt://127.0.0.1:10000             # Liquidsoap (myradio) SRT input port voieA_caller1
 srt://127.0.0.1:10001             # Liquidsoap (myradio) SRT input port voieA_caller2
@@ -12,7 +12,7 @@ srt://127.0.0.1:10005             # Liquidsoap (myradio) SRT input port override
 srt://127.0.0.1:10006             # Liquidsoap (myradio) SRT input port sat_sat1
 
 # Liquidsoap transcoder surround (liquidsoap-myradiosurround)
-http://127.0.0.1:6011/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
+http://127.0.0.1:9011/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
 http://127.0.0.1:7010/livesource  # Liquidsoap (myradiosurround) HTTP API
 srt://127.0.0.1:10010             # Liquidsoap (myradiosurround) SRT input port voieA_caller1
 srt://127.0.0.1:10011             # Liquidsoap (myradiosurround) SRT input port voieA_caller2
@@ -23,7 +23,7 @@ srt://127.0.0.1:10015             # Liquidsoap (myradiosurround) SRT input port 
 srt://127.0.0.1:10016             # Liquidsoap (myradiosurround) SRT input port sat_sat1
 
 # Liquidsoap streamer (source-mystreamer)
-http://127.0.0.1:6021/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
+http://127.0.0.1:9021/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
 http://127.0.0.1:7020/livesource  # Liquidsoap (myradiosurround) HTTP API
 
 # Icecast2
