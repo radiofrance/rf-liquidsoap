@@ -34,6 +34,18 @@ let formats.stereo.hls.fdkaac = [
       afterburner=1,
     profile="aac_low"
     ))
+ ),
+ ("insane",
+  %ffmpeg(
+    format="mpegts",
+    %audio(
+      codec="libfdk_aac",
+      channels=2,
+      b="320k",
+      samplerate=48000,
+      afterburner=1,
+    profile="aac_low"
+    ))
  )
 ]
 

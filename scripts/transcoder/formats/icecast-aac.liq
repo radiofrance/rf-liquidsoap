@@ -33,6 +33,17 @@ let formats.stereo.icecast.aac = {
         profile="aac_low"
       ))
    ),
+   ("insane",
+    %ffmpeg(
+      format="adts",
+      %audio(
+        codec="aac",
+        channels=2,
+        b="320k",
+        samplerate=48000,
+        profile="aac_low"
+      ))
+   ),
   ],
   file_extension = ".aac"
 }

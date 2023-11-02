@@ -31,6 +31,17 @@ let formats.stereo.hls.aac = [
       samplerate=48000,
       profile="aac_low"
     ))
+ ),
+ ("insane",
+  %ffmpeg(
+    format="mpegts",
+    %audio(
+      codec="aac",
+      channels=2,
+      b="320k",
+      samplerate=48000,
+      profile="aac_low"
+    ))
  )
 ]
 
