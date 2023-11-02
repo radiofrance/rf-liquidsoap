@@ -12,11 +12,18 @@ artifact: ## Build binary artifact
 	@md5sum rf-liquidsoap-$(version).tar.gz
 
 test: ## Run test on the liquidsoap configuration
-	@docker compose up liquidsoap-test
+	@docker compose up liquidsoap-test-transcoder liquidsoap-test-streamer
 
-reload: ## Update containers if needed and restart liquidsoap
+reload: ## Update containers if needed and restart all liquidsoaps
 	@docker compose up -d
-	@docker compose restart liquidsoap-test liquidsoap-myradio liquidsoap-myradiosurround
+	@docker compose restart liquidsoap-test-transcoder liquidsoap-test-streamer
+	@docker compose restart liquidsoap-myradio liquidsoap-myradiosurround source-mystreamer
+	@docker compose ps
+	@docker compose logs -f
+
+reload-streamer: ## Update containers if needed and restart source-mystreamer
+	@docker compose up -d
+	@docker compose restart source-mystreamer
 	@docker compose ps
 	@docker compose logs -f
 

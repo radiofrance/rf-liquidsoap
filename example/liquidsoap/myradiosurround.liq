@@ -2,9 +2,9 @@ radio_name = "myradiosurround"
 
 # Radio settings
 formats_picker = fun (formats) -> formats.surround
-aac_encoder = "aac"
+aac_encoder = "fdkaac"
 harbor_http_port = 7010
-prometheus_server_port = 6011
+prometheus_server_port = 9011
 liquidsoap_log_level = 3
 
 
@@ -24,7 +24,7 @@ livesource_state_path = "/state/#{radio_name}.livesourcestate"
 # HLS output configuration
 hls_segments_directory = "/tmp/#{radio_name}"
 hls_segments_enable_todo_files = false
-hls_state_path = "/state/#{radio_name}.hlsstate"
+hls_state_path = "/tmp/#{radio_name}.hlsstate"
 hls_segments_http_post_enable = false
 hls_segments_http_post_origin = "hostname"
 hls_segments_http_post_target = "http://segmentforwarder"
@@ -37,5 +37,5 @@ icecast_host = "icecast"
 icecast_port = 8000
 icecast_password = "secret"
 icecast_formats = [
-  ("aac", ["hifi"])
+  ("aac", ["insane"])
 ]

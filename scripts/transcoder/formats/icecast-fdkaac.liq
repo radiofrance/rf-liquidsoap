@@ -39,6 +39,19 @@ let formats.stereo.icecast.fdkaac = {
         profile="aac_low"
       ))
    ),
+   ("insane",
+    %ffmpeg(
+      format="adts",
+      %audio(
+        codec="libfdk_aac",
+        channels=2,
+        b="320k",
+        samplerate=48000,
+        afterburner=1,
+        eld_sbr=0,
+        profile="aac_low"
+      ))
+   ),
   ],
   file_extension = ".aac"
 }
@@ -51,7 +64,20 @@ let formats.surround.icecast.fdkaac = {
       %audio(
         codec="libfdk_aac",
         channel_layout=5.1,
-        b="192k",
+        b="256k",
+        samplerate=48000,
+        afterburner=1,
+        eld_sbr=0,
+        profile="aac_low"
+      ))
+   ),
+   ("insane",
+    %ffmpeg(
+      format="adts",
+      %audio(
+        codec="libfdk_aac",
+        channel_layout=5.1,
+        b="320k",
         samplerate=48000,
         afterburner=1,
         eld_sbr=0,

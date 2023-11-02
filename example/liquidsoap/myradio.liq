@@ -4,7 +4,7 @@ radio_name = "myradio"
 formats_picker = fun (formats) -> formats.stereo
 aac_encoder = "aac"
 harbor_http_port = 7000
-prometheus_server_port = 6001
+prometheus_server_port = 9001
 liquidsoap_log_level = 3
 
 
@@ -24,7 +24,7 @@ livesource_state_path = "/state/#{radio_name}.livesourcestate"
 # HLS output configuration
 hls_segments_directory = "/tmp/#{radio_name}"
 hls_segments_enable_todo_files = false
-hls_state_path = "/state/#{radio_name}.hlsstate"
+hls_state_path = "/tmp/#{radio_name}.hlsstate"
 hls_segments_http_post_enable = false
 hls_segments_http_post_origin = "hostname"
 hls_segments_http_post_target = "http://segmentforwarder"
