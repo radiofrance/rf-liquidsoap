@@ -1,3 +1,4 @@
+# Icecast output
 icecast_aac_encoder =
   if aac_encoder == "libfdkaac" then
     formats.icecast.fdkaac

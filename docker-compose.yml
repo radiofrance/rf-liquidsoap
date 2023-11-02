@@ -7,7 +7,7 @@ services:
     - /conf/test.liq
     - /scripts/00-live.liq
     container_name: liquidsoap-test
-    image: savonet/liquidsoap:v2.2.1
+    image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     volumes:
@@ -20,7 +20,7 @@ services:
     - /conf/myradio.liq
     - /scripts/00-live.liq
     container_name: liquidsoap-myradio
-    image: savonet/liquidsoap:v2.2.1
+    image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     restart: unless-stopped
@@ -34,6 +34,31 @@ services:
     - 10004:10004/tcp
     - 10005:10005/tcp
     - 10006:10006/tcp
+    volumes:
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/:/scripts/:ro
+    - data_hls:/tmp/
+    - data_liquidsoap:/state/
+
+  liquidsoap-myradiosurround:
+    command:
+    - /conf/myradiosurround.liq
+    - /scripts/00-live.liq
+    container_name: liquidsoap-myradiosurround
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    restart: unless-stopped
+    ports:
+    - 6011:6011/tcp
+    - 7010:7010/tcp
+    - 10010:10010/tcp
+    - 10011:10011/tcp
+    - 10012:10012/tcp
+    - 10013:10013/tcp
+    - 10014:10014/tcp
+    - 10015:10015/tcp
+    - 10016:10016/tcp
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/:/scripts/:ro
@@ -56,7 +81,7 @@ services:
     - "srt://liquidsoap-myradio:10000" # voieA_caller1
     container_name: source-voieA-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.2.1
+    image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     restart: unless-stopped
@@ -77,7 +102,7 @@ services:
     - "srt://liquidsoap-myradio:10002" # voieB_caller1
     container_name: source-voieB-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.2.1
+    image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     restart: unless-stopped
@@ -98,10 +123,33 @@ services:
     - "srt://liquidsoap-myradio:10004" # override_caller1
     container_name: source-override-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.2.1
+    image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     restart: unless-stopped
+
+  # Feed liquidsoap with an example SRT source (https://modular-station.com/)
+  source-surround:
+    command:
+    - /usr/bin/ffmpeg
+    - -hide_banner
+    - -re
+    - -i
+    - /audio/CHANNEL_ORDER_TEST_MUSIC_MULTI_5.1_-23LUFS.wav
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s24le
+    - "srt://liquidsoap-myradiosurround:10010" # voieA_caller1
+    container_name: source-surround
+    entrypoint: []
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    restart: unless-stopped
+    volumes:
+    - ./example/audio/:/audio/:ro
 
   # Streaming services: icecast
   icecast:
@@ -112,9 +160,10 @@ services:
     - ICECAST_PASSWORD=secret
     - ICECAST_RELAY_PASSWORD=secret
     - ICECAST_HOSTNAME=icecast
+    - ICECAST_MAX_SOURCES=10
     expose:
     - 8000
-    image: moul/icecast
+    image: libretime/icecast
     ports:
     - 8000:8000
 

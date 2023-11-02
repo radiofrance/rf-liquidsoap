@@ -1,8 +1,8 @@
-let formats.hls.aac = [
+let formats.stereo.hls.aac = [
  ("lofi",
   %ffmpeg(
     format="mpegts",
-    %audio.raw(
+    %audio(
       codec="aac",
       channels=2,
       b="32k",
@@ -13,7 +13,7 @@ let formats.hls.aac = [
  ("midfi",
   %ffmpeg(
     format="mpegts",
-    %audio.raw(
+    %audio(
       codec="aac",
       channels=2,
       b="96k",
@@ -24,9 +24,23 @@ let formats.hls.aac = [
  ("hifi",
   %ffmpeg(
     format="mpegts",
-    %audio.raw(
+    %audio(
       codec="aac",
       channels=2,
+      b="192k",
+      samplerate=48000,
+      profile="aac_low"
+    ))
+ )
+]
+
+let formats.surround.hls.aac = [
+ ("hifi",
+  %ffmpeg(
+    format="mpegts",
+    %audio(
+      codec="aac",
+      channel_layout=5.1,
       b="192k",
       samplerate=48000,
       profile="aac_low"
