@@ -1,31 +1,9 @@
 version: "3.3"
 services:
-  # Test validity of liquidsoap configurations
-  liquidsoap-test-transcoder:
-    command:
-    - -c
-    - /conf/myradio.liq
-    - /scripts/transcoder/00-live.liq
-    container_name: liquidsoap-test-transcoder
-    image: savonet/liquidsoap:rolling-release-v2.2.x
-    networks:
-    - default
-    volumes:
-    - ./example/liquidsoap/:/conf/:ro
-    - ./scripts/transcoder/:/scripts/transcoder/:ro
 
-  liquidsoap-test-streamer:
-    command:
-    - -c
-    - /conf/mystreamer.liq
-    - /scripts/streamer/00-live.liq
-    container_name: liquidsoap-test-streamer
-    image: savonet/liquidsoap:rolling-release-v2.2.x
-    networks:
-    - default
-    volumes:
-    - ./example/liquidsoap/:/conf/:ro
-    - ./scripts/streamer/:/scripts/streamer/:ro
+  ###############
+  # TRANSCODERS #
+  ###############
 
   # Run liquidsoap and create "myradio" stream
   liquidsoap-myradio:
@@ -78,7 +56,11 @@ services:
     - data_hls:/tmp/
     - data_liquidsoap:/state/
 
-  # Feed liquidsoap with an example SRT source (https://modular-station.com/)
+  ###############
+  # SRT SOURCES #
+  ###############
+
+  # Feed myradio with an example SRT source (https://modular-station.com/)
   source-voieA-caller1:
     command:
     - /usr/bin/ffmpeg
@@ -99,7 +81,7 @@ services:
     - default
     restart: unless-stopped
 
-  # Feed liquidsoap with an example SRT source (https://p-node.org/)
+  # Feed myradio with an example SRT source (https://p-node.org/)
   source-voieB-caller1:
     command:
     - /usr/bin/ffmpeg
@@ -120,7 +102,7 @@ services:
     - default
     restart: unless-stopped
 
-  # Feed liquidsoap with an example SRT source (https://datafruits.fm)
+  # Feed myradio with an example override SRT source (https://datafruits.fm)
   source-override-caller1:
     command:
     - /usr/bin/ffmpeg
@@ -141,26 +123,27 @@ services:
     - default
     restart: unless-stopped
 
-  # Feed liquidsoap with an example SRT source with liquidsoap (local playlist)
-  source-mystreamer:
+  # Feed myradiosurround with an example 5.1 SRT source with liquidsoap
+  # (local playlist)
+  source-mystreamersurround:
     command:
-    - /conf/mystreamer.liq
+    - /conf/mystreamersurround.liq
     - /scripts/streamer/00-live.liq
-    container_name: source-mystreamer
+    container_name: source-mystreamersurround
     image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
     - default
     restart: unless-stopped
     ports:
-    - 9021:9021/tcp
-    - 7020:7020/tcp
+    - 9031:9031/tcp
+    - 7030:7030/tcp
     volumes:
     - ./example/audio/:/audio/:ro
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/streamer/:/scripts/streamer/:ro
 
   # Feed liquidsoap with an example SRT source (local file)
-  source-surround:
+  source-ffmpegsurround:
     command:
     - /usr/bin/ffmpeg
     - -hide_banner
@@ -173,7 +156,7 @@ services:
     - -codec:a
     - pcm_s24le
     - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
-    container_name: source-surround
+    container_name: source-ffmpegsurround
     entrypoint: []
     image: savonet/liquidsoap:rolling-release-v2.2.x
     networks:
@@ -182,7 +165,11 @@ services:
     volumes:
     - ./example/audio/:/audio/:ro
 
-  # Streaming services: icecast
+  #####################
+  # STREAMING SERVERS #
+  #####################
+
+  # Icecast
   icecast:
     container_name: icecast
     environment:
@@ -198,7 +185,7 @@ services:
     ports:
     - 8000:8000
 
-  # Streaming services: hls (nginx)
+  # HLS (nginx)
   hls:
     container_name: hls
     expose:
@@ -213,7 +200,11 @@ services:
     - ./example/nginx/:/etc/nginx/conf.d/:ro
     - data_hls:/hls:ro
 
-  # Monitoring
+  ##############
+  # MONITORING #
+  ##############
+
+  # Dashboards
   grafana:
     container_name: grafana
     depends_on:
@@ -234,6 +225,8 @@ services:
     volumes:
     - ./example/grafana/provisioning:/etc/grafana/provisioning:ro
     - data_grafana:/var/lib/grafana
+
+  # Collector
   prometheus:
     command:
     - '--config.file=/etc/prometheus/prometheus.yml'
@@ -276,7 +269,7 @@ services:
   #   volumes:
   #   - ./example/alertmanager:/etc/alertmanager
 
-  # Container metrics
+  # Container / system metrics
   # cadvisor:
   #   container_name: cadvisor
   #   depends_on:
@@ -294,6 +287,63 @@ services:
   #   image: redis:latest
   #   ports:
   #   - 6379:6379
+
+  #########
+  # TESTS #
+  #########
+
+  # Test validity of liquidsoap configurations
+  liquidsoap-test-transcoder-stereo:
+    command:
+    - -c
+    - /conf/myradio.liq
+    - /scripts/transcoder/00-live.liq
+    container_name: liquidsoap-test-transcoder-stereo
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    volumes:
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
+
+  liquidsoap-test-transcoder-surround:
+    command:
+    - -c
+    - /conf/myradiosurround.liq
+    - /scripts/transcoder/00-live.liq
+    container_name: liquidsoap-test-transcoder-surround
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    volumes:
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
+
+  liquidsoap-test-streamer-stereo:
+    command:
+    - -c
+    - /conf/mystreamer.liq
+    - /scripts/streamer/00-live.liq
+    container_name: liquidsoap-test-streamer-stereo
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    volumes:
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/streamer/:/scripts/streamer/:ro
+
+  liquidsoap-test-streamer-surround:
+    command:
+    - -c
+    - /conf/mystreamersurround.liq
+    - /scripts/streamer/00-live.liq
+    container_name: liquidsoap-test-streamer-surround
+    image: savonet/liquidsoap:rolling-release-v2.2.x
+    networks:
+    - default
+    volumes:
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/streamer/:/scripts/streamer/:ro
 
 volumes:
   data_grafana: {}
