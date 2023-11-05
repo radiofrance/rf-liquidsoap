@@ -22,7 +22,7 @@ srt://127.0.0.1:10014             # Liquidsoap (myradiosurround) SRT input port 
 srt://127.0.0.1:10015             # Liquidsoap (myradiosurround) SRT input port override_caller2
 srt://127.0.0.1:10016             # Liquidsoap (myradiosurround) SRT input port sat_sat1
 
-# Liquidsoap streamer (source-mystreamer)
+# Liquidsoap surround SRT streamer (source-mystreamersurround)
 http://127.0.0.1:9021/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
 http://127.0.0.1:7020/livesource  # Liquidsoap (myradiosurround) HTTP API
 
@@ -33,7 +33,7 @@ http://127.0.0.1:8000/myradio-midfi.aac          # Icecast mountpoint (AAC midfi
 http://127.0.0.1:8000/myradio-lofi.aac           # Icecast mountpoint (AAC lofi)
 http://127.0.0.1:8000/myradio-midfi.mp3          # Icecast mountpoint (MP3 midfi)
 http://127.0.0.1:8000/myradio-lofi.mp3           # Icecast mountpoint (MP3 lofi)
-http://127.0.0.1:8000/myradiosurround-hifi.aac   # Icecast mountpoint (AAC hifi surround)
+http://127.0.0.1:8000/myradiosurround-insane.aac # Icecast mountpoint (AAC insane 320kbps 5.1)
 
 # NGINX (HLS, only AAC audio)
 http://127.0.0.1:8080                             # Browse HLS files
@@ -41,7 +41,9 @@ http://127.0.0.1:8080/myradio/myradio.m3u8        # HLS playlist
 http://127.0.0.1:8080/myradio/myradio_hifi.m3u8   # HLS playlist (enforce hifi)
 http://127.0.0.1:8080/myradio/myradio_midfi.m3u8  # HLS playlist (enforce midfi)
 http://127.0.0.1:8080/myradio/myradio_lofi.m3u8   # HLS playlist (enforce lofi)
-http://127.0.0.1:8080/myradiosurround/myradiosurround_hifi.m3u8   # HLS playlist (enforce lofi)
+
+http://127.0.0.1:8080/myradiosurround/myradiosurround.m3u8          # HLS playlist
+http://127.0.0.1:8080/myradiosurround/myradiosurround_insane.m3u8   # HLS playlist (enforce insane profile)
 
 # Prometheus
 http://127.0.0.1:9090           # Prometheus web interface
@@ -53,4 +55,4 @@ http://127.0.0.1:3000           # Grafana web interface
 curl -s -d override_caller1 http://127.0.0.1:7000/livesource
 
 # Switch livesource for myradiosurround (please replace override_caller1 with anything you need)
-curl -s -d override_caller1 http://127.0.0.1:7010/livesource
+curl -s -d voieB_caller1 http://127.0.0.1:7010/livesource

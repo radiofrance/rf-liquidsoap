@@ -1,7 +1,7 @@
 streamer_name = "mystreamer"
 
 # Radio settings
-formats_picker = fun (formats) -> formats.stereo
+formats_picker = fun (formats) -> formats.flac.stereo
 harbor_http_port = 7020
 prometheus_server_port = 9021
 liquidsoap_log_level = 3
@@ -10,5 +10,5 @@ liquidsoap_log_level = 3
 input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
 
 # SRT output configuration
-srt_host = "liquidsoap-myradiosurround"
-srt_port = 10010
+srt_host = "liquidsoap-myradio"
+srt_port = 10005 # override_caller2

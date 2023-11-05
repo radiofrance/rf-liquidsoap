@@ -1,40 +1,64 @@
 # CHANGELOG.md
 
-## unreleased / no tag
+## 2.0.0 (2023-11-06)
 
 Features:
 
-- Add new dashboard for LUFS levels
-- Add new graphs in liquidsoap dashboard for SRT inputs, packet loss, drops...
-- improve README.md
-- Improve docker-compose.yml, Makefile and examples
-- Improve CHANGELOG.md
-- Add GREETINGS.md
+- split scripts for different liquidsoap usages, transcoder (to produce a radio
+  stream) and streamer (to send audio to a transcoder with SRT, and serve
+  playlists or network sources - WIP).
+- add surround profiles for 5.1 streaming.
+- add insane AAC quality profile (aac/fdk_aac lc 320kbps).
+- support disabling HLS or Icecast outputs completely (removing all qualities).
+- remove test file and use example configs by default for tests.
+- upgrade liquidsoap to v2.2.2
+- add new srtcaller containers in docker-compose.yml, one to stream local files
+  with ffmpeg, another one to stream a local playlist with liquidsoap and a m3u
+  file.
+
+Breaking changes:
+
+- Some variables have been renamed in the configuration file.
+- A new function must be declared in the configuration file to select a channel
+  layout (stereo or surround).
+- scripts paths have changed, be careful if you use the scripts folder directly.
+
+## 1.2.1 (2023-09-06)
+
+Features:
+
+- Add new dashboard for LUFS levels.
+- Add new graphs in liquidsoap dashboard for SRT inputs, packet loss, drops, etc.
+- improve README.md.
+- Improve docker-compose.yml, Makefile and examples.
+- Improve CHANGELOG.md.
+- Add GREETINGS.md.
+- upgrade liquidsoap to v2.2.1.
 
 ## 1.0.6 (2023-04-18)
 
 Features:
 
-- Add a prometheus metric to monitor LUFS levels of final radio stream
+- add a prometheus metric to monitor LUFS levels of final radio stream.
 
 ## 1.0.5 (2023-04-05)
 
 Bugfix:
 
-- Prevent freezes of the main loop protecting input sources with a buffer.
+- prevent freezes of the main loop protecting input sources with a buffer.
   We were experiencing icecast server restarts due to this issue.
 
 ## 1.0.4 (2023-03-17)
 
 Features:
 
-- add new SRT and input buffer metrics
-- add a Makefile
-- improve docker-compose.yml
+- add new SRT and input buffer metrics.
+- add a Makefile.
+- improve docker-compose.yml.
 
 # Known issues
 
-- Situations where SRT inputs get stuck with "No room to store incoming packets"
+- situations where SRT inputs get stuck with "No room to store incoming packets"
   when sources are flapping / restarting too fast / due to network errors.
 
 - SRT input buffers tend to get consumed faster than the source is able to
