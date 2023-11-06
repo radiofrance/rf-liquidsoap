@@ -4,7 +4,7 @@
 %include "20-prometheus.liq"
 
 # Build the playlist
-radio = mksafe(playlist(input_playlist_file))
+radio = mksafe(id="playlist", playlist(input_playlist_file))
 
 %include "80-outputs.liq"
 %include "90-http.liq"
