@@ -28,7 +28,6 @@ reload: ## Update containers if needed and restart all liquidsoaps
 	@docker compose restart \
 		liquidsoap-myradio \
 		liquidsoap-myradiosurround \
-		# source-mystreamer \
 		source-mystreamersurround \
 	@docker compose ps
 	@docker compose logs -f
@@ -36,7 +35,6 @@ reload: ## Update containers if needed and restart all liquidsoaps
 reload-streamers: ## Update containers if needed and restart source-mystreamersurround
 	@docker compose up -d
 	@docker compose restart \
-		# source-mystreamer \
 		source-mystreamersurround
 	@docker compose ps
 	@docker compose logs -f

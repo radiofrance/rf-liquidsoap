@@ -23,8 +23,12 @@ srt://127.0.0.1:10015             # Liquidsoap (myradiosurround) SRT input port 
 srt://127.0.0.1:10016             # Liquidsoap (myradiosurround) SRT input port sat_sat1
 
 # Liquidsoap surround SRT streamer (source-mystreamersurround)
-http://127.0.0.1:9021/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
-http://127.0.0.1:7020/livesource  # Liquidsoap (myradiosurround) HTTP API
+http://127.0.0.1:9021/metrics     # SRT Streamer (myradio) Prometheus Metrics
+http://127.0.0.1:7020/playlist    # SRT Streamer (myradio) HTTP API
+
+http://127.0.0.1:9031/metrics     # SRT Streamer (myradiosurround) Prometheus Metrics
+http://127.0.0.1:7030/playlist    # SRT Streamer (myradiosurround) HTTP API
+
 
 # Icecast2
 http://127.0.0.1:8000                            # Icecast status and mountpoints

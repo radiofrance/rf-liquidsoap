@@ -2,8 +2,8 @@ streamer_name = "mystreamer"
 
 # Radio settings
 formats_picker = fun (formats) -> formats.flac.surround
-harbor_http_port = 7020
-prometheus_server_port = 9021
+harbor_http_port = 7030
+prometheus_server_port = 9031
 liquidsoap_log_level = 3
 
 # Inputs configuration
