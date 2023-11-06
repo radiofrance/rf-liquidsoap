@@ -26,9 +26,11 @@ end
 ## POST /playlist
 def post_playlist(request, response) =
   method = request.body()
-  if not list.exists(fun(s) -> s == method, ["skip"]) then
+  if list.exists(fun(s) -> s == method, ["skip"]) then
     radio.skip()
     response.status_code(200)
+  else
+    response.status_code(400)
   end
 end
 
