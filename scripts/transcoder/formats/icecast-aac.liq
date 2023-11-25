@@ -67,7 +67,7 @@ let formats.surround.icecast.aac = {
       %audio(
         codec="aac",
         channel_layout=5.1,
-        b="320k",
+        b="512k",
         samplerate=48000,
         profile="aac_low"
       ))
