@@ -1,5 +1,11 @@
 # CHANGELOG.md
 
+## 2.0.2 (2024-02-21)
+
+Features:
+
+- upgrade liquidsoap to v2.2.4
+
 ## 2.0.1 (2024-01-08)
 
 Features:
