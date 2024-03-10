@@ -195,7 +195,7 @@ services:
     networks:
     - default
     ports:
-    - 8080:8080/tcp
+    - 80:80/tcp
     restart: unless-stopped
     volumes:
     - ./example/nginx/:/etc/nginx/conf.d/:ro
