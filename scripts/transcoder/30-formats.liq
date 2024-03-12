@@ -9,10 +9,10 @@ let formats = {
   }
 }
 
-%include "formats/hls-aac.liq"
-%include "formats/hls-fdkaac.liq"
-%include "formats/icecast-aac.liq"
-%include "formats/icecast-fdkaac.liq"
-%include "formats/icecast-mp3.liq"
+%include "formats/hls.aac.liq"
+%include "formats/hls.libfdk_aac.liq"
+%include "formats/icecast.aac.liq"
+%include "formats/icecast.libfdk_aac.liq"
+%include "formats/icecast.mp3.liq"
 
 formats = formats_picker(formats)

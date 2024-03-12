@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## Unreleased (2024-03-12)
+
+Breaking changes:
+
+- Rename fdkaac profile to libfkd_aac to match real codec names
+
+Bugfix :
+
+- Replace `aac_he` profile with `aac_low` for default aac codec since he_aac
+  isn't supported
+- Fix fdkaac profiles names to match real codec names
+
 ## 2.0.1 (2024-01-08)
 
 Features:
