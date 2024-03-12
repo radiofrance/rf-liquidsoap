@@ -1,16 +1,20 @@
 # CHANGELOG.md
 
-## Unreleased (2024-03-12)
+## 2.0.2 (2024-03-12)
+
+Features:
+
+- upgrade liquidsoap to v2.2.4. Includes a memory leak fix on srt sources
 
 Breaking changes:
 
-- Rename fdkaac profile to libfkd_aac to match real codec names
+- rename fdkaac profile to libfkd_aac to match real codec names
 
 Bugfix :
 
-- Replace `aac_he` profile with `aac_low` for default aac codec since he_aac
+- replace `aac_he` profile with `aac_low` for default aac codec since he_aac
   isn't supported
-- Fix fdkaac profiles names to match real codec names
+- fix fdkaac profiles names to match real codec names
 
 ## 2.0.1 (2024-01-08)
 
@@ -36,8 +40,8 @@ Features:
 
 Breaking changes:
 
-- Some variables have been renamed in the configuration file.
-- A new function must be declared in the configuration file to select a channel
+- some variables have been renamed in the configuration file.
+- a new function must be declared in the configuration file to select a channel
   layout (stereo or surround).
 - scripts paths have changed, be careful if you use the scripts folder directly.
 
@@ -45,12 +49,12 @@ Breaking changes:
 
 Features:
 
-- Add new dashboard for LUFS levels.
-- Add new graphs in liquidsoap dashboard for SRT inputs, packet loss, drops, etc.
+- add new dashboard for LUFS levels.
+- add new graphs in liquidsoap dashboard for SRT inputs, packet loss, drops, etc.
 - improve README.md.
-- Improve docker-compose.yml, Makefile and examples.
-- Improve CHANGELOG.md.
-- Add GREETINGS.md.
+- improve docker-compose.yml, Makefile and examples.
+- improve CHANGELOG.md.
+- add GREETINGS.md.
 - upgrade liquidsoap to v2.2.1.
 
 ## 1.0.6 (2023-04-18)
