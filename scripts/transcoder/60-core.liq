@@ -13,6 +13,43 @@ def source_tag(s,tag) =
   s
 end
 
+def mk_source_mp3(s) =
+  print(s)
+  srt_input =
+    input.harbor(
+      s.name,
+      port=s.port,
+      password="hackme"
+    )
+  set_is_playing_metric =
+  create_is_playing_metric(label_values=[radio_name,"input",s.name])
+
+  buffered_input =
+  buffer(
+    id="#{s.name}_buffer",
+    buffer=1.0,
+    max=1.0,
+    fallible=true,
+    srt_input
+  )
+
+  set_srt_input_buffer_length =
+    srt_input_buffer_length_create(label_values=[radio_name,"input",s.name])
+
+  thread.run(
+    every=1.,
+    {set_srt_input_buffer_length(float(buffered_input.buffer_length()))}
+  )
+
+  # Tag source with its name as metadata (e.g. for is_playing metric)
+  tagged_source = source_tag(buffered_input, s.name)
+
+  {name                  = s.name,
+   is_autofallback       = s.is_autofallback,
+   set_is_playing_metric = set_is_playing_metric,
+   source                = tagged_source}
+end
+
 def mk_source(s) =
   srt_input =
     input.srt(

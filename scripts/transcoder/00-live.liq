@@ -8,8 +8,9 @@
 #############################
 # Define all inputs sources #
 #############################
-
-input_sources = list.map(mk_source, input_list)
+print(input_list)
+input_sources = list.map(mk_source_mp3, input_list)
+print(input_sources)
 
 # Define safe_blank input and its metrics
 safe_blank = blank(id="safe_blank")
@@ -20,13 +21,13 @@ set_safe_blank_is_playing_metric =
 real_live_source = ref("")
 
 # get the livesourcestate on disk if it exist
-if file.exists(livesource_state_path) then
-  content = file.contents(livesource_state_path)
-  # check that the livesource exist in input list
-  if list.exists(fun (s) -> s.name == content, input_sources) then
-    preferred_live_source := content
-  end
-end
+#if file.exists(livesource_state_path) then
+#  content = file.contents(livesource_state_path)
+#  # check that the livesource exist in input list
+#  if list.exists(fun (s) -> s.name == content, input_sources) then
+#    preferred_live_source := content
+#  end
+#end
 
 def is_playing(n) =
   fun () -> n == preferred_live_source()

@@ -9,15 +9,22 @@ liquidsoap_log_level = 3
 
 
 # SRT inputs configuration
+#input_list = [
+#  {name="voieA_caller1", is_autofallback=true, port=10000},
+#  {name="voieA_caller2", is_autofallback=true, port=10001},
+#  {name="voieB_caller1", is_autofallback=true, port=10002},
+#  {name="voieB_caller2", is_autofallback=true, port=10003},
+#  {name="override_caller1", is_autofallback=false, port=10004},
+#  {name="override_caller2", is_autofallback=false, port=10005},
+#  {name="sat_sat1", is_autofallback=true, port=10006},
+#]
+#livesource_state_path = "/state/#{radio_name}.livesourcestate"
+
+# inputs configuration
 input_list = [
-  {name="voieA_caller1", is_autofallback=true, port=10000},
-  {name="voieA_caller2", is_autofallback=true, port=10001},
-  {name="voieB_caller1", is_autofallback=true, port=10002},
-  {name="voieB_caller2", is_autofallback=true, port=10003},
+  {name="stream", is_autofallback=true, port=10000},
   {name="override_caller1", is_autofallback=false, port=10004},
-  {name="override_caller2", is_autofallback=false, port=10005},
-  {name="sat_sat1", is_autofallback=true, port=10006},
-]
+  ]
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
 
 

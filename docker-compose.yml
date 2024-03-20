@@ -61,26 +61,26 @@ services:
   ###############
 
   # Feed myradio with an example SRT source (https://modular-station.com/)
-  source-voieA-caller1:
-    command:
-    - /usr/bin/ffmpeg
-    - -hide_banner
-    - -re
-    - -i
-    #- "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
-    - "https://icecast.chunt.org/cfm-fallback"
-    - -vn
-    - -f
-    - wav
-    - -codec:a
-    - pcm_s16le
-    - "srt://liquidsoap-myradio:10000" # voieA_caller1
-    container_name: source-voieA-caller1
-    entrypoint: []
-    image: savonet/liquidsoap:v2.2.3
-    networks:
-    - default
-    restart: unless-stopped
+  #source-voieA-caller1:
+  #  command:
+  #  - /usr/bin/ffmpeg
+  #  - -hide_banner
+  #  - -re
+  #  - -i
+  #  #- "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
+  #  - "https://icecast.chunt.org/cfm-fallback"
+  #  - -vn
+  #  - -f
+  #  - wav
+  #  - -codec:a
+  #  - pcm_s16le
+  #  - "srt://liquidsoap-myradio:10000" # voieA_caller1
+  #  container_name: source-voieA-caller1
+  #  entrypoint: []
+  #  image: savonet/liquidsoap:v2.2.3
+  #  networks:
+  #  - default
+  #  restart: unless-stopped
 
   # Feed myradio with an example SRT source (https://p-node.org/)
   #source-voieB-caller1:
