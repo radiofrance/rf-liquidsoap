@@ -25,6 +25,10 @@ input_list = [
   {name="stream", is_autofallback=true, port=10000},
   {name="override_caller1", is_autofallback=false, port=10004},
   ]
+
+input_list_restream = [
+  {name="restream", is_autofallback=true, url="https://icecast.chunt.org/cfm-fallback"}
+  ]
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
 
 

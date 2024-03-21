@@ -34,3 +34,4 @@ settings.prometheus.server.port.set(prometheus_server_port)
 # Here we defined the default preferred live source of the switch "live" as the first input
 # we need to do that here so we can define update_source_metrics callback
 preferred_live_source = ref(list.nth(input_list, 0).name)
+print("Preferred live source: #{!preferred_live_source}")

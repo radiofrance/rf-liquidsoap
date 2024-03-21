@@ -22,13 +22,9 @@ reload: ## Update containers if needed and restart all liquidsoaps
 	@docker compose up -d
 	@docker compose restart \
 		liquidsoap-test-transcoder-stereo \
-		liquidsoap-test-streamer-stereo \
-		liquidsoap-test-transcoder-surround \
-	  liquidsoap-test-streamer-surround
+		liquidsoap-test-streamer-stereo
 	@docker compose restart \
-		liquidsoap-myradio \
-		liquidsoap-myradiosurround \
-		source-mystreamersurround \
+		liquidsoap-myradio
 	@docker compose ps
 	@docker compose logs -f
 
