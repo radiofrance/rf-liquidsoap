@@ -11,9 +11,11 @@
 
 input_sources = list.map(mk_source_mp3, input_list)
 replay_sources = list.map(mk_replay_source,input_list_restream)
-
 input_sources = list.append(input_sources, replay_sources)
 
+print("input_sources: " ^ string_of(input_sources))
+stream_source = list.hd(list.filter(fun(s) -> s.name == "stream", input_sources))
+print(stream_source)
 # Define safe_blank input and its metrics
 safe_blank = blank(id="safe_blank")
 safe_blank = source_tag(safe_blank, "safe_blank")
@@ -158,3 +160,5 @@ thread.run(
 
 %include "80-outputs.liq"
 %include "90-http.liq"
+
+
