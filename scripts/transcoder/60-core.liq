@@ -20,7 +20,7 @@ def mk_source_mp3(s) =
     input.harbor(
       s.name,
       port=s.port,
-      password="hackme"
+      password=s.password,
     )
 
 

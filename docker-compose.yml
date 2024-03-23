@@ -7,11 +7,14 @@ services:
 
   # Run liquidsoap and create "myradio" stream
   liquidsoap-myradio:
+    env_file:
+      - secrets.env
     command:
     - /conf/myradio.liq
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
     image: savonet/liquidsoap:v2.2.4
+    
     networks:
     - default
     restart: unless-stopped
@@ -175,13 +178,9 @@ services:
   # Icecast
   icecast:
     container_name: icecast
-    environment:
-    - ICECAST_SOURCE_PASSWORD=secret
-    - ICECAST_ADMIN_PASSWORD=secret
-    - ICECAST_PASSWORD=secret
-    - ICECAST_RELAY_PASSWORD=secret
-    - ICECAST_HOSTNAME=icecast
-    - ICECAST_MAX_SOURCES=10
+    env_file:
+    - secrets.env
+    
     expose:
     - 8000
     image: libretime/icecast
@@ -297,6 +296,8 @@ services:
 
   # Test validity of liquidsoap configurations
   liquidsoap-test-transcoder-stereo:
+    env_file:
+      - secrets.env
     command:
     - -c
     - /conf/myradio.liq

@@ -22,8 +22,8 @@ liquidsoap_log_level = 3
 
 # inputs configuration
 input_list = [
-  {name="stream", is_autofallback=true, port=10000},
-  {name="override_caller1", is_autofallback=false, port=10004},
+  {name="stream", is_autofallback=true, port=10000,password=environment.get("LS_STREAM_PASSWORD")},
+  {name="override_caller1", is_autofallback=false, port=10004,password=environment.get("LS_STREAM_PASSWORD")},
   ]
 
 input_list_restream = [
@@ -44,9 +44,9 @@ hls_formats = [
 ]
 
 # ICECAST output configuration
-icecast_host = "icecast"
+icecast_host = environment.get("ICECAST_HOSTNAME")
 icecast_port = 8000
-icecast_password = "secret"
+icecast_password = environment.get("ICECAST_PASSWORD")
 icecast_formats = [
   ("aac", [
     "lofi", "midfi", "hifi"
