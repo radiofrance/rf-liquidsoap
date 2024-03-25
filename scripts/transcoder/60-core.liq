@@ -21,6 +21,8 @@ def mk_source_mp3(s) =
       s.name,
       port=s.port,
       password=s.password,
+      on_connect=s.on_connect,
+      on_disconnect=s.on_disconnect
     )
 
 

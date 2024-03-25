@@ -7,7 +7,39 @@ harbor_http_port = 7000
 prometheus_server_port = 9001
 liquidsoap_log_level = 3
 
+# POST output functions to alert frontend about connecting streamers
+frontend_url = environment.get("FRONTEND_URL_POST_STATUS")
 
+
+def on_harbor_connect(headers) =
+  #print(headers)
+  #print(headers['ice-name'])
+  j = json()
+  j.add("keyword","womby")
+  j.add("connection_start","true")
+  dt = json.stringify(compact=true, j)
+  print(dt)
+  let response = http.post(
+        headers=[("Content-Type", "application/json; charset=UTF-8")],
+        data=dt,
+        frontend_url)
+  log(response)
+end
+
+
+def on_harbor_disconnect() =
+  j = json()
+  j.add("keyword","womby")
+  j.add("connection_stop","true")
+  dt = json.stringify(compact=true, j)
+  #ignore(file.write(data="#{dt}\n", append=true, "connectionstatus.json"))
+  let response = http.post(
+        headers=[("Content-Type", "application/json; charset=UTF-8")],
+        data=dt,
+        frontend_url)
+  log(response)
+
+end
 # SRT inputs configuration
 #input_list = [
 #  {name="voieA_caller1", is_autofallback=true, port=10000},
@@ -22,8 +54,8 @@ liquidsoap_log_level = 3
 
 # inputs configuration
 input_list = [
-  {name="stream", is_autofallback=true, port=10000,password=environment.get("LS_STREAM_PASSWORD")},
-  {name="override_caller1", is_autofallback=false, port=10004,password=environment.get("LS_STREAM_PASSWORD")},
+  {name="stream", is_autofallback=true, port=10000,password=environment.get("LS_STREAM_PASSWORD"),on_connect=on_harbor_connect,on_disconnect=on_harbor_disconnect},
+  #{name="override_caller1", is_autofallback=false, port=10004,password=environment.get("LS_STREAM_PASSWORD")},
   ]
 
 input_list_restream = [
@@ -55,3 +87,4 @@ icecast_formats = [
     "lofi", "midfi"
   ])
 ]
+
