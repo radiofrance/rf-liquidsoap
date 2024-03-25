@@ -64,7 +64,6 @@ end
 
 
 def crossfadeOff(a,b)
-  a = eat_blank(a)
   add(normalize=false,
       [ sequence([fade.in(duration=5.,b) ]),
         fade.out(duration=5.,a) ])
