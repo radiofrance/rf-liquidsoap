@@ -31,7 +31,7 @@ services:
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/transcoder/:/scripts/transcoder/:ro
-    - ./archive:/archive/
+    - ./archive:/archive/:rw
 
     - data_hls:/tmp/
     - data_liquidsoap:/state/
