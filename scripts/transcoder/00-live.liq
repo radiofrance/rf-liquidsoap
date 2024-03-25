@@ -55,9 +55,25 @@ def mk_fallback_source(result, s) =
   end
 end
 
+def crossfadeOn(a,b)
+  add(normalize=true,
+      [ sequence([ blank(duration=2.),
+        fade.in(duration=5.,b) ]),
+        fade.out(duration=5.,a) ])
+end
+
+
+def crossfadeOff(a,b)
+  a = eat_blank(a)
+  add(normalize=false,
+      [ sequence([fade.in(duration=5.,b) ]),
+        fade.out(duration=5.,a) ])
+end
+
 radio_prod = fallback(
   id="fallback_prod",
   track_sensitive=false,
+  transitions=[crossfadeOn, crossfadeOff],
   [
     (live:source(audio=pcm)),
     ...list.fold(mk_fallback_source, [], input_sources),
