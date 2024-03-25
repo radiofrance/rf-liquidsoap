@@ -64,9 +64,9 @@ end
 
 
 def crossfadeOff(a,b)
-  add(normalize=false,
-      [ sequence([fade.in(duration=5.,b) ]),
-        fade.out(duration=5.,a) ])
+  add(normalize=true,
+      [ sequence([fade.in(duration=5.,a) ]),
+        fade.out(duration=5.,b) ])
 end
 
 radio_prod = fallback(
