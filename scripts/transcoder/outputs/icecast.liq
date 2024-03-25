@@ -1,7 +1,7 @@
 # Icecast output
 icecast_aac_encoder =
-  if aac_encoder == "libfdkaac" then
-    formats.icecast.fdkaac
+  if aac_encoder == "libfdk_aac" then
+    formats.icecast.libfdk_aac
   else
     formats.icecast.aac
   end

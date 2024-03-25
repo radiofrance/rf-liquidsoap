@@ -1,8 +1,8 @@
 # HLS output
 
 available_hls_formats =
-  if aac_encoder == "libfdkaac" then
-    formats.hls.fdkaac
+  if aac_encoder == "libfdk_aac" then
+    formats.hls.libfdk_aac
   else
     formats.hls.aac
   end

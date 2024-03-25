@@ -1,4 +1,4 @@
-let formats.stereo.icecast.fdkaac = {
+let formats.stereo.icecast.libfdk_aac = {
  sub_formats = [
    ("lofi",
     %ffmpeg(
@@ -56,7 +56,7 @@ let formats.stereo.icecast.fdkaac = {
   file_extension = ".aac"
 }
 
-let formats.surround.icecast.fdkaac = {
+let formats.surround.icecast.libfdk_aac = {
  sub_formats = [
    ("hifi",
     %ffmpeg(
