@@ -63,6 +63,10 @@ input_list_restream = [
   ]
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
 
+input_list_restream_files = [
+  {name="restream", is_autofallback=true, url="/fallback/731koko.mp3"}
+  ]
+
 
 # HLS output configuration
 hls_segments_directory = "/tmp/#{radio_name}"

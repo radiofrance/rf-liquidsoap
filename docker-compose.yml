@@ -32,6 +32,7 @@ services:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/transcoder/:/scripts/transcoder/:ro
     - ./archive:/archive/:rw
+    - ./fallback:/fallback/:rw
 
     - data_hls:/tmp/
     - data_liquidsoap:/state/

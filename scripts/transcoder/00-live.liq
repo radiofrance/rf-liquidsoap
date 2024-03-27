@@ -11,6 +11,7 @@
 
 input_sources = list.map(mk_source_mp3, input_list)
 replay_sources = list.map(mk_replay_source,input_list_restream)
+#replay_sources = list.map(mk_replay_source_from_file, input_list_restream_files)
 input_sources = list.append(input_sources, replay_sources)
 
 print("input_sources: " ^ string_of(input_sources))
@@ -38,7 +39,29 @@ def is_playing(n) =
 end
 
 def mk_switch_source(s) =
+  print("mk_switch_source")
   (is_playing(s.name), s.source)
+end
+
+
+def crossfadeOn(a,b)
+  print("crossfadeOn with sources:")
+  print(string_of(a))
+  print(string_of(b))
+  add(normalize=true,
+      [ sequence([ blank(duration=2.),
+        fade.in(duration=5.,b) ]),
+        fade.out(duration=5.,a) ])
+end
+
+
+def crossfadeOff(a,b)
+  print("crossfadeOff with sources:")
+  print(string_of(a))
+  print(string_of(b))
+  add(normalize=true,
+      [ sequence([fade.in(duration=5.,a) ]),
+        fade.out(duration=5.,b) ])
 end
 
 live = switch(
@@ -48,6 +71,7 @@ live = switch(
 )
 
 def mk_fallback_source(result, s) =
+  print("mk_fallback_source")
   if s.is_autofallback then
     [...result, (s.source:source(audio=pcm))]
   else
@@ -55,24 +79,11 @@ def mk_fallback_source(result, s) =
   end
 end
 
-def crossfadeOn(a,b)
-  add(normalize=true,
-      [ sequence([ blank(duration=2.),
-        fade.in(duration=5.,b) ]),
-        fade.out(duration=5.,a) ])
-end
-
-
-def crossfadeOff(a,b)
-  add(normalize=true,
-      [ sequence([fade.in(duration=5.,a) ]),
-        fade.out(duration=5.,b) ])
-end
 
 radio_prod = fallback(
   id="fallback_prod",
   track_sensitive=false,
-  transitions=[crossfadeOn, crossfadeOff],
+  transitions=[crossfadeOn, crossfadeOn],
   [
     (live:source(audio=pcm)),
     ...list.fold(mk_fallback_source, [], input_sources),
