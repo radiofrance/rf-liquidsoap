@@ -200,6 +200,8 @@ services:
     - default
     ports:
     - 80:80/tcp
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
     restart: unless-stopped
     volumes:
     - ./example/nginx/:/etc/nginx/conf.d/:ro
