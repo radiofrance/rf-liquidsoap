@@ -203,6 +203,7 @@ services:
     restart: unless-stopped
     volumes:
     - ./example/nginx/:/etc/nginx/conf.d/:ro
+    - ./archive:/archive/:ro
     - data_hls:/hls:ro
 
   ##############
