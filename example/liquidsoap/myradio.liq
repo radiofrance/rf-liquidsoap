@@ -93,7 +93,7 @@ icecast_formats = [
     "lofi", "midfi", "hifi"
   ]),
   ("mp3", [
-    "lofi", "midfi"
+    "midfi", "hifi"
   ])
 ]
 

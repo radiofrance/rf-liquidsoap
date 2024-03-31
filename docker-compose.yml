@@ -212,6 +212,7 @@ services:
   # Dashboards
   grafana:
     container_name: grafana
+    
     depends_on:
     - prometheus
     environment:
@@ -219,6 +220,9 @@ services:
     - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     - GF_USERS_ALLOW_SIGN_UP=false
     - GF_LOG_LEVEL=warn
+    - GF_SERVER_DOMAIN=localhost
+    - GF_SERVER_ROOT_URL=http://localhost/grafana
+    - GF_SERVER_SERVE_FROM_SUB_PATH=true
     image: grafana/grafana:latest
     labels:
       org.label-schema.group: "monitoring"

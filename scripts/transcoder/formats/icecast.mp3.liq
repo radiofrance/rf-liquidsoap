@@ -23,6 +23,18 @@ let formats.stereo.icecast.mp3 = {
        samplerate=48000,
        compression_level=2
      ))
+    ),
+    ("hifi",
+     %ffmpeg(
+     format="mp3",
+     id3v2_version=0,
+     %audio(
+       codec="libmp3lame",
+       channels=2,
+       b="320k",
+       samplerate=48000,
+       compression_level=2
+     ))
     )
   ],
   file_extension = ".mp3"
