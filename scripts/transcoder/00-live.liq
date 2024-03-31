@@ -39,30 +39,29 @@ def is_playing(n) =
 end
 
 def mk_switch_source(s) =
-  print("mk_switch_source")
   (is_playing(s.name), s.source)
 end
 
 
-def crossfadeOn(a,b)
-  print("crossfadeOn with sources:")
+def crossfade(a,b)
+  print("crossfade with sources:")
   print(string_of(a))
   print(string_of(b))
-  add(normalize=true,
-      [ sequence([ blank(duration=2.),
-        fade.in(duration=5.,b) ]),
-        fade.out(duration=5.,a) ])
+  if going_to_live() then
+    add(normalize=true,
+        [ sequence([ blank(duration=2.),
+          fade.in(duration=5.,b) ]),
+          fade.out(duration=5.,a) ])
+  else
+    print("not going to live")
+    add(normalize=true,
+        [ sequence([jingle, blank()]),
+          sequence([ blank(duration=5.),
+          fade.in(duration=7.,b) ])])
+  end
 end
 
 
-def crossfadeOff(a,b)
-  print("crossfadeOff with sources:")
-  print(string_of(a))
-  print(string_of(b))
-  add(normalize=true,
-      [ sequence([fade.in(duration=5.,a) ]),
-        fade.out(duration=5.,b) ])
-end
 
 live = switch(
   id="switch_live",
@@ -71,7 +70,6 @@ live = switch(
 )
 
 def mk_fallback_source(result, s) =
-  print("mk_fallback_source")
   if s.is_autofallback then
     [...result, (s.source:source(audio=pcm))]
   else
@@ -80,10 +78,13 @@ def mk_fallback_source(result, s) =
 end
 
 
-radio_prod = fallback(
+
+radio_prod = 
+  fallback(
   id="fallback_prod",
   track_sensitive=false,
-  transitions=[crossfadeOn, crossfadeOn],
+  transition_length=15.,
+  transitions=[crossfade, crossfade,crossfade],
   [
     (live:source(audio=pcm)),
     ...list.fold(mk_fallback_source, [], input_sources),

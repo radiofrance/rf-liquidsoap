@@ -33,6 +33,8 @@ services:
     - ./scripts/transcoder/:/scripts/transcoder/:ro
     - ./archive:/archive/:rw
     - ./fallback:/fallback/:rw
+    - ./example/jingles:/jingles/:ro
+
 
     - data_hls:/tmp/
     - data_liquidsoap:/state/

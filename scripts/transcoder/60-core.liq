@@ -96,8 +96,8 @@ def mk_source_mp3(s) =
   buffered_input =
   buffer(
     id="#{s.name}_buffer",
-    buffer=10.0,
-    max=10.0,
+    buffer=15.0,
+    max=15.0,
     fallible=true,
     srt_input
   )
@@ -162,8 +162,8 @@ def mk_replay_source(s) =
   buffered_input =
   buffer(
     id="#{s.name}_buffer",
-    buffer=10.0,
-    max=10.0,
+    buffer=15.0,
+    max=15.0,
     fallible=true,
     srt_input
   )

@@ -10,10 +10,12 @@ liquidsoap_log_level = 3
 # POST output functions to alert frontend about connecting streamers
 frontend_url = environment.get("FRONTEND_URL_POST_STATUS")
 
-
+going_to_live = ref(false)
 def on_harbor_connect(headers) =
+  going_to_live := true
   #print(headers)
   #print(headers['ice-name'])
+  
   j = json()
   j.add("keyword","womby")
   j.add("connection_start","true")
@@ -28,6 +30,7 @@ end
 
 
 def on_harbor_disconnect() =
+  going_to_live := false
   j = json()
   j.add("keyword","womby")
   j.add("connection_stop","true")
@@ -53,6 +56,7 @@ end
 #livesource_state_path = "/state/#{radio_name}.livesourcestate"
 
 # inputs configuration
+
 input_list = [
   {name="stream", is_autofallback=true, port=10000,password=environment.get("LS_STREAM_PASSWORD"),on_connect=on_harbor_connect,on_disconnect=on_harbor_disconnect},
   #{name="override_caller1", is_autofallback=false, port=10004,password=environment.get("LS_STREAM_PASSWORD")},
@@ -63,9 +67,10 @@ input_list_restream = [
   ]
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
 
-input_list_restream_files = [
-  {name="restream", is_autofallback=true, url="/fallback/731koko.mp3"}
-  ]
+#input_list_restream_files = [
+#  {name="restream", is_autofallback=true, url="/fallback/731koko.mp3"}
+#  ]
+jingle = single("/jingles/chuntFMjingleFuture.mp3")
 
 
 # HLS output configuration
