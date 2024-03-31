@@ -70,8 +70,8 @@ livesource_state_path = "/state/#{radio_name}.livesourcestate"
 #input_list_restream_files = [
 #  {name="restream", is_autofallback=true, url="/fallback/731koko.mp3"}
 #  ]
-jingle = single("/jingles/chuntFMjingleFuture.mp3")
-
+#jingle = single("/jingles/chuntFMjingleFuture.mp3")
+#randomjingle = playlist.once(mode="random", "/jingles")
 
 # HLS output configuration
 hls_segments_directory = "/tmp/#{radio_name}"

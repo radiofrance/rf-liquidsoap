@@ -14,7 +14,7 @@ replay_sources = list.map(mk_replay_source,input_list_restream)
 #replay_sources = list.map(mk_replay_source_from_file, input_list_restream_files)
 input_sources = list.append(input_sources, replay_sources)
 
-print("input_sources: " ^ string_of(input_sources))
+print("input_sources: " ^ string(input_sources))
 stream_source = list.hd(list.filter(fun(s) -> s.name == "stream", input_sources))
 #print(stream_source)
 # Define safe_blank input and its metrics
@@ -45,8 +45,8 @@ end
 
 def crossfade(a,b)
   print("crossfade with sources:")
-  print(string_of(a))
-  print(string_of(b))
+  print(string(a))
+  print(string(b))
   if going_to_live() then
     add(normalize=true,
         [ sequence([ blank(duration=2.),
@@ -54,14 +54,22 @@ def crossfade(a,b)
           fade.out(duration=5.,a) ])
   else
     print("not going to live")
+    randomjingle = playlist.once("/jingles")
     add(normalize=true,
-        [ sequence([jingle, blank()]),
-          sequence([ blank(duration=5.),
-          fade.in(duration=7.,b) ])])
+    [ sequence([randomjingle, blank()]),
+      sequence([ blank(duration=5.),
+      fade.in(duration=7.,b) ])])
   end
 end
 
-
+#randomjingle = playlist.once("/jingles")
+#
+#    jingle_duration = source.duration(randomjingle)
+#    print("jingle duration: " ^ string(jingle_duration))
+#    
+#
+#
+#    sequence([randomjingle,fade.in(duration=3.,type="sin",b) ])
 
 live = switch(
   id="switch_live",
@@ -83,7 +91,7 @@ radio_prod =
   fallback(
   id="fallback_prod",
   track_sensitive=false,
-  transition_length=15.,
+  transition_length=20.,
   transitions=[crossfade, crossfade,crossfade],
   [
     (live:source(audio=pcm)),
