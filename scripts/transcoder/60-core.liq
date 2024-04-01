@@ -162,8 +162,8 @@ def mk_replay_source(s) =
   buffered_input =
   buffer(
     id="#{s.name}_buffer",
-    buffer=15.0,
-    max=15.0,
+    buffer=1.0,
+    max=1.0,
     fallible=true,
     srt_input
   )
@@ -228,8 +228,8 @@ def mk_replay_source_from_file(s) =
   buffered_input =
   buffer(
     id="#{s.name}_buffer",
-    buffer=10.0,
-    max=10.0,
+    buffer=1.0,
+    max=1.0,
     fallible=true,
     srt_input
   )
@@ -332,8 +332,8 @@ def mk_source(s) =
   buffered_input =
     buffer(
       id="#{s.name}_buffer",
-      buffer=10.0,
-      max=10.0,
+      buffer=1.0,
+      max=1.0,
       fallible=true,
       srt_input
     )

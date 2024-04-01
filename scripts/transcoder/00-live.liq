@@ -25,6 +25,13 @@ set_safe_blank_is_playing_metric =
 
 real_live_source = ref("")
 
+
+# Inputs bypassing the whole radio system since we don't care about monitoring jukebox and teststream
+livetest = input.harbor("streamtest",port=10000,password=environment.get("LS_STREAM_PASSWORD"),buffer=10.,max=20.)
+livetest = buffer(mksafe(livetest))
+jukebox = input.harbor("stream2",port=11000,password=environment.get("LS_JUKEBOX_PASSWORD"),buffer=5.)
+jukebox = buffer(mksafe(jukebox))
+
 # get the livesourcestate on disk if it exist
 if file.exists(livesource_state_path) then
   content = file.contents(livesource_state_path)
