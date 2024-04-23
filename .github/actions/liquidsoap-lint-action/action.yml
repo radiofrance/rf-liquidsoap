@@ -1,0 +1,9 @@
+name: Linter for Liquidsoap
+
+inputs:
+  scripts-to-test: **/*.liq
+runs:
+  using: 'docker'
+  image: 'docker://savonet/liquidsoap:v2.1.4'
+  args: 
+   - -c ${{ inputs.scripts-to-test }}

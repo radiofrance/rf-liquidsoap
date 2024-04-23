@@ -1,0 +1,16 @@
+---
+name: Lint (Liquidsoap)
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    types: [opened, synchronize]
+    paths: ["**/*.liq"]
+
+jobs:
+  liquidsoap-lint:
+    name: Liquidsoap lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/liquidsoap-lint-action@v1
+        with:
+          scripts-to-test: streamer/00-live.liq         
