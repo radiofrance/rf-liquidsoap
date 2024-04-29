@@ -1,0 +1,43 @@
+---
+name: Test (Liquidsoap)
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    types: [opened, synchronize]
+    paths: ["**/*.liq"]
+
+jobs:
+  liquidsoap-test-transcoder-stereo:
+    name: Liquidsoap Test Transcoder Stereo
+    runs-on: ubuntu-latest
+    container:
+      image: savonet/liquidsoap:v2.2.4
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'         
+          
+  liquidsoap-test-transcoder-surround:
+    name: Liquidsoap Test Transcoder Surround
+    runs-on: ubuntu-latest
+    container:
+      image: savonet/liquidsoap:v2.2.4
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq'         
+
+  liquidsoap-test-streamer-stereo:
+    name: Liquidsoap Test Streamer Stereo
+    runs-on: ubuntu-latest
+    container:
+      image: savonet/liquidsoap:v2.2.4
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'         
+
+  liquidsoap-test-streamer-surround:
+    name: Liquidsoap Test Streamer Surround
+    runs-on: ubuntu-latest
+    container:
+      image: savonet/liquidsoap:v2.2.4
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq'
