@@ -1,8 +1,6 @@
-# Radio France's Liquidsoap scripts
+# ChuntFM's Liquidsoap scripts
 
-[![Official Website](https://img.shields.io/badge/Official%20Website-radiofrance.fr-blue?style=flat-square&logo=world&logoColor=white)](https://radiofrance.fr)
-[![About Us](https://img.shields.io/badge/Official%20Website-radiofrance.com-blue?style=flat-square&logo=scpfoundation&logoColor=white)](https://radiofrance.com)
-[![GitHub Repo stars](https://img.shields.io/github/stars/radiofrance/rf-liquidsoap?style=flat-square)](https://github.com/radiofrance/rf-liquidsoap/stargazers)
+A fork of the Liquidsoap scripts used at Radio France adapted for ChuntFM.
 
 <p align="center">
   <img width="600" height="200" src=".res/Logo_Radio_France.svg">
