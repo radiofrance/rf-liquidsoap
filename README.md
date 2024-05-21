@@ -2,9 +2,7 @@
 
 A fork of the Liquidsoap scripts used at Radio France adapted for ChuntFM.
 
-<p align="center">
-  <img width="600" height="200" src=".res/Logo_Radio_France.svg">
-</p>
+
 <p align="center">
   [<a href="CHANGELOG.md">CHANGELOG</a> -
    <a href="#license">LICENSE</a>]
