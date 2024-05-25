@@ -207,6 +207,8 @@ services:
     - ./example/nginx/:/etc/nginx/conf.d/:ro
     - ./archive:/archive/:ro
     - data_hls:/hls:ro
+    - /etc/letsencrypt/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem
+    - /etc/letsencrypt/ssl/privkey.pem:/etc/nginx/ssl/privkey.pem
 
   ##############
   # MONITORING #
