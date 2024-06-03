@@ -4,3 +4,5 @@ example/audio/*
 archive/*
 .DS_Store
 fallback/*
+
+venv/*
