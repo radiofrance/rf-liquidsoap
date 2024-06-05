@@ -13,10 +13,10 @@ services:
     - /conf/myradio.liq
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
-    image: savonet/liquidsoap:v2.2.4
+    image: savonet/liquidsoap:v2.2.5
     
     networks:
-    - default
+      - ${NETWORK_NAME:-default}
     restart: unless-stopped
     ports:
     - 9001:9001/tcp
@@ -197,18 +197,13 @@ services:
     - "80"
     image: nginx:alpine
     networks:
-    - default
+    - ${NETWORK_NAME:-default}
     ports:
-    - 80:80/tcp
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
+    - 8080:8080/tcp
     restart: unless-stopped
     volumes:
     - ./example/nginx/:/etc/nginx/conf.d/:ro
-    - ./archive:/archive/:ro
     - data_hls:/hls:ro
-    - /etc/letsencrypt/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem
-    - /etc/letsencrypt/ssl/privkey.pem:/etc/nginx/ssl/privkey.pem
 
   ##############
   # MONITORING #
@@ -225,14 +220,11 @@ services:
     - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     - GF_USERS_ALLOW_SIGN_UP=false
     - GF_LOG_LEVEL=warn
-    - GF_SERVER_DOMAIN=localhost
-    - GF_SERVER_ROOT_URL=http://localhost/grafana
-    - GF_SERVER_SERVE_FROM_SUB_PATH=true
     image: grafana/grafana:latest
     labels:
       org.label-schema.group: "monitoring"
     networks:
-    - default
+    - ${NETWORK_NAME:-default}
     ports:
     - 3000:3000/tcp
     restart: unless-stopped
@@ -255,7 +247,7 @@ services:
     labels:
       org.label-schema.group: "monitoring"
     networks:
-    - default
+    - ${NETWORK_NAME:-default}
     restart: unless-stopped
     ports:
     - 9090:9090/tcp
@@ -315,9 +307,9 @@ services:
     - /conf/myradio.liq
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-stereo
-    image: savonet/liquidsoap:v2.2.4
+    image: savonet/liquidsoap:v2.2.5
     networks:
-    - default
+    - ${NETWORK_NAME:-default}
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/transcoder/:/scripts/transcoder/:ro
@@ -341,9 +333,9 @@ services:
     - /conf/mystreamer.liq
     - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
-    image: savonet/liquidsoap:v2.2.4
+    image: savonet/liquidsoap:v2.2.5
     networks:
-    - default
+    - ${NETWORK_NAME:-default}
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/streamer/:/scripts/streamer/:ro
