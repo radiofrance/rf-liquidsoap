@@ -4,6 +4,8 @@ help: ## Display this message
 
 version = $(shell git describe --tags --long)
 
+	
+
 artifact: ## Build binary artifact
 	@mkdir /tmp/rf-liquidsoap-$(version)
 	@cp -r scripts/ /tmp/rf-liquidsoap-$(version)/
@@ -36,6 +38,12 @@ reload-streamers: ## Update containers if needed and restart source-mystreamersu
 	@docker compose logs -f
 
 start: ## Start everything
+## Ensure the Docker network exists
+	if [ -z "`docker network ls | grep chuntfm-liquidsoap`" ]; then \
+		docker network create chuntfm-liquidsoap; \
+	else \
+		echo "Network chuntfm-liquidsoap already exists"; \
+	fi
 	@docker compose up -d
 	@docker compose ps
 	@docker compose logs -f

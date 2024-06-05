@@ -16,7 +16,7 @@ services:
     image: savonet/liquidsoap:v2.2.5
     
     networks:
-      - default
+      - chuntfm-liquidsoap
     restart: unless-stopped
     ports:
     - 9001:9001/tcp
@@ -183,6 +183,8 @@ services:
     container_name: icecast
     env_file:
     - secrets.env
+    networks:
+    - chuntfm-liquidsoap
     
     expose:
     - 8000
@@ -199,7 +201,7 @@ services:
     - "80"
     image: nginx:alpine
     networks:
-    - default
+    - chuntfm-liquidsoap
     ports:
     - 8080:8080/tcp
     restart: unless-stopped
@@ -228,7 +230,7 @@ services:
     labels:
       org.label-schema.group: "monitoring"
     networks:
-    - default
+    - chuntfm-liquidsoap
     ports:
     - 3000:3000/tcp
     restart: unless-stopped
@@ -251,7 +253,7 @@ services:
     labels:
       org.label-schema.group: "monitoring"
     networks:
-    - default
+    - chuntfm-liquidsoap
     restart: unless-stopped
     ports:
     - 9090:9090/tcp
@@ -313,7 +315,7 @@ services:
     container_name: liquidsoap-test-transcoder-stereo
     image: savonet/liquidsoap:v2.2.5
     networks:
-    - default
+    - chuntfm-liquidsoap
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/transcoder/:/scripts/transcoder/:ro
@@ -341,7 +343,7 @@ services:
     env_file:
       - secrets.env
     networks:
-    - default
+    - chuntfm-liquidsoap
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/streamer/:/scripts/streamer/:ro
@@ -364,3 +366,8 @@ volumes:
   data_hls: {}
   data_liquidsoap: {}
   data_prometheus: {}
+
+
+networks:
+  chuntfm-liquidsoap:
+    external: true
