@@ -193,6 +193,8 @@ services:
   # HLS (nginx)
   hls:
     container_name: hls
+    env_file:
+      - secrets.env
     expose:
     - "80"
     image: nginx:alpine
@@ -212,6 +214,8 @@ services:
   # Dashboards
   grafana:
     container_name: grafana
+    env_file:
+      - secrets.env
     
     depends_on:
     - prometheus
@@ -334,6 +338,8 @@ services:
     - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
     image: savonet/liquidsoap:v2.2.5
+    env_file:
+      - secrets.env
     networks:
     - ${NETWORK_NAME:-default}
     volumes:
