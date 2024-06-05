@@ -16,7 +16,7 @@ services:
     image: savonet/liquidsoap:v2.2.5
     
     networks:
-      - ${NETWORK_NAME:-default}
+      - default
     restart: unless-stopped
     ports:
     - 9001:9001/tcp
@@ -199,7 +199,7 @@ services:
     - "80"
     image: nginx:alpine
     networks:
-    - ${NETWORK_NAME:-default}
+    - default
     ports:
     - 8080:8080/tcp
     restart: unless-stopped
@@ -228,7 +228,7 @@ services:
     labels:
       org.label-schema.group: "monitoring"
     networks:
-    - ${NETWORK_NAME:-default}
+    - default
     ports:
     - 3000:3000/tcp
     restart: unless-stopped
@@ -251,7 +251,7 @@ services:
     labels:
       org.label-schema.group: "monitoring"
     networks:
-    - ${NETWORK_NAME:-default}
+    - default
     restart: unless-stopped
     ports:
     - 9090:9090/tcp
@@ -313,7 +313,7 @@ services:
     container_name: liquidsoap-test-transcoder-stereo
     image: savonet/liquidsoap:v2.2.5
     networks:
-    - ${NETWORK_NAME:-default}
+    - default
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/transcoder/:/scripts/transcoder/:ro
@@ -341,7 +341,7 @@ services:
     env_file:
       - secrets.env
     networks:
-    - ${NETWORK_NAME:-default}
+    - default
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/streamer/:/scripts/streamer/:ro

@@ -6,3 +6,4 @@ archive/*
 fallback/*
 
 venv/*
+.env
