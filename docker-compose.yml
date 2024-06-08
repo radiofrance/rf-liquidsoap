@@ -282,23 +282,27 @@ services:
   #   - ./example/alertmanager:/etc/alertmanager
 
   # Container / system metrics
-  # cadvisor:
-  #   container_name: cadvisor
-  #   depends_on:
-  #   - redis
-  #   image: gcr.io/cadvisor/cadvisor:latest
-  #   ports:
-  #   - 8081:8080/tcp
-  #   volumes:
-  #   - /:/rootfs:ro
-  #   - /var/run:/var/run:rw
-  #   - /sys:/sys:ro
-  #   - /var/lib/docker/:/var/lib/docker:ro
-  # redis:
-  #   container_name: redis
-  #   image: redis:latest
-  #   ports:
-  #   - 6379:6379
+  cadvisor:
+    container_name: cadvisor
+    depends_on:
+    - redis
+    image: gcr.io/cadvisor/cadvisor:latest
+    networks:
+    - chuntfm-liquidsoap
+    ports:
+    - 8081:8080/tcp
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+  redis:
+    container_name: redis
+    image: redis:latest
+    networks:
+    - chuntfm-liquidsoap
+    ports:
+    - 6379:6379
 
   #########
   # TESTS #
