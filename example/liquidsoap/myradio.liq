@@ -89,11 +89,17 @@ icecast_host = environment.get("ICECAST_HOSTNAME")
 icecast_port = 8000
 icecast_password = environment.get("ICECAST_PASSWORD")
 icecast_formats = [
-  ("aac", [
-    "lofi", "midfi", "hifi"
-  ]),
   ("mp3", [
     "midfi", "hifi"
   ])
 ]
+
+#icecast_formats = [
+#  ("aac", [
+#    "lofi", "midfi", "hifi"
+#  ]),
+#  ("mp3", [
+#    "midfi", "hifi"
+#  ])
+#]
 
