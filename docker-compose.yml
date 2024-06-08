@@ -308,6 +308,8 @@ services:
     image: prom/node-exporter:latest
     container_name: node-exporter
     restart: unless-stopped
+    networks:
+    - chuntfm-liquidsoap
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
