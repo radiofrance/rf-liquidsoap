@@ -5,7 +5,7 @@ formats_picker = fun (formats) -> formats.stereo
 aac_encoder = "aac"
 harbor_http_port = 7000
 prometheus_server_port = 9001
-liquidsoap_log_level = 3
+liquidsoap_log_level = 4
 
 # POST output functions to alert frontend about connecting streamers
 frontend_url = environment.get("FRONTEND_URL_POST_STATUS")
