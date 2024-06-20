@@ -3,10 +3,19 @@
   "extends": [
     "config:best-practices",
     ":label(dependencies)",
-    ":semanticCommitType(bump)",
-    ":pinDigestsDisabled"
+    ":semanticCommitType(bump)"
   ],
   "packageRules": [
+    {
+      "description": "Disable pin digest in docker-compose",
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchPaths": [
+        "docker-compose.yml"
+      ],
+      "pinDigests": false
+    },
     {
       "description": "Group all liquidsoap containers versions",
       "matchPackageNames": [
