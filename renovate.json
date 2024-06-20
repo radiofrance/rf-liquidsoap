@@ -3,10 +3,12 @@
   "extends": [
     "config:best-practices",
     ":label(dependencies)",
-    ":semanticCommitType(bump)"
+    ":semanticCommitType(bump)",
+    ":pinDigestsDisabled"
   ],
   "packageRules": [
     {
+      "description": "Group all liquidsoap containers versions",
       "matchPackageNames": [
         "savonet/liquidsoap"
       ],
