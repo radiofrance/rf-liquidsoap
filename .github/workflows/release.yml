@@ -1,70 +1,74 @@
 ---
 name: Release
-on: # yamllint disable-line rule:truthy
+on:
   workflow_dispatch:
+    branches:
+    - master
 
 jobs:
-  build-and-release:
-    name: Build & Release
+  release:
+    name: Release
     runs-on: ubuntu-latest
+
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        with:
-          fetch-depth: 0
+    - name: Checkout sources
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Get Next Version
-        id: semver
-        uses: ietf-tools/semver-action@v1
-        if: ${{ !env.ACT }}
-        with:
-          token: ${{ github.token }}
-          branch: master
+    - name: Get Next Version
+      id: semver
+      uses: ietf-tools/semver-action@v1
+      if: ${{ !env.ACT }}
+      with:
+        token: ${{ github.token }}
+        branch: master
 
-      - name: Build artifacts
-        run: make version=${{ steps.semver.outputs.next }} artifact
+    - name: Build artifacts
+      run: make version=${{ steps.semver.outputs.next }} artifact
 
-      - name: Create Draft Release
-        uses: ncipollo/release-action@v1.12.0
-        if: ${{ !env.ACT }}
-        with:
-          artifacts: "rf-liquidsoap*.tar.gz"
-          prerelease: true
-          draft: false
-          commit: ${{ github.sha }}
-          tag: ${{ steps.semver.outputs.next }}
-          name: ${{ steps.semver.outputs.next }}
-          body: '*pending*'
-          token: ${{ github.token }}
+    - name: Create Draft Release
+      uses: ncipollo/release-action@v1
+      if: ${{ !env.ACT }}
+      with:
+        artifacts: "rf-liquidsoap*.tar.gz"
+        prerelease: true
+        draft: false
+        commit: ${{ github.sha }}
+        tag: ${{ steps.semver.outputs.next }}
+        name: ${{ steps.semver.outputs.next }}
+        body: '*pending*'
+        token: ${{ github.token }}
 
-      - name: Update CHANGELOG
-        id: changelog
-        if: ${{ !env.ACT }}
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
+    - name: Update CHANGELOG
+      id: changelog
+      if: ${{ !env.ACT }}
+      uses: requarks/changelog-action@v1
+      with:
+        token: ${{ github.token }}
+        tag: ${{ github.ref_name }}
 
-      - name: Create Release
-        if: ${{ !env.ACT }}
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "rf-liquidsoap*.tar.gz"
-          allowUpdates: true
-          draft: false
-          makeLatest: true
-          tag: ${{ steps.semver.outputs.next }}
-          name: ${{ steps.semver.outputs.next }}
-          body: ${{ steps.changelog.outputs.changes }}
-          token: ${{ github.token }}
+    - name: Create Release
+      if: ${{ !env.ACT }}
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "rf-liquidsoap*.tar.gz"
+        allowUpdates: true
+        draft: false
+        makeLatest: true
+        generateReleaseNotes: true
+        tag: ${{ steps.semver.outputs.next }}
+        name: ${{ steps.semver.outputs.next }}
+        body: ${{ steps.changelog.outputs.changes }}
+        token: ${{ github.token }}
 
-      - name: Commit CHANGELOG.md
-        if: ${{ !env.ACT }}
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: main
-          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
-          file_pattern: CHANGELOG.md
+    - name: Commit CHANGELOG.md
+      if: ${{ !env.ACT }}
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: main
+        commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
+        file_pattern: CHANGELOG.md
