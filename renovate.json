@@ -11,7 +11,7 @@
       "matchPackagePatterns": [
         "*"
       ],
-      "matchPaths": [
+      "matchFileNames": [
         "docker-compose.yml"
       ],
       "pinDigests": false
