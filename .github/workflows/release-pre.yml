@@ -16,6 +16,8 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v4
       with:
+        # checkout merge request HEAD instead of merge commit
+        ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 0
 
     - name: Get Next Version
@@ -30,8 +32,16 @@ jobs:
       id: short_sha
       run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+    - name: Update CHANGELOG
+      id: changelog
+      uses: requarks/changelog-action@v1
+      with:
+        toTag: ${{ steps.semver.outputs.current }}
+        fromTag: ${{ github.event.pull_request.head.sha }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build artifacts
-      run: make version=${{ steps.semver.outputs.next }}-${{ steps.short_sha.outputs.short_sha }} artifact
+      run: make version=${{ steps.semver.outputs.next }}-pre-${{ steps.short_sha.outputs.short_sha }} artifact
 
     - name: Create Draft Release
       uses: ncipollo/release-action@v1
@@ -39,15 +49,14 @@ jobs:
       with:
         allowUpdates: true
         artifacts: "rf-liquidsoap*.tar.gz"
-        commit: master
+        body: ${{ steps.changelog.outputs.changes }}
+        commit: ${{ github.event.pull_request.head.sha }}
         draft: true
-        generateReleaseNotes: true
         makeLatest: false
-        name: ${{ steps.semver.outputs.next }}-pre
-        omitBodyDuringUpdate: true
+        name: ${{ steps.semver.outputs.next }}-pre-${{ github.head_ref }}
         prerelease: true
         removeArtifacts: true
         replacesArtifacts: true
-        tag: ${{ steps.semver.outputs.next }}-pre
+        tag: ${{ steps.semver.outputs.next }}-pre-${{ github.head_ref }}
         token: ${{ secrets.GITHUB_TOKEN }}
         updateOnlyUnreleased: true
