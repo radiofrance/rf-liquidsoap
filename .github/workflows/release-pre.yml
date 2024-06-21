@@ -1,0 +1,53 @@
+---
+name: Pre-release
+on:
+  pull_request:
+
+jobs:
+  prerelease:
+    name: Pre-release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Get Next Version
+      id: semver
+      uses: ietf-tools/semver-action@v1
+      if: ${{ !env.ACT }}
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: master
+
+    - name: Short SHA
+      id: short_sha
+      run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Build artifacts
+      run: make version=${{ steps.semver.outputs.next }}-${{ steps.short_sha.outputs.short_sha }} artifact
+
+    - name: Create Draft Release
+      uses: ncipollo/release-action@v1
+      if: ${{ !env.ACT }}
+      with:
+        allowUpdates: true
+        artifacts: "rf-liquidsoap*.tar.gz"
+        commit: master
+        draft: true
+        generateReleaseNotes: true
+        makeLatest: false
+        name: ${{ steps.semver.outputs.next }}-pre
+        omitBodyDuringUpdate: true
+        prerelease: true
+        removeArtifacts: true
+        replacesArtifacts: true
+        tag: ${{ steps.semver.outputs.next }}-pre
+        token: ${{ secrets.GITHUB_TOKEN }}
+        updateOnlyUnreleased: true
