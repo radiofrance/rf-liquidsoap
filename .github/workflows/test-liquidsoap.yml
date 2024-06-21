@@ -12,7 +12,7 @@ jobs:
     name: Liquidsoap Test Transcoder Stereo
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.2.5
+      image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -22,7 +22,7 @@ jobs:
     name: Liquidsoap Test Transcoder Surround
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.2.5
+      image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -32,7 +32,7 @@ jobs:
     name: Liquidsoap Test Streamer Stereo
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.2.5
+      image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -42,7 +42,7 @@ jobs:
     name: Liquidsoap Test Streamer Surround
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.2.5
+      image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
