@@ -181,7 +181,7 @@ services:
     - ICECAST_MAX_SOURCES=10
     expose:
     - 8000
-    image: libretime/icecast
+    image: libretime/icecast:latest
     ports:
     - 8000:8000
 
