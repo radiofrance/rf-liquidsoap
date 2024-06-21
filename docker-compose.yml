@@ -181,7 +181,7 @@ services:
     - ICECAST_MAX_SOURCES=10
     expose:
     - 8000
-    image: libretime/icecast
+    image: libretime/icecast@sha256:c9c08c3f8090cda0ccfd6b80e037a9e3ee8f199586a3bdc4dab555945fc1f5c5
     ports:
     - 8000:8000
 
@@ -190,7 +190,7 @@ services:
     container_name: hls
     expose:
     - "80"
-    image: nginx:alpine
+    image: nginx:alpine@sha256:d68d230c2c7f0b28c7e5f17ed66d521deeba23aa467568202af72f7f7f61cd94
     networks:
     - default
     ports:
@@ -214,7 +214,7 @@ services:
     - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     - GF_USERS_ALLOW_SIGN_UP=false
     - GF_LOG_LEVEL=warn
-    image: grafana/grafana:latest
+    image: grafana/grafana:latest@sha256:0dc5a246ab16bb2c38a349fb588174e832b4c6c2db0981d0c3e6cd774ba66a54
     labels:
       org.label-schema.group: "monitoring"
     networks:
@@ -237,7 +237,7 @@ services:
     - '--web.enable-lifecycle'
     - '--log.level=warn'
     container_name: prometheus
-    image: prom/prometheus:latest
+    image: prom/prometheus:latest@sha256:075b1ba2c4ebb04bc3a6ab86c06ec8d8099f8fda1c96ef6d104d9bb1def1d8bc
     labels:
       org.label-schema.group: "monitoring"
     networks:
