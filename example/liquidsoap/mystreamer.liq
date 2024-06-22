@@ -11,4 +11,6 @@ input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
 
 # SRT output configuration
 srt_host = "liquidsoap-myradio"
-srt_port = 10005 # override_caller2
+
+# override_caller2
+srt_port = 10005

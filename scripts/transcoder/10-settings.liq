@@ -12,6 +12,7 @@ settings.console.colorize.set("never")
 # liquidsoap --conf-descr-key scheduler
 # 1 fast queue
 settings.scheduler.fast_queues.set(1)
+
 # 4 generic queues because "There should at least be one."
 # and we upload 3 HLS segment in parallel.
 settings.scheduler.generic_queues.set(4)
