@@ -1,5 +1,5 @@
 ---
-name: Test (Liquidsoap)
+name: Tests (Liquidsoap)
 on: # yamllint disable-line rule:truthy
   pull_request:
     types: [opened, synchronize]
@@ -8,8 +8,23 @@ on: # yamllint disable-line rule:truthy
     - ".github/workflows/test-liquidsoap.yml"
 
 jobs:
+  liquidsoap-fmt:
+    name: liquidsoap scripts formatting (liquidsoap-prettier)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    - run: 'npm install -g liquidsoap-prettier'
+    - run: |
+        ret=0
+        for file in $(find . -type f -name "*.liq"); do
+          if ! liquidsoap-prettier -c "${file}"; then
+            ret=2 ; echo "${file} is not formatted"
+          fi
+        done
+        exit $ret
+
   liquidsoap-test-transcoder-stereo:
-    name: Liquidsoap Test Transcoder Stereo
+    name: liquidsoap syntax (transcoder stereo)
     runs-on: ubuntu-latest
     container:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
@@ -19,7 +34,7 @@ jobs:
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-transcoder-surround:
-    name: Liquidsoap Test Transcoder Surround
+    name: liquidsoap syntax (transcoder surround)
     runs-on: ubuntu-latest
     container:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
@@ -29,7 +44,7 @@ jobs:
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-streamer-stereo:
-    name: Liquidsoap Test Streamer Stereo
+    name: liquidsoap syntax (streamer stereo)
     runs-on: ubuntu-latest
     container:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
@@ -39,7 +54,7 @@ jobs:
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-streamer-surround:
-    name: Liquidsoap Test Streamer Surround
+    name: liquidsoap syntax (streamer surround)
     runs-on: ubuntu-latest
     container:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
