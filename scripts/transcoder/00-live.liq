@@ -15,15 +15,20 @@ input_sources = list.map(mk_source, input_list)
 safe_blank = blank(id="safe_blank")
 safe_blank = source_tag(safe_blank, "safe_blank")
 set_safe_blank_is_playing_metric =
-  create_is_playing_metric(label_values=[radio_name,"input","safe_blank"])
+  create_is_playing_metric(label_values=[radio_name, "input", "safe_blank"])
 
 real_live_source = ref("")
 
 # get the livesourcestate on disk if it exist
-if file.exists(livesource_state_path) then
+if
+  file.exists(livesource_state_path)
+then
   content = file.contents(livesource_state_path)
+
   # check that the livesource exist in input list
-  if list.exists(fun (s) -> s.name == content, input_sources) then
+  if
+    list.exists(fun (s) -> s.name == content, input_sources)
+  then
     preferred_live_source := content
   end
 end
@@ -36,43 +41,54 @@ def mk_switch_source(s) =
   (is_playing(s.name), s.source)
 end
 
-live = switch(
-  id="switch_live",
-  track_sensitive=false,
-  list.map(mk_switch_source, input_sources)
-)
+live =
+  switch(
+    id="switch_live",
+    track_sensitive=false,
+    list.map(mk_switch_source, input_sources)
+  )
 
 def mk_fallback_source(result, s) =
-  if s.is_autofallback then
-    [...result, (s.source:source(audio=pcm))]
+  if
+    s.is_autofallback
+  then
+    [...result, (s.source : source(audio=pcm))]
   else
     result
   end
 end
 
-radio_prod = fallback(
-  id="fallback_prod",
-  track_sensitive=false,
-  [
-    (live:source(audio=pcm)),
-    ...list.fold(mk_fallback_source, [], input_sources),
-    (safe_blank:source(audio=pcm))
-  ]
-)
+radio_prod =
+  fallback(
+    id="fallback_prod",
+    track_sensitive=false,
+    [
+      (live : source(audio=pcm)),
+      ...list.fold(mk_fallback_source, [], input_sources),
+
+      (safe_blank : source(audio=pcm))
+    ]
+  )
 
 # Create the several latency time series for the output
-latency_metrics_create(label_values=[radio_name,"output","radio_prod"],radio_prod)
+latency_metrics_create(
+  label_values=[radio_name, "output", "radio_prod"], radio_prod
+)
 
 # Create is_ready and duration_unready_seconds time series for the output and
 # update them recurrently.
 is_ready_metric_set =
-  is_ready_metric_create(label_values=[radio_name,"output","radio_prod"])
+  is_ready_metric_create(label_values=[radio_name, "output", "radio_prod"])
 
 duration_unready_seconds_metric_increase =
-  duration_unready_seconds_metric_create(label_values=[radio_name,"output","radio_prod"])
+  duration_unready_seconds_metric_create(
+    label_values=[radio_name, "output", "radio_prod"]
+  )
 
 is_preferred_livesource_set =
-  is_preferred_livesource_metric(label_values=[radio_name,"output","radio_prod"])
+  is_preferred_livesource_metric(
+    label_values=[radio_name, "output", "radio_prod"]
+  )
 
 thread.run(
   every=1.,
@@ -90,7 +106,9 @@ def update_is_playing_metrics(metadata) =
   source_tag = list.assoc(default="", "source_tag", metadata)
 
   def update_metric(s) =
-    if s.name == source_tag then
+    if
+      s.name == source_tag
+    then
       real_live_source := s.name
       s.set_is_playing_metric(1.)
     else
@@ -98,14 +116,17 @@ def update_is_playing_metrics(metadata) =
     end
   end
 
-  sources = [
-    ...input_sources,
-    {name                  = "safe_blank",
-     is_autofallback       = true,
-     is_ready              = safe_blank.is_ready,
-     set_is_playing_metric = set_safe_blank_is_playing_metric,
-     source                = safe_blank}
-  ]
+  sources =
+    [
+      ...input_sources,
+      {
+        name="safe_blank",
+        is_autofallback=true,
+        is_ready=safe_blank.is_ready,
+        set_is_playing_metric=set_safe_blank_is_playing_metric,
+        source=safe_blank
+      }
+    ]
 
   list.iter(update_metric, sources)
 end
@@ -117,7 +138,7 @@ radio_prod.on_metadata(update_is_playing_metrics)
 is_blank = ref(false)
 
 is_blank_metric_set =
-  is_blank_metric_create(label_values=[radio_name,"output","radio_prod"])
+  is_blank_metric_create(label_values=[radio_name, "output", "radio_prod"])
 
 def noise_detect_handler() =
   is_blank := false
@@ -144,14 +165,11 @@ radio_prod =
 
 # Output LUFS analysis to prometheus metrics
 set_metric_audio_lufs =
-  audit_lufs_metric_create(label_values=[radio_name,"output", "radio_prod"])
+  audit_lufs_metric_create(label_values=[radio_name, "output", "radio_prod"])
 
 radio_prod = lufs(window=5., radio_prod)
 
-thread.run(
-  every=5.,
-  {set_metric_audio_lufs(radio_prod.lufs())}
-)
+thread.run(every=5., {set_metric_audio_lufs(radio_prod.lufs())})
 
 %include "80-outputs.liq"
 %include "90-http.liq"
