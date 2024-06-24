@@ -15,7 +15,6 @@ jobs:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-transcoder-surround:
@@ -25,7 +24,6 @@ jobs:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-streamer-stereo:
@@ -35,7 +33,6 @@ jobs:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-streamer-surround:
@@ -45,5 +42,4 @@ jobs:
       image: savonet/liquidsoap:v2.2.5@sha256:2b3ab71509dc48f47f0f99b98316090081eeaf37bea3c96a3edaa4a55ec57f41
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq'
