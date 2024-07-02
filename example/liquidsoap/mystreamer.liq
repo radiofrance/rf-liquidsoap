@@ -8,9 +8,19 @@ liquidsoap_log_level = 3
 
 # Inputs configuration
 input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
+srt_host = "liquidsoap-myradio"
+srt_port = 10005
+
+input_list =
+  [
+    {name="voieA", is_autofallback=true, input="udp://228.0.6.102:1026"},
+    {
+      name="voieB",
+      is_autofallback=true,
+      input="./example/liquidsoap/mystreamer-voieB.sdp",
+      input_options="protocol_whitelist='file,udp,rtp'"
+    }
+  ]
 
 # SRT output configuration
-srt_host = "liquidsoap-myradio"
-
-# override_caller2
-srt_port = 10005
+output_list = [{name="transcoder1", host="liquidsoap-myradio", port=10000}]
