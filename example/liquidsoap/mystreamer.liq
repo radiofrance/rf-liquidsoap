@@ -1,40 +1,35 @@
 streamer_name = "mystreamer"
 
-# streamer settings
 harbor_http_port = 7020
 prometheus_server_port = 9021
 liquidsoap_log_level = 3
-
-# tmp
-input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
+livesource_state_path = "/state/#{streamer_name}.livesourcestate"
 
 input_list =
   [
     {
       name="voieA",
-      kind=fun (input_kinds) -> input_kinds.restream,
+      kind="restream",
       input="udp://228.0.6.102:1026",
-      is_autofallback=true,
-      priority=100
+      playlist_file="",
+      is_autofallback=true
     },
     {
       name="voieB",
-      kind=fun (input_kinds) -> input_kinds.restream,
+      kind="restream",
       input="./example/liquidsoap/mystreamer-voieB.sdp",
       input_options="protocol_whitelist='file,udp,rtp'",
-      is_autofallback=true,
-      priority=101
+      playlist_file="",
+      is_autofallback=true
     },
     {
       name="localPlaylist",
-      kind=fun (input_kinds) -> input_kinds.playlist,
+      kind="playlist",
       playlist_file="/audio/lib/#{streamer_name}.m3u",
-      is_autofallback=true,
-      priority=102
+      is_autofallback=true
     }
   ]
 
-# SRT output configuration
 output_list =
   [
     {
