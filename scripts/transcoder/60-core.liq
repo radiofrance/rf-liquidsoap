@@ -11,8 +11,7 @@ def source_tag(s, tag) =
 end
 
 def mk_source(s) =
-  srt_input =
-    input.srt(id=(s.name : string), max=3.0, clock_safe=true, port=s.port)
+  srt_input = input.srt(id=(s.name : string), max=3.0, port=s.port)
 
   # Create the several latency time series for this input
   latency_metrics_create(label_values=[radio_name, "input", s.name], srt_input)
