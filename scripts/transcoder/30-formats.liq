@@ -1,8 +1,4 @@
-let formats =
-  {
-    surround={icecast=(), hls=(), pcm=source(audio=pcm)},
-    stereo={icecast=(), hls=(), pcm=source(audio=pcm(5.1))}
-  }
+let formats = {surround={icecast=(), hls=()}, stereo={icecast=(), hls=()}}
 
 %include "formats/hls.aac.liq"
 %include "formats/hls.libfdk_aac.liq"

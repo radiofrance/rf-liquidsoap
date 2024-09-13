@@ -49,13 +49,7 @@ live =
   )
 
 def mk_fallback_source(result, s) =
-  if
-    s.is_autofallback
-  then
-    [...result, (s.source : formats.pcm)]
-  else
-    result
-  end
+  if s.is_autofallback then [...result, s.source] else result end
 end
 
 radio_prod =
@@ -63,10 +57,10 @@ radio_prod =
     id="fallback_prod",
     track_sensitive=false,
     [
-      (live : formats.pcm),
+      live,
       ...list.fold(mk_fallback_source, [], input_sources),
 
-      (safe_blank : formats.pcm)
+      safe_blank
     ]
   )
 
