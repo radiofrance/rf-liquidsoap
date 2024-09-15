@@ -45,9 +45,9 @@ end
 
 ## HLS segments
 
-def segment_name(~position, ~extname=_, stream_name) =
+def segment_name(metadata) =
+  let {position, duration, extname, stream_name} = metadata
   segment_timestamp = int_of_float(time())
-  duration = int_of_float(4.0)
 
   # Add the codec to the segment name because it's expected by segment-forwarder
   segment_prefix = string.replace(pattern="_", fun (_) -> "_aac_", stream_name)
