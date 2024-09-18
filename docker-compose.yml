@@ -11,7 +11,7 @@ services:
     - /conf/myradio.liq
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     restart: unless-stopped
@@ -36,7 +36,7 @@ services:
     - /conf/myradiosurround.liq
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradiosurround
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     restart: unless-stopped
@@ -76,7 +76,7 @@ services:
     - "srt://liquidsoap-myradio:10000" # voieA_caller1
     container_name: source-voieA-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     restart: unless-stopped
@@ -97,7 +97,7 @@ services:
     - "srt://liquidsoap-myradio:10002" # voieB_caller1
     container_name: source-voieB-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     restart: unless-stopped
@@ -118,7 +118,7 @@ services:
     - "srt://liquidsoap-myradio:10004" # override_caller1
     container_name: source-override-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     restart: unless-stopped
@@ -130,7 +130,7 @@ services:
     - /conf/mystreamersurround.liq
     - /scripts/streamer/00-live.liq
     container_name: source-mystreamersurround
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     restart: unless-stopped
@@ -158,7 +158,7 @@ services:
     - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
     container_name: source-ffmpegsurround
     entrypoint: []
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     restart: unless-stopped
@@ -299,7 +299,7 @@ services:
     - /conf/myradio.liq
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-stereo
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     volumes:
@@ -312,7 +312,7 @@ services:
     - /conf/myradiosurround.liq
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-surround
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     volumes:
@@ -325,7 +325,7 @@ services:
     - /conf/mystreamer.liq
     - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     volumes:
@@ -338,7 +338,7 @@ services:
     - /conf/mystreamersurround.liq
     - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-surround
-    image: savonet/liquidsoap:v2.2.5
+    image: savonet/liquidsoap:rolling-release-v2.3.x
     networks:
     - default
     volumes:
