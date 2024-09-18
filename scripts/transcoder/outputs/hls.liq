@@ -47,11 +47,12 @@ end
 
 def segment_name(metadata) =
   let {position, duration, extname, stream_name} = metadata
+  segment_duration = int_of_float(duration)
   segment_timestamp = int_of_float(time())
 
   # Add the codec to the segment name because it's expected by segment-forwarder
   segment_prefix = string.replace(pattern="_", fun (_) -> "_aac_", stream_name)
-  "#{segment_prefix}_#{duration}_#{position}_#{segment_timestamp}.ts"
+  "#{segment_prefix}_#{segment_duration}_#{position}_#{segment_timestamp}.ts"
 end
 
 def on_file_change(~state, fname) =
