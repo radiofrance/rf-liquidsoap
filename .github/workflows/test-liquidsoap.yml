@@ -12,7 +12,7 @@ jobs:
     name: liquidsoap scripts formatting (liquidsoap-prettier)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - run: 'npm install -g liquidsoap-prettier'
     - run: |
         ret=0
@@ -30,7 +30,7 @@ jobs:
       image: savonet/liquidsoap:v2.3.0
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-transcoder-surround:
@@ -40,7 +40,7 @@ jobs:
       image: savonet/liquidsoap:v2.3.0
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-streamer-stereo:
@@ -50,7 +50,7 @@ jobs:
       image: savonet/liquidsoap:v2.3.0
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
 
   liquidsoap-test-streamer-surround:
@@ -60,5 +60,5 @@ jobs:
       image: savonet/liquidsoap:v2.3.0
       options: --user root
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq'
