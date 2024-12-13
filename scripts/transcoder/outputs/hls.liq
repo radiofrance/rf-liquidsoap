@@ -130,7 +130,7 @@ def mk_hls_output(selected_formats, source) =
   output.file.hls(
     id="hls_#{radio_name}",
     on_file_change=on_file_change,
-    perm=422,
+    perm=0o644,
     persist_at=hls_state_path,
     playlist="#{radio_name}.m3u8",
     segment_duration=4.0,
