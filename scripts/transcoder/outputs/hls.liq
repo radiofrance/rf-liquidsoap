@@ -46,13 +46,15 @@ end
 ## HLS segments
 
 def segment_name(metadata) =
-  let {position, duration, extname, stream_name} = metadata
+  let {position, duration, extname, stream_name, ticks} = metadata
   segment_duration = int_of_float(duration)
   segment_timestamp = int_of_float(time())
 
   # Add the codec to the segment name because it's expected by segment-forwarder
   segment_prefix = string.replace(pattern="_", fun (_) -> "_aac_", stream_name)
-  "#{segment_prefix}_#{segment_duration}_#{position}_#{segment_timestamp}.ts"
+  "#{ticks}_#{segment_prefix}_#{segment_duration}_#{position}_#{
+    segment_timestamp
+  }.ts"
 end
 
 def on_file_change(~state, fname) =
@@ -71,17 +73,24 @@ def on_file_change(~state, fname) =
             "Uploading #{fname} to #{target}/#{path.basename(fname)}"
           )
           file = file.contents(fname)
+          let [ticks, ...segment_name] = string.split(separator="_", fname)
+          target_fname = string.concat(separator="_", segment_name)
           uploadsegment =
             http.post(
-              headers=[("Origin", hls_segments_http_post_origin)],
+              headers=
+                [
+                  ("X-Origin-Transcoder", hls_segments_http_post_origin),
+                  ("X-Duration-Ticks", ticks)
+                ],
               data=file,
               timeout=2.,
-              target ^ "/#{path.basename(fname)}"
+              target ^ "/#{path.basename(target_fname)}"
             )
           log.important(
             label="hlssegmentpush",
-            '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", \
-             "response": "#{uploadsegment.status_code}", "protocol": "#{
+            '{"timestamp": "#{time()}", "request": "/#{
+              path.basename(target_fname)
+            }", "response": "#{uploadsegment.status_code}", "protocol": "#{
               uploadsegment.http_version
             }", "target": "' ^
               target ^
