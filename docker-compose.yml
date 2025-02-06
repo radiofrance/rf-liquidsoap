@@ -63,7 +63,7 @@ services:
   # Feed myradio with an example SRT source (https://modular-station.com/)
   source-voieA-caller1:
     command:
-    - /usr/bin/ffmpeg
+    - ffmpeg
     - -hide_banner
     - -re
     - -i
@@ -76,7 +76,7 @@ services:
     - "srt://liquidsoap-myradio:10000" # voieA_caller1
     container_name: source-voieA-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.3.0
+    image: jrottenberg/ffmpeg:7.1-scratch
     networks:
     - default
     restart: unless-stopped
@@ -84,7 +84,7 @@ services:
   # Feed myradio with an example SRT source (https://p-node.org/)
   source-voieB-caller1:
     command:
-    - /usr/bin/ffmpeg
+    - ffmpeg
     - -hide_banner
     - -re
     - -i
@@ -97,7 +97,7 @@ services:
     - "srt://liquidsoap-myradio:10002" # voieB_caller1
     container_name: source-voieB-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.3.0
+    image: jrottenberg/ffmpeg:7.1-scratch
     networks:
     - default
     restart: unless-stopped
@@ -105,7 +105,7 @@ services:
   # Feed myradio with an example override SRT source (https://datafruits.fm)
   source-override-caller1:
     command:
-    - /usr/bin/ffmpeg
+    - ffmpeg
     - -hide_banner
     - -re
     - -i
@@ -118,7 +118,7 @@ services:
     - "srt://liquidsoap-myradio:10004" # override_caller1
     container_name: source-override-caller1
     entrypoint: []
-    image: savonet/liquidsoap:v2.3.0
+    image: jrottenberg/ffmpeg:7.1-scratch
     networks:
     - default
     restart: unless-stopped
@@ -145,7 +145,7 @@ services:
   # Feed liquidsoap with an example SRT source (local file)
   source-ffmpegsurround:
     command:
-    - /usr/bin/ffmpeg
+    - ffmpeg
     - -hide_banner
     - -re
     - -i
@@ -158,7 +158,7 @@ services:
     - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
     container_name: source-ffmpegsurround
     entrypoint: []
-    image: savonet/liquidsoap:v2.3.0
+    image: jrottenberg/ffmpeg:7.1-scratch
     networks:
     - default
     restart: unless-stopped
