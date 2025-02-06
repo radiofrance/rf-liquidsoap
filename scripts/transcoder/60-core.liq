@@ -52,6 +52,7 @@ def mk_source(s) =
       srt_sockets != []
     then
       let [(_, s)] = srt_sockets
+      s = srt.socket(s)
       srt_input_bytes_available_set(float(s.bstats().byteAvailRcvBuf))
       srt_input_packet_received_buffer_set(float(s.bstats().pktRcvBuf))
       srt_input_packet_received_set(float(s.bstats().pktRecvTotal))
