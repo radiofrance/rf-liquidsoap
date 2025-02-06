@@ -27,7 +27,7 @@ jobs:
     name: liquidsoap syntax (transcoder stereo)
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.3.0
+      image: savonet/liquidsoap:v2.3.1@sha256:a546c2531a8e7606b7be5237a919949ef79af66ab4c9b638154aded49ca9f96b
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -37,7 +37,7 @@ jobs:
     name: liquidsoap syntax (transcoder surround)
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.3.0
+      image: savonet/liquidsoap:v2.3.1@sha256:a546c2531a8e7606b7be5237a919949ef79af66ab4c9b638154aded49ca9f96b
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -47,7 +47,7 @@ jobs:
     name: liquidsoap syntax (streamer stereo)
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.3.0
+      image: savonet/liquidsoap:v2.3.1@sha256:a546c2531a8e7606b7be5237a919949ef79af66ab4c9b638154aded49ca9f96b
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -57,7 +57,7 @@ jobs:
     name: liquidsoap syntax (streamer surround)
     runs-on: ubuntu-latest
     container:
-      image: savonet/liquidsoap:v2.3.0
+      image: savonet/liquidsoap:v2.3.1@sha256:a546c2531a8e7606b7be5237a919949ef79af66ab4c9b638154aded49ca9f96b
       options: --user root
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
