@@ -8,13 +8,13 @@
   "packageRules": [
     {
       "description": "Disable pin digest in docker-compose",
-      "matchPackagePatterns": [
-        "*"
-      ],
       "matchFileNames": [
         "docker-compose.yml"
       ],
-      "pinDigests": false
+      "pinDigests": false,
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "description": "Group all liquidsoap containers versions",
