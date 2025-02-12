@@ -321,7 +321,6 @@ services:
 
   liquidsoap-test-streamer-stereo:
     command:
-    - -c
     - /conf/mystreamer.liq
     - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
