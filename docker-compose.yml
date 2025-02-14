@@ -76,7 +76,7 @@ services:
     - "srt://liquidsoap-myradio:10000" # voieA_caller1
     container_name: source-voieA-caller1
     entrypoint: []
-    image: jrottenberg/ffmpeg:7.1-scratch
+    image: linuxserver/ffmpeg:latest
     networks:
     - default
     restart: unless-stopped
@@ -97,7 +97,7 @@ services:
     - "srt://liquidsoap-myradio:10002" # voieB_caller1
     container_name: source-voieB-caller1
     entrypoint: []
-    image: jrottenberg/ffmpeg:7.1-scratch
+    image: linuxserver/ffmpeg:latest
     networks:
     - default
     restart: unless-stopped
@@ -118,7 +118,7 @@ services:
     - "srt://liquidsoap-myradio:10004" # override_caller1
     container_name: source-override-caller1
     entrypoint: []
-    image: jrottenberg/ffmpeg:7.1-scratch
+    image: linuxserver/ffmpeg:latest
     networks:
     - default
     restart: unless-stopped
@@ -158,7 +158,7 @@ services:
     - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
     container_name: source-ffmpegsurround
     entrypoint: []
-    image: jrottenberg/ffmpeg:7.1-scratch
+    image: linuxserver/ffmpeg:latest
     networks:
     - default
     restart: unless-stopped
