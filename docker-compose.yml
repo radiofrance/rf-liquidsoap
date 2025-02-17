@@ -260,6 +260,26 @@ services:
     - ./example/prometheus/:/etc/prometheus/:ro
     - data_prometheus:/prometheus
 
+  process_exporter:
+    command:
+    - '-procfs'
+    - '/host/proc'
+    - '-config.path'
+    - '/etc/process_exporter/config.yml'
+    container_name: process_exporter
+    image: ncabatoff/process-exporter
+    privileged: true
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+    - default
+    restart: unless-stopped
+    ports:
+    - 9256:9256/tcp
+    volumes:
+    - /proc:/host/proc
+    - ./example/process_exporter/:/etc/process_exporter/:ro
+
   # Alerting
   # alertmanager:
   #   command:
