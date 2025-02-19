@@ -6,7 +6,7 @@ settings.log.stdout.set(true)
 settings.srt.log.set(false)
 
 # Prevent multiline logs
-settings.console.colorize.set("never")
+settings.console.colorize.set(liquidsoap_log_color)
 
 # Scheduler setting
 # liquidsoap --conf-descr-key scheduler

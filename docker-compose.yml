@@ -12,6 +12,7 @@ services:
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
     image: savonet/liquidsoap:v2.3.1
+    profiles: ["myradio"]
     networks:
     - default
     restart: unless-stopped
@@ -37,6 +38,7 @@ services:
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradiosurround
     image: savonet/liquidsoap:v2.3.1
+    profiles: ["myradiosurround"]
     networks:
     - default
     restart: unless-stopped
@@ -77,6 +79,7 @@ services:
     container_name: source-voieA-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["dev", "myradio"]
     networks:
     - default
     restart: unless-stopped
@@ -98,6 +101,7 @@ services:
     container_name: source-voieB-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["dev", "myradio"]
     networks:
     - default
     restart: unless-stopped
@@ -119,6 +123,7 @@ services:
     container_name: source-override-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["dev", "myradio"]
     networks:
     - default
     restart: unless-stopped
@@ -131,6 +136,7 @@ services:
     - /scripts/streamer/00-live.liq
     container_name: source-mystreamersurround
     image: savonet/liquidsoap:v2.3.1
+    profiles: ["myradiosurround"]
     networks:
     - default
     restart: unless-stopped
@@ -159,6 +165,7 @@ services:
     container_name: source-ffmpegsurround
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["myradiosurround"]
     networks:
     - default
     restart: unless-stopped
@@ -182,6 +189,7 @@ services:
     expose:
     - 8000
     image: libretime/icecast:latest
+    profiles: ["dev", "myradio", "myradiosurround"]
     ports:
     - 8000:8000
 
@@ -189,8 +197,9 @@ services:
   hls:
     container_name: hls
     expose:
-    - "80"
+    - 80
     image: nginx:alpine
+    profiles: ["myradio", "myradiosurround"]
     networks:
     - default
     ports:
@@ -215,6 +224,7 @@ services:
     - GF_USERS_ALLOW_SIGN_UP=false
     - GF_LOG_LEVEL=warn
     image: grafana/grafana:latest
+    profiles: ["monitor"]
     labels:
       org.label-schema.group: "monitoring"
     networks:
@@ -238,6 +248,7 @@ services:
     - '--log.level=warn'
     container_name: prometheus
     image: prom/prometheus:latest
+    profiles: ["monitor"]
     labels:
       org.label-schema.group: "monitoring"
     networks:
@@ -300,6 +311,7 @@ services:
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-stereo
     image: savonet/liquidsoap:v2.3.1
+    profiles: ["test"]
     networks:
     - default
     volumes:
@@ -313,6 +325,7 @@ services:
     - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-surround
     image: savonet/liquidsoap:v2.3.1
+    profiles: ["test"]
     networks:
     - default
     volumes:
@@ -326,6 +339,7 @@ services:
     - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
     image: savonet/liquidsoap:v2.3.1
+    profiles: ["test"]
     networks:
     - default
     volumes:
@@ -339,11 +353,31 @@ services:
     - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-surround
     image: savonet/liquidsoap:v2.3.1
+    profiles: ["test"]
     networks:
     - default
     volumes:
     - ./example/liquidsoap/:/conf/:ro
     - ./scripts/streamer/:/scripts/streamer/:ro
+
+  #######
+  # DEV #
+  #######
+
+  # Relay ports to and from the docker host/localhost
+  relay-ports-dev:
+    entrypoint: /scripts/dev/relay-ports.sh
+    container_name: relay-ports-dev
+    image: alpine/socat
+    profiles: ["dev"]
+    networks:
+    - default
+    hostname: liquidsoap-myradio
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    restart: unless-stopped
+    volumes:
+    - ./scripts/dev/:/scripts/dev/:ro
 
 volumes:
   data_grafana: {}

@@ -165,5 +165,7 @@ radio_prod = lufs(window=5., radio_prod)
 
 thread.run(every=5., {set_metric_audio_lufs(radio_prod.lufs())})
 
+clock.assign_new(id="radio_prod", [radio_prod])
+
 %include "80-outputs.liq"
 %include "90-http.liq"
