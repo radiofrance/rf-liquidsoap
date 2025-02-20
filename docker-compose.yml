@@ -7,11 +7,10 @@ services:
 
   # Run liquidsoap and create "myradio" stream
   liquidsoap-myradio:
-    command:
-    - /conf/myradio.liq
-    - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
-    image: savonet/liquidsoap-ci-build:debug-rf_arm64
+    build:
+      dockerfile: Dockerfile.myradio
+      context: .
     profiles: ["myradio"]
     networks:
     - default
