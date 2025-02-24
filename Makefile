@@ -16,6 +16,26 @@ artifact: ## Build binary artifact
 test: ## Run test on the liquidsoap configuration
 	@docker compose --profile test up
 
+	@docker compose up \
+		liquidsoap-test-transcoder-stereo \
+		liquidsoap-test-streamer-stereo \
+		liquidsoap-test-transcoder-surround \
+	  liquidsoap-test-streamer-surround
+
+reload: ## Update containers if needed and restart all liquidsoaps
+	@docker compose up -d
+	@docker compose restart \
+		liquidsoap-test-transcoder-stereo \
+		liquidsoap-test-streamer-stereo \
+		liquidsoap-test-transcoder-surround \
+	  liquidsoap-test-streamer-surround
+	@docker compose restart \
+		liquidsoap-myradio \
+		liquidsoap-myradiosurround \
+		source-mystreamersurround
+	@docker compose ps
+	@docker compose logs -f
+
 restart: ## Update containers if needed and restart all liquidsoaps
 	@docker compose --profile '*' restart
 	@docker compose ps

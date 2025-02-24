@@ -16,9 +16,6 @@ def mk_source(s) =
   # Assign a named clock.
   clock.assign_new(id=s.name, [srt_input])
 
-  # Create the several latency time series for this input
-  latency_metrics_create(label_values=[radio_name, "input", s.name], srt_input)
-
   # Create is_ready and duration_unready_seconds time series for this input and
   # update them recurrently.
   is_ready_metric_set =
