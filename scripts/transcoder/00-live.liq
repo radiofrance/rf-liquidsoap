@@ -163,6 +163,9 @@ set_metric_audio_lufs =
 
 radio_prod = lufs(window=5., radio_prod)
 
+# Assign a named clock for visibility.
+clock.assign_new(id="radio_prod", [radio_prod])
+
 thread.run(every=5., {set_metric_audio_lufs(radio_prod.lufs())})
 
 %include "80-outputs.liq"
