@@ -32,6 +32,11 @@ scrape_configs:
       - targets:
         - process_exporter:9256
 
+- job_name: 'process_exporter'
+  scrape_interval: 10s
+  static_configs:
+  - targets: ['process_exporter:9256']
+
 alerting:
   alertmanagers:
     - scheme: http
