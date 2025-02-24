@@ -13,6 +13,9 @@ end
 def mk_source(s) =
   srt_input = input.srt(id=(s.name : string), max=3.0, port=s.port)
 
+  # Assign a named clock.
+  clock.assign_new(id=s.name, [srt_input])
+
   # Create the several latency time series for this input
   latency_metrics_create(label_values=[radio_name, "input", s.name], srt_input)
 
