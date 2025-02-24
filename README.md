@@ -274,16 +274,7 @@ scripts.
 | Name                                        | Type    | Description                            |
 |-------------------------------------------- | ------- | -------------------------------------- |
 | liquidsoap_hlssegment_sent                  | counter | Number of HLS segment send to segment-forwarder |
-| liquidsoap_input_latency_seconds            | gauge   | Mean input latency over the chosen window |
-| liquidsoap_input_max_latency_seconds        | gauge   | Max input latency since start |
-| liquidsoap_input_peak_latency_seconds       | gauge   | Peak input latency over the chosen window |
-| liquidsoap_output_latency_seconds           | gauge   | Mean output latency over the chosen window |
 | liquidsoap_output_lufs_5s                   | gauge   | Audio LUFS Analysis of radio_prod with 5s windows |
-| liquidsoap_output_max_latency_seconds       | gauge   | Max output latency since start |
-| liquidsoap_output_peak_latency_seconds      | gauge   | Peak output latency over the chosen window |
-| liquidsoap_overall_latency_seconds          | gauge   | Mean overall latency over the chosen window |
-| liquidsoap_overall_max_latency_seconds      | gauge   | Max overall latency since start |
-| liquidsoap_overall_peak_latency_seconds     | gauge   | Peak overall latency over the chosen window |
 | liquidsoap_source_is_blank                  | gauge   | Is source blank? (no audio) |
 | liquidsoap_source_is_playing                | gauge   | Is source playing? |
 | liquidsoap_source_is_preferred_livesource   | gauge   | Is source the preferred livesource? |
