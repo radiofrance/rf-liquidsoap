@@ -8,15 +8,6 @@ settings.srt.log.set(false)
 # Prevent multiline logs
 settings.console.colorize.set("never")
 
-# Scheduler setting
-# liquidsoap --conf-descr-key scheduler
-# 1 fast queue
-settings.scheduler.fast_queues.set(1)
-
-# 4 generic queues because "There should at least be one."
-# and we upload 3 HLS segment in parallel.
-settings.scheduler.generic_queues.set(4)
-
 # Harbor HTTP server settings
 settings.harbor.bind_addrs.set(["0.0.0.0"])
 settings.harbor.max_connections.set(10)
@@ -35,3 +26,8 @@ settings.prometheus.server.port.set(prometheus_server_port)
 # Here we defined the default preferred live source of the switch "live" as the first input
 # we need to do that here so we can define update_source_metrics callback
 preferred_live_source = ref(list.nth(input_list, 0).name)
+
+# Queues
+settings.scheduler.non_blocking_queues := 0
+settings.scheduler.generic_queues := 1
+settings.scheduler.fast_queues := 0
