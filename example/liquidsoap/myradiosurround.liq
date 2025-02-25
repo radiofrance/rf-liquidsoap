@@ -6,6 +6,7 @@ aac_encoder = "libfdk_aac"
 harbor_http_port = 7010
 prometheus_server_port = 9011
 liquidsoap_log_level = 3
+liquidsoap_log_color = "auto"
 
 # SRT inputs configuration
 input_list =

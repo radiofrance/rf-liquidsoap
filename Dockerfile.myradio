@@ -1,0 +1,9 @@
+FROM savonet/liquidsoap-ci-build:debug-rf_arm64
+
+WORKDIR /tmp/liq
+
+COPY . /tmp/liq
+
+RUN liquidsoap --cache-only /tmp/liq/example/liquidsoap/myradio.liq /tmp/liq/scripts/transcoder/00-live.liq
+
+ENTRYPOINT ["/usr/bin/liquidsoap", "/tmp/liq/example/liquidsoap/myradio.liq", "/tmp/liq/scripts/transcoder/00-live.liq"]

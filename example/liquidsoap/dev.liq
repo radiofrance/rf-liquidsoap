@@ -5,7 +5,7 @@ formats_picker = fun (formats) -> formats.stereo
 aac_encoder = "aac"
 harbor_http_port = 7000
 prometheus_server_port = 9001
-liquidsoap_log_level = 3
+liquidsoap_log_level = 4
 liquidsoap_log_color = "auto"
 
 # SRT inputs configuration
@@ -31,7 +31,7 @@ hls_segments_http_post_target = "http://segmentforwarder"
 hls_formats = ["lofi", "midfi", "hifi"]
 
 # ICECAST output configuration
-icecast_host = "icecast"
+icecast_host = "localhost"
 icecast_port = 8000
 icecast_password = "secret"
 icecast_formats =

@@ -5,6 +5,7 @@ formats_picker = fun (formats) -> formats.flac.surround
 harbor_http_port = 7030
 prometheus_server_port = 9031
 liquidsoap_log_level = 3
+liquidsoap_log_color = "auto"
 
 # Inputs configuration
 input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
