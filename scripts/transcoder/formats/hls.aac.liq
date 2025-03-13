@@ -2,8 +2,11 @@ let formats.stereo.hls.aac =
   [
     (
       "lofi",
+
+      # See: https://github.com/savonet/liquidsoap/pull/4401
       %ffmpeg(
         format = "mpegts",
+        interleaved = false,
         %audio(
           codec = "aac",
           channels = 2,
@@ -17,6 +20,7 @@ let formats.stereo.hls.aac =
       "midfi",
       %ffmpeg(
         format = "mpegts",
+        interleaved = false,
         %audio(
           codec = "aac",
           channels = 2,
@@ -30,6 +34,7 @@ let formats.stereo.hls.aac =
       "hifi",
       %ffmpeg(
         format = "mpegts",
+        interleaved = false,
         %audio(
           codec = "aac",
           channels = 2,
@@ -43,6 +48,7 @@ let formats.stereo.hls.aac =
       "insane",
       %ffmpeg(
         format = "mpegts",
+        interleaved = false,
         %audio(
           codec = "aac",
           channels = 2,
@@ -60,6 +66,7 @@ let formats.surround.hls.aac =
       "hifi",
       %ffmpeg(
         format = "mpegts",
+        interleaved = false,
         %audio(
           codec = "aac",
           channel_layout = 5.1,
@@ -73,6 +80,7 @@ let formats.surround.hls.aac =
       "insane",
       %ffmpeg(
         format = "mpegts",
+        interleaved = false,
         %audio(
           codec = "aac",
           channel_layout = 5.1,
