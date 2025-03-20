@@ -66,7 +66,7 @@ def on_file_change(~state, fname) =
     )
     def upload_segment(target) =
       fun () ->
-        begin
+        try
           log.info(
             "Uploading #{fname} to #{target}/#{path.basename(fname)}"
           )
@@ -88,11 +88,16 @@ def on_file_change(~state, fname) =
               '"}'
           )
           increase_hlssegment_sent_metric(uploadsegment.status_code, 1.)
+        catch err do
+          log.critical(
+            label="hlssegmentpush",
+            "Error while pushing segment: #{err}"
+          )
         end
     end
     def segment_todo_file() =
       fun () ->
-        begin
+        try
           log.info(
             "Writting #{path.remove_extension(fname)}" ^
               ".todo"
@@ -101,6 +106,11 @@ def on_file_change(~state, fname) =
           log.important(
             label="hlssegmentcreated",
             '{"timestamp": "#{time()}", "file": "#{fname}"}'
+          )
+        catch err do
+          log.critical(
+            label="hlssegmentpush",
+            "Error while writting segment: #{err}"
           )
         end
     end
