@@ -64,11 +64,6 @@ radio_prod =
     ]
   )
 
-# Create the several latency time series for the output
-latency_metrics_create(
-  label_values=[radio_name, "output", "radio_prod"], radio_prod
-)
-
 # Create is_ready and duration_unready_seconds time series for the output and
 # update them recurrently.
 is_ready_metric_set =
@@ -162,6 +157,9 @@ set_metric_audio_lufs =
   audit_lufs_metric_create(label_values=[radio_name, "output", "radio_prod"])
 
 radio_prod = lufs(window=5., radio_prod)
+
+# Assign a named clock for visibility.
+clock.assign_new(id="radio_prod", [radio_prod])
 
 thread.run(every=5., {set_metric_audio_lufs(radio_prod.lufs())})
 
