@@ -1,3 +1,4 @@
+version: "3.3"
 services:
 
   ###############
@@ -6,54 +7,55 @@ services:
 
   # Run liquidsoap and create "myradio" stream
   liquidsoap-myradio:
-    command:
-      - /conf/myradio.liq
-      - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
-    image: savonet/liquidsoap:v2.3.1
+    build:
+      dockerfile: Dockerfile.myradio
+      context: .
+    profiles: ["myradio"]
     networks:
-      - default
+    - default
     restart: unless-stopped
     ports:
-      - 9001:9001/tcp
-      - 7000:7000/tcp
-      - 10000:10000/tcp
-      - 10001:10001/tcp
-      - 10002:10002/tcp
-      - 10003:10003/tcp
-      - 10004:10004/tcp
-      - 10005:10005/tcp
-      - 10006:10006/tcp
+    - 9001:9001/tcp
+    - 7000:7000/tcp
+    - 10000:10000/tcp
+    - 10001:10001/tcp
+    - 10002:10002/tcp
+    - 10003:10003/tcp
+    - 10004:10004/tcp
+    - 10005:10005/tcp
+    - 10006:10006/tcp
     volumes:
-      - ./example/liquidsoap/:/conf/:ro
-      - ./scripts/transcoder/:/scripts/transcoder/:ro
-      - data_hls:/tmp/
-      - data_liquidsoap:/state/
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
+    - data_hls:/tmp/
+    - data_liquidsoap:/state/
 
   liquidsoap-myradiosurround:
     command:
-      - /conf/myradiosurround.liq
-      - /scripts/transcoder/00-live.liq
+    - /conf/myradiosurround.liq
+    - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradiosurround
-    image: savonet/liquidsoap:v2.3.1
+    image: savonet/liquidsoap-ci-build:debug-rf_arm64
+    profiles: ["myradiosurround"]
     networks:
-      - default
+    - default
     restart: unless-stopped
     ports:
-      - 9011:9011/tcp
-      - 7010:7010/tcp
-      - 10010:10010/tcp
-      - 10011:10011/tcp
-      - 10012:10012/tcp
-      - 10013:10013/tcp
-      - 10014:10014/tcp
-      - 10015:10015/tcp
-      - 10016:10016/tcp
+    - 9011:9011/tcp
+    - 7010:7010/tcp
+    - 10010:10010/tcp
+    - 10011:10011/tcp
+    - 10012:10012/tcp
+    - 10013:10013/tcp
+    - 10014:10014/tcp
+    - 10015:10015/tcp
+    - 10016:10016/tcp
     volumes:
-      - ./example/liquidsoap/:/conf/:ro
-      - ./scripts/transcoder/:/scripts/transcoder/:ro
-      - data_hls:/tmp/
-      - data_liquidsoap:/state/
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
+    - data_hls:/tmp/
+    - data_liquidsoap:/state/
 
   ###############
   # SRT SOURCES #
@@ -62,107 +64,112 @@ services:
   # Feed myradio with an example SRT source (https://modular-station.com/)
   source-voieA-caller1:
     command:
-      - ffmpeg
-      - -hide_banner
-      - -re
-      - -i
-      - "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
-      - -vn
-      - -f
-      - wav
-      - -codec:a
-      - pcm_s16le
-      - "srt://liquidsoap-myradio:10000" # voieA_caller1
+    - ffmpeg
+    - -hide_banner
+    - -re
+    - -i
+    - "https://broadcast.modular-station.com/listen/modular_station/radio.aac?id=github.com_radiofrance_rf-liquidsoap"
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s16le
+    - "srt://liquidsoap-myradio:10000" # voieA_caller1
     container_name: source-voieA-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["dev", "myradio"]
     networks:
-      - default
+    - default
     restart: unless-stopped
 
   # Feed myradio with an example SRT source (https://p-node.org/)
   source-voieB-caller1:
     command:
-      - ffmpeg
-      - -hide_banner
-      - -re
-      - -i
-      - "https://stream.p-node.org/pnode.mp3?id=github.com_radiofrance_rf-liquidsoap"
-      - -vn
-      - -f
-      - wav
-      - -codec:a
-      - pcm_s16le
-      - "srt://liquidsoap-myradio:10002" # voieB_caller1
+    - ffmpeg
+    - -hide_banner
+    - -re
+    - -i
+    - "https://stream.p-node.org/pnode.mp3?id=github.com_radiofrance_rf-liquidsoap"
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s16le
+    - "srt://liquidsoap-myradio:10002" # voieB_caller1
     container_name: source-voieB-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["dev", "myradio"]
     networks:
-      - default
+    - default
     restart: unless-stopped
 
   # Feed myradio with an example override SRT source (https://datafruits.fm)
   source-override-caller1:
     command:
-      - ffmpeg
-      - -hide_banner
-      - -re
-      - -i
-      - "https://streampusher-relay.club/datafruits.mp3?id=github.com_radiofrance_rf-liquidsoap"
-      - -vn
-      - -f
-      - wav
-      - -codec:a
-      - pcm_s16le
-      - "srt://liquidsoap-myradio:10004" # override_caller1
+    - ffmpeg
+    - -hide_banner
+    - -re
+    - -i
+    - "https://streampusher-relay.club/datafruits.mp3?id=github.com_radiofrance_rf-liquidsoap"
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s16le
+    - "srt://liquidsoap-myradio:10004" # override_caller1
     container_name: source-override-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["dev", "myradio"]
     networks:
-      - default
+    - default
     restart: unless-stopped
 
   # Feed myradiosurround with an example 5.1 SRT source with liquidsoap
   # (local playlist)
   source-mystreamersurround:
     command:
-      - /conf/mystreamersurround.liq
-      - /scripts/streamer/00-live.liq
+    - /conf/mystreamersurround.liq
+    - /scripts/streamer/00-live.liq
     container_name: source-mystreamersurround
-    image: savonet/liquidsoap:v2.3.1
+    image: savonet/liquidsoap-ci-build:debug-rf_arm64
+    profiles: ["myradiosurround"]
     networks:
-      - default
+    - default
     restart: unless-stopped
     ports:
-      - 9031:9031/tcp
-      - 7030:7030/tcp
+    - 9031:9031/tcp
+    - 7030:7030/tcp
     volumes:
-      - ./example/audio/:/audio/:ro
-      - ./example/liquidsoap/:/conf/:ro
-      - ./scripts/streamer/:/scripts/streamer/:ro
+    - ./example/audio/:/audio/:ro
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/streamer/:/scripts/streamer/:ro
 
   # Feed liquidsoap with an example SRT source (local file)
   source-ffmpegsurround:
     command:
-      - ffmpeg
-      - -hide_banner
-      - -re
-      - -i
-      - /audio/lib/CHANNEL_ORDER_TEST_MUSIC_MULTI_5.1_-23LUFS.wav
-      - -vn
-      - -f
-      - wav
-      - -codec:a
-      - pcm_s24le
-      - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
+    - ffmpeg
+    - -hide_banner
+    - -re
+    - -i
+    - /audio/lib/CHANNEL_ORDER_TEST_MUSIC_MULTI_5.1_-23LUFS.wav
+    - -vn
+    - -f
+    - wav
+    - -codec:a
+    - pcm_s24le
+    - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
     container_name: source-ffmpegsurround
     entrypoint: []
     image: linuxserver/ffmpeg:latest
+    profiles: ["myradiosurround"]
     networks:
-      - default
+    - default
     restart: unless-stopped
     volumes:
-      - ./example/audio/:/audio/:ro
+    - ./example/audio/:/audio/:ro
 
   #####################
   # STREAMING SERVERS #
@@ -172,32 +179,34 @@ services:
   icecast:
     container_name: icecast
     environment:
-      - ICECAST_SOURCE_PASSWORD=secret
-      - ICECAST_ADMIN_PASSWORD=secret
-      - ICECAST_PASSWORD=secret
-      - ICECAST_RELAY_PASSWORD=secret
-      - ICECAST_HOSTNAME=icecast
-      - ICECAST_MAX_SOURCES=10
+    - ICECAST_SOURCE_PASSWORD=secret
+    - ICECAST_ADMIN_PASSWORD=secret
+    - ICECAST_PASSWORD=secret
+    - ICECAST_RELAY_PASSWORD=secret
+    - ICECAST_HOSTNAME=icecast
+    - ICECAST_MAX_SOURCES=10
     expose:
-      - 8000
+    - 8000
     image: libretime/icecast:latest
+    profiles: ["dev", "myradio", "myradiosurround"]
     ports:
-      - 8000:8000
+    - 8000:8000
 
   # HLS (nginx)
   hls:
     container_name: hls
     expose:
-      - "80"
+    - 80
     image: nginx:alpine
+    profiles: ["myradio", "myradiosurround"]
     networks:
-      - default
+    - default
     ports:
-      - 8080:8080/tcp
+    - 8080:8080/tcp
     restart: unless-stopped
     volumes:
-      - ./example/nginx/:/etc/nginx/conf.d/:ro
-      - data_hls:/hls:ro
+    - ./example/nginx/:/etc/nginx/conf.d/:ro
+    - data_hls:/hls:ro
 
   ##############
   # MONITORING #
@@ -207,105 +216,107 @@ services:
   grafana:
     container_name: grafana
     depends_on:
-      - prometheus
+    - prometheus
     environment:
-      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_LOG_LEVEL=warn
+    - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+    - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    - GF_USERS_ALLOW_SIGN_UP=false
+    - GF_LOG_LEVEL=warn
     image: grafana/grafana:latest
+    profiles: ["monitor"]
     labels:
       org.label-schema.group: "monitoring"
     networks:
-      - default
+    - default
     ports:
-      - 3000:3000/tcp
+    - 3000:3000/tcp
     restart: unless-stopped
     volumes:
-      - ./example/grafana/provisioning:/etc/grafana/provisioning:ro
-      - data_grafana:/var/lib/grafana
+    - ./example/grafana/provisioning:/etc/grafana/provisioning:ro
+    - data_grafana:/var/lib/grafana
 
   # Collector
   prometheus:
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention.time=200h'
-      - '--web.enable-lifecycle'
-      - '--log.level=warn'
+    - '--config.file=/etc/prometheus/prometheus.yml'
+    - '--storage.tsdb.path=/prometheus'
+    - '--web.console.libraries=/etc/prometheus/console_libraries'
+    - '--web.console.templates=/etc/prometheus/consoles'
+    - '--storage.tsdb.retention.time=200h'
+    - '--web.enable-lifecycle'
+    - '--log.level=warn'
     container_name: prometheus
     image: prom/prometheus:latest
+    profiles: ["monitor"]
     labels:
       org.label-schema.group: "monitoring"
     networks:
-      - default
+    - default
     restart: unless-stopped
     ports:
-      - 9090:9090/tcp
+    - 9090:9090/tcp
     volumes:
-      - ./example/prometheus/:/etc/prometheus/:ro
-      - data_prometheus:/prometheus
+    - ./example/prometheus/:/etc/prometheus/:ro
+    - data_prometheus:/prometheus
 
   process_exporter:
     command:
-      - '-procfs'
-      - '/host/proc'
-      - '-config.path'
-      - '/etc/process_exporter/config.yml'
+    - '-procfs'
+    - '/host/proc'
+    - '-config.path'
+    - '/etc/process_exporter/config.yml'
     container_name: process_exporter
     image: ncabatoff/process-exporter
     privileged: true
     labels:
       org.label-schema.group: "monitoring"
     networks:
-      - default
+    - default
     restart: unless-stopped
     ports:
-      - 9256:9256/tcp
+    - 9256:9256/tcp
     volumes:
-      - /proc:/host/proc
-      - ./example/process_exporter/:/etc/process_exporter/:ro
+    - /proc:/host/proc
+    - ./example/process_exporter/:/etc/process_exporter/:ro
 
   # Alerting
   # alertmanager:
   #   command:
-  #     - '--config.file=/etc/alertmanager/config.yml'
-  #     - '--storage.path=/alertmanager'
-  #     - '--log.level=warn'
+  #   - '--config.file=/etc/alertmanager/config.yml'
+  #   - '--storage.path=/alertmanager'
+  #   - '--log.level=warn'
   #   container_name: alertmanager
   #   depends_on:
-  #     - prometheus
+  #   - prometheus
   #   expose:
-  #     - 9093:9093/tcp
+  #   - 9093:9093/tcp
   #   image: prom/alertmanager:latest
   #   labels:
   #     org.label-schema.group: "monitoring"
   #   networks:
-  #     - default
+  #   - default
   #   restart: unless-stopped
   #   volumes:
-  #     - ./example/alertmanager:/etc/alertmanager
+  #   - ./example/alertmanager:/etc/alertmanager
 
   # Container / system metrics
   # cadvisor:
   #   container_name: cadvisor
   #   depends_on:
-  #     - redis
+  #   - redis
   #   image: gcr.io/cadvisor/cadvisor:latest
   #   ports:
-  #     - 8081:8080/tcp
+  #   - 8081:8080/tcp
   #   volumes:
-  #     - /:/rootfs:ro
-  #     - /var/run:/var/run:rw
-  #     - /sys:/sys:ro
-  #     - /var/lib/docker/:/var/lib/docker:ro
+  #   - /:/rootfs:ro
+  #   - /var/run:/var/run:rw
+  #   - /sys:/sys:ro
+  #   - /var/lib/docker/:/var/lib/docker:ro
   # redis:
   #   container_name: redis
   #   image: redis:latest
   #   ports:
-  #     - 6379:6379
+  #   - 6379:6379
 
   #########
   # TESTS #
@@ -314,55 +325,78 @@ services:
   # Test validity of liquidsoap configurations
   liquidsoap-test-transcoder-stereo:
     command:
-      - -c
-      - /conf/myradio.liq
-      - /scripts/transcoder/00-live.liq
+    - -c
+    - /conf/myradio.liq
+    - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-stereo
-    image: savonet/liquidsoap:v2.3.1
+    image: savonet/liquidsoap-ci-build:debug-rf_arm64
+    profiles: ["test"]
     networks:
-      - default
+    - default
     volumes:
-      - ./example/liquidsoap/:/conf/:ro
-      - ./scripts/transcoder/:/scripts/transcoder/:ro
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
 
   liquidsoap-test-transcoder-surround:
     command:
-      - -c
-      - /conf/myradiosurround.liq
-      - /scripts/transcoder/00-live.liq
+    - -c
+    - /conf/myradiosurround.liq
+    - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-surround
-    image: savonet/liquidsoap:v2.3.1
+    image: savonet/liquidsoap-ci-build:debug-rf_arm64
+    profiles: ["test"]
     networks:
-      - default
+    - default
     volumes:
-      - ./example/liquidsoap/:/conf/:ro
-      - ./scripts/transcoder/:/scripts/transcoder/:ro
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/transcoder/:/scripts/transcoder/:ro
 
   liquidsoap-test-streamer-stereo:
     command:
-      - -c
-      - /conf/mystreamer.liq
-      - /scripts/streamer/00-live.liq
+    - -c
+    - /conf/mystreamer.liq
+    - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
-    image: savonet/liquidsoap:v2.3.1
+    image: savonet/liquidsoap-ci-build:debug-rf_arm64
+    profiles: ["test"]
     networks:
-      - default
+    - default
     volumes:
-      - ./example/liquidsoap/:/conf/:ro
-      - ./scripts/streamer/:/scripts/streamer/:ro
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/streamer/:/scripts/streamer/:ro
 
   liquidsoap-test-streamer-surround:
     command:
-      - -c
-      - /conf/mystreamersurround.liq
-      - /scripts/streamer/00-live.liq
+    - -c
+    - /conf/mystreamersurround.liq
+    - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-surround
-    image: savonet/liquidsoap:v2.3.1
+    image: savonet/liquidsoap-ci-build:debug-rf_arm64
+    profiles: ["test"]
     networks:
-      - default
+    - default
     volumes:
-      - ./example/liquidsoap/:/conf/:ro
-      - ./scripts/streamer/:/scripts/streamer/:ro
+    - ./example/liquidsoap/:/conf/:ro
+    - ./scripts/streamer/:/scripts/streamer/:ro
+
+  #######
+  # DEV #
+  #######
+
+  # Relay ports to and from the docker host/localhost
+  relay-ports-dev:
+    entrypoint: /scripts/dev/relay-ports.sh
+    container_name: relay-ports-dev
+    image: alpine/socat
+    profiles: ["dev"]
+    networks:
+    - default
+    hostname: liquidsoap-myradio
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    restart: unless-stopped
+    volumes:
+    - ./scripts/dev/:/scripts/dev/:ro
 
 volumes:
   data_grafana: {}
