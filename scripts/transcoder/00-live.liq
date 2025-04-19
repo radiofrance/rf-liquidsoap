@@ -12,7 +12,7 @@
 input_sources = list.map(mk_source, input_list)
 
 # Define safe_blank input and its metrics
-safe_blank = blank(id="safe_blank")
+safe_blank = single(id="safe_blank", blank_file)
 safe_blank = source_tag(safe_blank, "safe_blank")
 set_safe_blank_is_playing_metric =
   create_is_playing_metric(label_values=[radio_name, "input", "safe_blank"])
@@ -129,39 +129,60 @@ is_blank = ref(false)
 is_blank_metric_set =
   is_blank_metric_create(label_values=[radio_name, "output", "radio_prod"])
 
-def noise_detect_handler() =
-  is_blank := false
-  is_blank_metric_set(0.0)
-end
+lufs = ref(0.)
 
-def blank_detect_handler() =
-  is_blank := true
-  is_blank_metric_set(1.0)
-end
+def apply_filters(s) =
+  let {audio = a} = source.tracks(s)
 
-radio_prod =
-  blank.detect(
-    id="on_blank_radio_prod",
-    max_blank=5.0,
-    min_noise=0.0,
-    on_noise=noise_detect_handler,
-    start_blank=false,
-    threshold=-40.0,
-    track_sensitive=true,
-    blank_detect_handler,
-    radio_prod
+  def mkfilter(graph) =
+    a = ffmpeg.filter.audio.input(graph, a)
+    a = ffmpeg.filter.silencedetect(graph, a, duration=5, noise=lin_of_dB(-40.))
+    let ([a], _) = ffmpeg.filter.ebur128(graph, a, metadata=true)
+    ffmpeg.filter.audio.output(graph, a)
+  end
+
+  a = ffmpeg.filter.create(mkfilter)
+
+  s = source({audio=a, metadata=track.metadata(a)})
+
+  s.on_metadata(
+    fun (m) ->
+      begin
+        if
+          list.assoc.mem("lavfi.silence_start", m)
+        then
+          is_blank := true
+          is_blank_metric_set(1.0)
+        end
+
+        if
+          list.assoc.mem("lavfi.silence_end", m)
+        then
+          is_blank := false
+          is_blank_metric_set(0.0)
+        end
+
+        try
+          lufs := float_of_string(m["lavfi.r128.I"])
+        catch _ do
+          ()
+        end
+      end
   )
+
+  s
+end
 
 # Output LUFS analysis to prometheus metrics
 set_metric_audio_lufs =
   audit_lufs_metric_create(label_values=[radio_name, "output", "radio_prod"])
 
-radio_prod = lufs(window=5., radio_prod)
+radio_prod = apply_filters(radio_prod)
 
 # Assign a named clock for visibility.
 clock.assign_new(id="radio_prod", [radio_prod])
 
-thread.run(every=5., {set_metric_audio_lufs(radio_prod.lufs())})
+thread.run(every=5., {set_metric_audio_lufs(lufs())})
 
 %include "80-outputs.liq"
 %include "90-http.liq"

@@ -6,6 +6,7 @@ aac_encoder = "aac"
 harbor_http_port = 7000
 prometheus_server_port = 9001
 liquidsoap_log_level = 3
+blank_file = "/files/blank.wav"
 
 # SRT inputs configuration
 input_list =
