@@ -163,7 +163,7 @@ def apply_filters(s) =
         end
 
         try
-          lufs := float_of_string(m["lavfi.r128.I"])
+          lufs := float_of_string(m["lavfi.r128.S"])
         catch _ do
           ()
         end
