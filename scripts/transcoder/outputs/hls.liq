@@ -129,6 +129,7 @@ def mk_hls_output(selected_formats, source) =
 
   output.file.hls(
     id="hls_#{radio_name}",
+    fallible=true,
     on_file_change=on_file_change,
     perm=0o644,
     persist_at=hls_state_path,

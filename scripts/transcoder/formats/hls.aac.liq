@@ -7,7 +7,7 @@ let formats.stereo.hls.aac =
       %ffmpeg(
         format = "mpegts",
         interleaved = false,
-        %audio(
+        %audio.raw(
           codec = "aac",
           channels = 2,
           b = "32k",
@@ -21,7 +21,7 @@ let formats.stereo.hls.aac =
       %ffmpeg(
         format = "mpegts",
         interleaved = false,
-        %audio(
+        %audio.raw(
           codec = "aac",
           channels = 2,
           b = "96k",
@@ -35,7 +35,7 @@ let formats.stereo.hls.aac =
       %ffmpeg(
         format = "mpegts",
         interleaved = false,
-        %audio(
+        %audio.raw(
           codec = "aac",
           channels = 2,
           b = "192k",
@@ -49,7 +49,7 @@ let formats.stereo.hls.aac =
       %ffmpeg(
         format = "mpegts",
         interleaved = false,
-        %audio(
+        %audio.raw(
           codec = "aac",
           channels = 2,
           b = "320k",
@@ -67,7 +67,7 @@ let formats.surround.hls.aac =
       %ffmpeg(
         format = "mpegts",
         interleaved = false,
-        %audio(
+        %audio.raw(
           codec = "aac",
           channel_layout = 5.1,
           b = "192k",
@@ -81,7 +81,7 @@ let formats.surround.hls.aac =
       %ffmpeg(
         format = "mpegts",
         interleaved = false,
-        %audio(
+        %audio.raw(
           codec = "aac",
           channel_layout = 5.1,
           b = "512k",

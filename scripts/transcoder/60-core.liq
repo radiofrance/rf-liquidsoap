@@ -11,7 +11,12 @@ def source_tag(s, tag) =
 end
 
 def mk_source(s) =
-  srt_input = input.srt(id=(s.name : string), max=3.0, port=s.port)
+  srt_input =
+    input.ffmpeg(
+      id=(s.name : string),
+      self_sync=true,
+      "srt://0.0.0.0:#{(s.port : int)}?mode=listener&transtype=live"
+    )
 
   # Assign a named clock.
   clock.assign_new(id=s.name, [srt_input])
@@ -29,6 +34,7 @@ def mk_source(s) =
   is_preferred_livesource_set =
     is_preferred_livesource_metric(label_values=[radio_name, "input", s.name])
 
+#<
   srt_input_bytes_available_set =
     srt_input_bytes_available_create(label_values=[radio_name, "input", s.name])
 
@@ -62,6 +68,7 @@ def mk_source(s) =
   end
 
   thread.run(every=1., {update_srt_metrics()})
+>#
 
   thread.run(
     every=1.,

@@ -7,7 +7,7 @@ let formats.stereo.icecast.mp3 =
           %ffmpeg(
             format = "mp3",
             id3v2_version = 0,
-            %audio(
+            %audio.raw(
               codec = "libmp3lame",
               channels = 2,
               b = "32k",
@@ -21,7 +21,7 @@ let formats.stereo.icecast.mp3 =
           %ffmpeg(
             format = "mp3",
             id3v2_version = 0,
-            %audio(
+            %audio.raw(
               codec = "libmp3lame",
               channels = 2,
               b = "128k",

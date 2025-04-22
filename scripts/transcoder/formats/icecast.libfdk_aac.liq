@@ -6,7 +6,7 @@ let formats.stereo.icecast.libfdk_aac =
           "lofi",
           %ffmpeg(
             format = "adts",
-            %audio(
+            %audio.raw(
               codec = "libfdk_aac",
               channels = 2,
               b = "32k",
@@ -21,7 +21,7 @@ let formats.stereo.icecast.libfdk_aac =
           "midfi",
           %ffmpeg(
             format = "adts",
-            %audio(
+            %audio.raw(
               codec = "libfdk_aac",
               channels = 2,
               b = "96k",
@@ -36,7 +36,7 @@ let formats.stereo.icecast.libfdk_aac =
           "hifi",
           %ffmpeg(
             format = "adts",
-            %audio(
+            %audio.raw(
               codec = "libfdk_aac",
               channels = 2,
               b = "192k",
@@ -51,7 +51,7 @@ let formats.stereo.icecast.libfdk_aac =
           "insane",
           %ffmpeg(
             format = "adts",
-            %audio(
+            %audio.raw(
               codec = "libfdk_aac",
               channels = 2,
               b = "320k",
@@ -74,7 +74,7 @@ let formats.surround.icecast.libfdk_aac =
           "hifi",
           %ffmpeg(
             format = "adts",
-            %audio(
+            %audio.raw(
               codec = "libfdk_aac",
               channel_layout = 5.1,
               b = "192k",
@@ -89,7 +89,7 @@ let formats.surround.icecast.libfdk_aac =
           "insane",
           %ffmpeg(
             format = "adts",
-            %audio(
+            %audio.raw(
               codec = "libfdk_aac",
               channel_layout = 5.1,
               b = "512k",
