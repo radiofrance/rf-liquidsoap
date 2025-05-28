@@ -18,7 +18,7 @@ def mk_output(source, file_extension, quality, encoder) =
 
   # Assign a unique id to the new clock
   id = "icecast_#{quality}#{file_extension}"
-  clock.assign_new(id=id, [source])
+  clock(source.clock).id := id
 
   output.icecast(
     id=id,
