@@ -29,5 +29,5 @@ preferred_live_source = ref(list.nth(input_list, 0).name)
 
 # Queues
 settings.scheduler.non_blocking_queues := 0
-settings.scheduler.generic_queues := 1
+settings.scheduler.generic_queues := 4
 settings.scheduler.fast_queues := 1
