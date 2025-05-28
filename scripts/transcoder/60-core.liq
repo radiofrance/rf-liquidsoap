@@ -14,7 +14,7 @@ def mk_source(s) =
   srt_input = input.srt(id=(s.name : string), max=3.0, port=s.port)
 
   # Assign a named clock.
-  clock.assign_new(id=s.name, [srt_input])
+  clock(srt_input.clock).id := s.name
 
   # Create is_ready and duration_unready_seconds time series for this input and
   # update them recurrently.
