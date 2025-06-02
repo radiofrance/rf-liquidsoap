@@ -11,7 +11,12 @@ def source_tag(s, tag) =
 end
 
 def mk_source(s) =
-  srt_input = input.srt(id=(s.name : string), max=3.0, port=s.port)
+  srt_input =
+    input.ffmpeg(
+      id=(s.name : string),
+      self_sync=true,
+      "srt://0.0.0.0:#{(s.port : int)}?mode=listener&transtype=live"
+    )
 
   # Assign a named clock.
   clock(srt_input.clock).id := s.name
@@ -28,40 +33,6 @@ def mk_source(s) =
 
   is_preferred_livesource_set =
     is_preferred_livesource_metric(label_values=[radio_name, "input", s.name])
-
-  srt_input_bytes_available_set =
-    srt_input_bytes_available_create(label_values=[radio_name, "input", s.name])
-
-  srt_input_packet_received_buffer_set =
-    srt_input_packet_received_buffer_create(
-      label_values=[radio_name, "input", s.name]
-    )
-
-  srt_input_packet_received_set =
-    srt_input_packet_received_create(label_values=[radio_name, "input", s.name])
-
-  srt_input_packet_drop_set =
-    srt_input_packet_drop_create(label_values=[radio_name, "input", s.name])
-
-  srt_input_packet_loss_set =
-    srt_input_packet_loss_create(label_values=[radio_name, "input", s.name])
-
-  def update_srt_metrics() =
-    srt_sockets = srt_input.sockets()
-    if
-      srt_sockets != []
-    then
-      let [(_, s)] = srt_sockets
-      s = srt.socket(s)
-      srt_input_bytes_available_set(float(s.bstats().byteAvailRcvBuf))
-      srt_input_packet_received_buffer_set(float(s.bstats().pktRcvBuf))
-      srt_input_packet_received_set(float(s.bstats().pktRecvTotal))
-      srt_input_packet_drop_set(float(s.bstats().pktRcvDropTotal))
-      srt_input_packet_loss_set(float(s.bstats().pktRcvLossTotal))
-    end
-  end
-
-  thread.run(every=1., {update_srt_metrics()})
 
   thread.run(
     every=1.,
