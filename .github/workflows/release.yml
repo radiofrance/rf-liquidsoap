@@ -1,0 +1,72 @@
+name: Promote Prerelease to Stable
+on:
+  workflow_dispatch:
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find latest prerelease tag
+        id: find
+        run: |
+          # find the latest prerelease tag matching *-pr
+          LATEST=$(git tag --list "*-pr" --sort=-v:refname | head -n1)
+          echo "PR_TAG=$LATEST" >> $GITHUB_ENV
+          # strip "-pr" suffix for stable version
+          echo "VERSION=${LATEST%-pr}" >> $GITHUB_ENV
+
+      - name: Generate changelog since last stable
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fromTag: ${{ steps.semver.outputs.current || steps.find.outputs.PREV_TAG }}
+          toTag: ${{ env.VERSION }}
+
+      - name: Build artifact
+        run: make version=${{ env.VERSION }} artifact
+
+      - name: Create Stable Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.VERSION }}
+          name: Release ${{ env.VERSION }}
+          body: ${{ steps.changelog.outputs.changes }}
+          makeLatest: true
+          draft: false
+          prerelease: false
+          allowUpdates: false
+          generateReleaseNotes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifact
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.promote.outputs.upload_url }}
+          asset_path: rf-liquidsoap*.tar.gz
+          asset_name: rf-liquidsoap-${{ env.VERSION }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Update CHANGELOG.md
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          {
+            echo "## ${{ env.VERSION }}"
+            printf '%s\n' "${{ steps.changelog.outputs.changes }}"
+          } >> CHANGELOG.md
+          git add CHANGELOG.md
+          git commit -m "docs: update CHANGELOG.md for ${{ env.VERSION }}" || echo "No changes"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
