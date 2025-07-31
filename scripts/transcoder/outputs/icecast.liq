@@ -11,14 +11,14 @@ icecast_aac_encoder =
 available_icecast_formats =
   [("aac", icecast_aac_encoder), ("mp3", formats.icecast.mp3)]
 
-def mk_output(source, file_extension, quality, encoder) =
+def mk_output(s, file_extension, quality, enc) =
   # Wrap the source in a buffer to avoid blocking the whole
   # streaming thread when icecast is down
-  source = buffer(source)
+  s = buffer(s)
 
   # Assign a unique id to the new clock
   id = "icecast_#{quality}#{file_extension}"
-  clock(source.clock).id := id
+  clock(s.clock).id := id
 
   output.icecast(
     id=id,
@@ -29,12 +29,12 @@ def mk_output(source, file_extension, quality, encoder) =
     send_icy_metadata=false,
     password=icecast_password,
     mount="#{radio_name}-#{quality}#{file_extension}",
-    encoder,
-    source
+    enc,
+    s
   )
 end
 
-def mk_icecast_outputs(selected_formats, source) =
+def mk_icecast_outputs(selected_formats, s) =
   list.iter(
     fun (selected_format) ->
       begin
@@ -44,10 +44,8 @@ def mk_icecast_outputs(selected_formats, source) =
         list.iter(
           fun (selected_sub_format) ->
             begin
-              encoder = list.assoc(selected_sub_format, format.sub_formats)
-              mk_output(
-                source, format.file_extension, selected_sub_format, encoder
-              )
+              enc = list.assoc(selected_sub_format, format.sub_formats)
+              mk_output(s, format.file_extension, selected_sub_format, enc)
             end,
           selected_sub_formats
         )

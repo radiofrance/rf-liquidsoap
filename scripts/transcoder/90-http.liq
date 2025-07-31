@@ -18,13 +18,13 @@ def get_livesource(_, response) =
 end
 
 ## POST /livesource
-def post_livesource(request, response) =
-  data = request.body()
+def post_livesource(req, res) =
+  data = req.body()
   if
     not list.exists(fun (s) -> s.name == data, input_sources)
   then
-    response.status_code(400)
-    response.json(
+    res.status_code(400)
+    res.json(
       {
         error_message=
           "input #{data} does not exist"
@@ -37,7 +37,7 @@ def post_livesource(request, response) =
     ignore(
       file.write(data=data, append=false, perms=0o644, livesource_state_path)
     )
-    response.json({preferred_output=data})
+    res.json({preferred_output=data})
   end
 end
 
