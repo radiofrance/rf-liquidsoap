@@ -2,10 +2,9 @@
 name: Tests (Liquidsoap)
 on: # yamllint disable-line rule:truthy
   pull_request:
-    types: [opened, synchronize]
-    paths:
-    - "**/*.liq"
-    - ".github/workflows/test-liquidsoap.yml"
+  push:
+    branches:
+      - main
 
 jobs:
   liquidsoap-fmt:
@@ -23,11 +22,26 @@ jobs:
         done
         exit $ret
 
+  docker_test_image:
+    name: Find docker test image
+    runs-on: ubuntu-latest
+    outputs:
+      docker_test_image: ${{ steps.docker_test_image.outputs.docker_test_image }}
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+    - name: "Find docker test image"
+      id: docker_test_image
+      run: |
+        DOCKER_TEST_IMAGE=`cat docker-compose.yml | grep -A 1 "container_name: liquidsoap-test" | grep image: | tr -s ' ' | cut -d' ' -f 3 | head -n 1`
+        echo "Docker test image: ${DOCKER_TEST_IMAGE}"
+        echo "docker_test_image=${DOCKER_TEST_IMAGE}" >> $GITHUB_OUTPUT
+
   liquidsoap-test-transcoder-stereo:
     name: liquidsoap syntax (transcoder stereo)
     runs-on: ubuntu-latest
+    needs: docker_test_image
     container:
-      image: savonet/liquidsoap:v2.3.3@sha256:b4b2d91f14131bfeec68bafd8bf99427af9b742163f264996c6b9396c5a41b0f
+      image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -36,8 +50,9 @@ jobs:
   liquidsoap-test-transcoder-surround:
     name: liquidsoap syntax (transcoder surround)
     runs-on: ubuntu-latest
+    needs: docker_test_image
     container:
-      image: savonet/liquidsoap:v2.3.3@sha256:b4b2d91f14131bfeec68bafd8bf99427af9b742163f264996c6b9396c5a41b0f
+      image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -46,8 +61,9 @@ jobs:
   liquidsoap-test-streamer-stereo:
     name: liquidsoap syntax (streamer stereo)
     runs-on: ubuntu-latest
+    needs: docker_test_image
     container:
-      image: savonet/liquidsoap:v2.3.3@sha256:b4b2d91f14131bfeec68bafd8bf99427af9b742163f264996c6b9396c5a41b0f
+      image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -56,8 +72,9 @@ jobs:
   liquidsoap-test-streamer-surround:
     name: liquidsoap syntax (streamer surround)
     runs-on: ubuntu-latest
+    needs: docker_test_image
     container:
-      image: savonet/liquidsoap:v2.3.3@sha256:b4b2d91f14131bfeec68bafd8bf99427af9b742163f264996c6b9396c5a41b0f
+      image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
