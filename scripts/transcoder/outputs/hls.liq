@@ -157,7 +157,7 @@ def mk_hls_output(selected_formats, s) =
       segment_name=segment_name,
       hls_segments_directory,
       list.map(mk_format, selected_formats),
-      source
+      s
     )
 
   o.on_file_change(on_file_change)
