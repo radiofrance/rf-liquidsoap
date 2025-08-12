@@ -62,7 +62,7 @@ def segment_name(metadata) =
   }.ts"
 end
 
-def on_file_change(~state, fname) =
+def on_file_change({state, path = fname}) =
   if
     (state == "created" or state == "updated")
   and
@@ -144,18 +144,20 @@ def mk_hls_output(selected_formats, s) =
 
   file.mkdir(perms=0o755, hls_segments_directory)
 
-  output.file.hls(
-    id="hls_#{radio_name}",
-    on_file_change=on_file_change,
-    perm=0o644,
-    persist_at=hls_state_path,
-    playlist="#{radio_name}.m3u8",
-    segment_duration=4.0,
-    segments=15,
-    segments_overhead=75,
-    segment_name=segment_name,
-    hls_segments_directory,
-    list.map(mk_format, selected_formats),
-    s
-  )
+  o =
+    output.file.hls(
+      id="hls_#{radio_name}",
+      perm=0o644,
+      persist_at=hls_state_path,
+      playlist="#{radio_name}.m3u8",
+      segment_duration=4.0,
+      segments=15,
+      segments_overhead=75,
+      segment_name=segment_name,
+      hls_segments_directory,
+      list.map(mk_format, selected_formats),
+      source
+    )
+
+  o.on_file_change(on_file_change)
 end
