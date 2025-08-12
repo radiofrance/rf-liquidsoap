@@ -58,7 +58,9 @@ def segment_name(
 
   # Add the codec to the segment name because it's expected by segment-forwarder
   segment_prefix = string.replace(pattern="_", fun (_) -> "_aac_", stream_name)
-  "#{segment_prefix}_#{segment_duration}_#{position}_#{segment_timestamp}.ts"
+  "#{segment_prefix}_#{segment_duration}_#{segment_position}_#{
+    segment_timestamp
+  }.ts"
 end
 
 def on_file_change({state, path = fname}) =
@@ -76,11 +78,11 @@ def on_file_change({state, path = fname}) =
           log.info(
             "Uploading #{fname} to #{target}/#{path.basename(fname)}"
           )
-          file = file.contents(fname)
+          data = file.contents(fname)
           uploadsegment =
             http.post(
               headers=[("Origin", hls_segments_http_post_origin)],
-              data=file,
+              data=data,
               timeout=2.,
               target ^ "/#{path.basename(fname)}"
             )
@@ -136,7 +138,7 @@ end
 # HLS outputs don't have any restriction with clock
 # so we can leave them in the same clock as radio_prod
 
-def mk_hls_output(selected_formats, source) =
+def mk_hls_output(selected_formats, s) =
   def mk_format(name) =
     ("#{radio_name}_#{name}", list.assoc(name, available_hls_formats))
   end

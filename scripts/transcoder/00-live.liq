@@ -91,8 +91,8 @@ thread.run(
 )
 
 # Update is_playing metrics at each metadata change
-def update_is_playing_metrics(metadata) =
-  source_tag = list.assoc(default="", "source_tag", metadata)
+def update_is_playing_metrics(m) =
+  source_tag = list.assoc(default="", "source_tag", m)
 
   def update_metric(s) =
     if
