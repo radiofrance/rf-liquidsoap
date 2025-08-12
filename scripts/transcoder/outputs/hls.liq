@@ -125,12 +125,12 @@ def on_file_change({state, path = fname}) =
     if
       hls_segments_http_post_enable
     then
-      thread.run(fast=false, upload_segment(hls_segments_http_post_target))
+      upload_segment(hls_segments_http_post_target)
     end
     if
       hls_segments_enable_todo_files
     then
-      thread.run(fast=false, segment_todo_file())
+      segment_todo_file()
     end
   end
 end
@@ -160,5 +160,5 @@ def mk_hls_output(selected_formats, s) =
       s
     )
 
-  o.on_file_change(on_file_change)
+  o.on_file_change(synchronous=false, on_file_change)
 end

@@ -150,8 +150,8 @@ radio_prod =
     radio_prod
   )
 
-radio_prod.on_noise(noise_detect_handler)
-radio_prod.on_blank(blank_detect_handler)
+radio_prod.on_noise(synchronous=true, noise_detect_handler)
+radio_prod.on_blank(synchronous=true, blank_detect_handler)
 
 # Output LUFS analysis to prometheus metrics
 set_metric_audio_lufs =
