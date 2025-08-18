@@ -17,11 +17,11 @@ def mk_output(s, file_extension, quality, enc) =
   s = buffer(s)
 
   # Assign a unique id to the new clock
-  id = "icecast_#{quality}#{file_extension}"
-  clock(s.clock).id := id
+  icecast_id = "icecast_#{quality}#{file_extension}"
+  clock(s.clock).id := icecast_id
 
   output.icecast(
-    id=id,
+    id=icecast_id,
     fallible=true,
     host=icecast_host,
     port=icecast_port,

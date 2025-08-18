@@ -120,7 +120,7 @@ def update_is_playing_metrics(m) =
   list.iter(update_metric, sources)
 end
 
-radio_prod.on_metadata(update_is_playing_metrics)
+radio_prod.on_metadata(synchronous=true, update_is_playing_metrics)
 
 # Detect blank before output
 
