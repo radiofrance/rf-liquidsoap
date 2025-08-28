@@ -120,7 +120,7 @@ def update_is_playing_metrics(m) =
   list.iter(update_metric, sources)
 end
 
-radio_prod.on_metadata(update_is_playing_metrics)
+radio_prod.on_metadata(synchronous=true, update_is_playing_metrics)
 
 # Detect blank before output
 
@@ -144,13 +144,14 @@ radio_prod =
     id="on_blank_radio_prod",
     max_blank=5.0,
     min_noise=0.0,
-    on_noise=noise_detect_handler,
     start_blank=false,
     threshold=-40.0,
     track_sensitive=true,
-    blank_detect_handler,
     radio_prod
   )
+
+radio_prod.on_noise(synchronous=true, noise_detect_handler)
+radio_prod.on_blank(synchronous=true, blank_detect_handler)
 
 # Output LUFS analysis to prometheus metrics
 set_metric_audio_lufs =
