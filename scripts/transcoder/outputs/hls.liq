@@ -1,14 +1,5 @@
 # HLS output
 
-available_hls_formats =
-  if
-    aac_encoder == "libfdk_aac"
-  then
-    formats.hls.libfdk_aac
-  else
-    formats.hls.aac
-  end
-
 ## Prometheus metrics
 
 # "hlsssegment_sent" is an output-only metric counting the number of
@@ -22,8 +13,7 @@ available_hls_formats =
 hlssegment_sent_create =
   prometheus.counter(
     labels=["radio", "code"],
-    help=
-      "Number of HLS segment send to segment-forwarder",
+    help="Number of HLS segment send to segment-forwarder",
     "liquidsoap_hlssegment_sent"
   )
 
@@ -132,27 +122,98 @@ end
 # HLS outputs don't have any restriction with clock
 # so we can leave them in the same clock as radio_prod
 
-def mk_hls_output(selected_formats, s) =
-  def mk_format(name) =
-    ("#{radio_name}_#{name}", list.assoc(name, available_hls_formats))
+def mk_hls_output(hls_encoders) =
+  if
+    hls_encoders == []
+  then
+    ()
+  else
+    let [(_, dropped_audio)] = hls_encoders
+    let dropped_audio = (dropped_audio : source)
+
+    def pick_source(name) =
+      s = list.assoc(default=dropped_audio, name, hls_encoders)
+      source.tracks(s).audio
+    end
+
+    let {metadata = m, track_marks = t} = source.tracks(dropped_audio)
+
+    s =
+      source(
+        {
+          metadata=m,
+          track_marks=t,
+          audio_lofi=pick_source("lofi"),
+          audio_midfi=pick_source("midfi"),
+          audio_hifi=pick_source("hifi"),
+          audio_insane=pick_source("insane")
+        }
+      )
+
+    def mk_format((name, _)) =
+      format_name = "#{radio_name}_#{name}"
+
+      format =
+        if
+          name == "lofi"
+        then
+          %ffmpeg(
+            format = "mpegts",
+            %audio_lofi.copy,
+            %audio_midfi.drop,
+            %audio_hifi.drop,
+            %audio_insane.drop
+          )
+        elsif
+          name == "midfi"
+        then
+          %ffmpeg(
+            format = "mpegts",
+            %audio_lofi.drop,
+            %audio_midfi.copy,
+            %audio_hifi.drop,
+            %audio_insane.drop
+          )
+        elsif
+          name == "hifi"
+        then
+          %ffmpeg(
+            format = "mpegts",
+            %audio_lofi.drop,
+            %audio_midfi.drop,
+            %audio_hifi.copy,
+            %audio_insane.drop
+          )
+        else
+          %ffmpeg(
+            format = "mpegts",
+            %audio_lofi.drop,
+            %audio_midfi.drop,
+            %audio_hifi.drop,
+            %audio_insane.copy
+          )
+        end
+
+      (format_name, format)
+    end
+
+    file.mkdir(perms=0o755, hls_segments_directory)
+
+    o =
+      output.file.hls(
+        id="hls_#{radio_name}",
+        perm=0o644,
+        persist_at=hls_state_path,
+        playlist="#{radio_name}.m3u8",
+        segment_duration=4.0,
+        segments=15,
+        segments_overhead=75,
+        segment_name=segment_name,
+        hls_segments_directory,
+        list.map(mk_format, hls_encoders),
+        s
+      )
+
+    o.on_file_change(synchronous=false, on_file_change)
   end
-
-  file.mkdir(perms=0o755, hls_segments_directory)
-
-  o =
-    output.file.hls(
-      id="hls_#{radio_name}",
-      perm=0o644,
-      persist_at=hls_state_path,
-      playlist="#{radio_name}.m3u8",
-      segment_duration=4.0,
-      segments=15,
-      segments_overhead=75,
-      segment_name=segment_name,
-      hls_segments_directory,
-      list.map(mk_format, selected_formats),
-      s
-    )
-
-  o.on_file_change(synchronous=false, on_file_change)
 end
