@@ -42,11 +42,20 @@ def post_livesource(req, res) =
 end
 
 harbor.http.register(
-  port=harbor_http_port, method="GET", "/readiness", get_readiness
+  port=harbor_http_port,
+  method="GET",
+  "/readiness",
+  get_readiness
 )
 harbor.http.register(
-  port=harbor_http_port, method="GET", "/livesource", get_livesource
+  port=harbor_http_port,
+  method="GET",
+  "/livesource",
+  get_livesource
 )
 harbor.http.register(
-  port=harbor_http_port, method="POST", "/livesource", post_livesource
+  port=harbor_http_port,
+  method="POST",
+  "/livesource",
+  post_livesource
 )

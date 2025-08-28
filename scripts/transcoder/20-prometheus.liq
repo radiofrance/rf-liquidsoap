@@ -19,24 +19,21 @@
 is_ready_metric_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "Is source ready?",
+    help="Is source ready?",
     "liquidsoap_source_is_ready"
   )
 
 duration_unready_seconds_metric_create =
   prometheus.counter(
     labels=["radio", "type", "name"],
-    help=
-      "Cumulative duration in seconds of the source in unready state",
+    help="Cumulative duration in seconds of the source in unready state",
     "liquidsoap_source_unready_duration_seconds"
   )
 
 is_preferred_livesource_metric =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "Is source the preferred livesource?",
+    help="Is source the preferred livesource?",
     "liquidsoap_source_is_preferred_livesource"
   )
 
@@ -75,8 +72,7 @@ end
 create_is_playing_metric =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "Is source playing?",
+    help="Is source playing?",
     "liquidsoap_source_is_playing"
   )
 
@@ -86,8 +82,7 @@ create_is_playing_metric =
 is_blank_metric_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "Is source blank?",
+    help="Is source blank?",
     "liquidsoap_source_is_blank"
   )
 
@@ -96,8 +91,7 @@ is_blank_metric_create =
 audit_lufs_metric_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "Audio LUFS Analysis",
+    help="Audio LUFS Analysis",
     "liquidsoap_output_lufs_5s"
   )
 
@@ -114,47 +108,41 @@ audit_lufs_metric_create =
 srt_input_bytes_available_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "SRT stat byteAvailRcvBuf",
+    help="SRT stat byteAvailRcvBuf",
     "liquidsoap_srt_input_bytes_available"
   )
 
 srt_input_packet_received_buffer_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "SRT stat pktRcvBuf",
+    help="SRT stat pktRcvBuf",
     "liquidsoap_srt_input_packet_received_buffer"
   )
 
 srt_input_packet_received_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "SRT stat pktRecvTotal (cumulative)",
+    help="SRT stat pktRecvTotal (cumulative)",
     "liquidsoap_srt_input_packet_received_total"
   )
 
 srt_input_packet_drop_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "SRT stat pktRcvDropTotal (cumulative)",
+    help="SRT stat pktRcvDropTotal (cumulative)",
     "liquidsoap_srt_input_packet_drop_total"
   )
 
 srt_input_packet_loss_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "SRT stat pktRcvLossTotal (cumulative)",
+    help="SRT stat pktRcvLossTotal (cumulative)",
     "liquidsoap_srt_input_packet_loss_total"
   )
 
 srt_input_buffer_length_create =
   prometheus.gauge(
     labels=["radio", "type", "name"],
-    help=
-      "Length of the SRT buffer",
+    help="Length of the SRT buffer",
     "liquidsoap_srt_input_buffer_length"
   )

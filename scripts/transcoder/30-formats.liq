@@ -1,9 +1,7 @@
-let formats = {surround={icecast=(), hls=()}, stereo={icecast=(), hls=()}}
+let formats = {surround=(), stereo=()}
 
-%include "formats/hls.aac.liq"
-%include "formats/hls.libfdk_aac.liq"
-%include "formats/icecast.aac.liq"
-%include "formats/icecast.libfdk_aac.liq"
-%include "formats/icecast.mp3.liq"
+%include "formats/aac.liq"
+%include "formats/libfdk_aac.liq"
+%include "formats/mp3.liq"
 
 formats = formats_picker(formats)
