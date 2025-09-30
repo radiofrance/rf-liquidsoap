@@ -45,13 +45,14 @@ end
 
 ## HLS segments
 
-def segment_name(metadata) =
-  let {
+def segment_name(
+  {
     position = segment_position,
     duration = segment_duration,
     extname,
     stream_name
-  } = metadata
+  }
+) =
   segment_duration = int_of_float(segment_duration)
   segment_timestamp = int_of_float(time())
 
@@ -62,7 +63,7 @@ def segment_name(metadata) =
   }.ts"
 end
 
-def on_file_change(~state, fname) =
+def on_file_change({state, path = fname}) =
   if
     (state == "created" or state == "updated")
   and
@@ -72,65 +73,59 @@ def on_file_change(~state, fname) =
       "Segment #{fname} written on disk."
     )
     def upload_segment(target) =
-      fun () ->
-        try
-          log.info(
-            "Uploading #{fname} to #{target}/#{path.basename(fname)}"
+      try
+        log.info(
+          "Uploading #{fname} to #{target}/#{path.basename(fname)}"
+        )
+        data = file.contents(fname)
+        uploadsegment =
+          http.post(
+            headers=[("Origin", hls_segments_http_post_origin)],
+            data=data,
+            timeout=2.,
+            target ^ "/#{path.basename(fname)}"
           )
-          data = file.contents(fname)
-          uploadsegment =
-            http.post(
-              headers=[("Origin", hls_segments_http_post_origin)],
-              data=data,
-              timeout=2.,
-              target ^ "/#{path.basename(fname)}"
-            )
-          log.important(
-            label="hlssegmentpush",
-            '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", \
-             "response": "#{uploadsegment.status_code}", "protocol": "#{
-              uploadsegment.http_version
-            }", "target": "' ^
-              target ^
-              '"}'
-          )
-          increase_hlssegment_sent_metric(uploadsegment.status_code, 1.)
-        catch err do
-          log.critical(
-            label="hlssegmentpush",
-            "Error while pushing segment: #{err}"
-          )
-        end
+        log.important(
+          label="hlssegmentpush",
+          '{"timestamp": "#{time()}", "request": "/#{path.basename(fname)}", \
+           "response": "#{uploadsegment.status_code}", "protocol": "#{
+            uploadsegment.http_version
+          }", "target": "' ^
+            target ^
+            '"}'
+        )
+        increase_hlssegment_sent_metric(uploadsegment.status_code, 1.)
+      catch err do
+        log.critical(
+          label="hlssegmentpush",
+          "Error while pushing segment: #{err}"
+        )
+      end
     end
     def segment_todo_file() =
-      fun () ->
-        try
-          log.info(
-            "Writting #{path.remove_extension(fname)}" ^
-              ".todo"
-          )
-          file.write(data="", "#{path.remove_extension(fname)}" ^ ".todo")
-          log.important(
-            label="hlssegmentcreated",
-            '{"timestamp": "#{time()}", "file": "#{fname}"}'
-          )
-        catch err do
-          log.critical(
-            label="hlssegmentpush",
-            "Error while writting segment: #{err}"
-          )
-        end
+      try
+        log.info(
+          "Writting #{path.remove_extension(fname)}" ^
+            ".todo"
+        )
+        file.write(data="", "#{path.remove_extension(fname)}" ^ ".todo")
+        log.important(
+          label="hlssegmentcreated",
+          '{"timestamp": "#{time()}", "file": "#{fname}"}'
+        )
+      catch err do
+        log.critical(
+          label="hlssegmentpush",
+          "Error while writting segment: #{err}"
+        )
+      end
     end
     if
       hls_segments_http_post_enable
     then
-      thread.run(fast=false, upload_segment(hls_segments_http_post_target))
+      upload_segment(hls_segments_http_post_target)
     end
-    if
-      hls_segments_enable_todo_files
-    then
-      thread.run(fast=false, segment_todo_file())
-    end
+    if hls_segments_enable_todo_files then segment_todo_file() end
   end
 end
 
@@ -144,18 +139,20 @@ def mk_hls_output(selected_formats, s) =
 
   file.mkdir(perms=0o755, hls_segments_directory)
 
-  output.file.hls(
-    id="hls_#{radio_name}",
-    on_file_change=on_file_change,
-    perm=0o644,
-    persist_at=hls_state_path,
-    playlist="#{radio_name}.m3u8",
-    segment_duration=4.0,
-    segments=15,
-    segments_overhead=75,
-    segment_name=segment_name,
-    hls_segments_directory,
-    list.map(mk_format, selected_formats),
-    s
-  )
+  o =
+    output.file.hls(
+      id="hls_#{radio_name}",
+      perm=0o644,
+      persist_at=hls_state_path,
+      playlist="#{radio_name}.m3u8",
+      segment_duration=4.0,
+      segments=15,
+      segments_overhead=75,
+      segment_name=segment_name,
+      hls_segments_directory,
+      list.map(mk_format, selected_formats),
+      s
+    )
+
+  o.on_file_change(synchronous=false, on_file_change)
 end

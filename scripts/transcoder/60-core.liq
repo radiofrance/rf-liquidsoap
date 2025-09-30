@@ -5,7 +5,6 @@ def source_tag(s, tag) =
     [("source_tag", tag)]
   end
   s = metadata.map(id=(tag : string), insert_missing=true, f, s)
-  s = insert_metadata(id=(tag : string), s)
   thread.run(every=1., {s.insert_metadata([("source_tag", tag)])})
   s
 end
