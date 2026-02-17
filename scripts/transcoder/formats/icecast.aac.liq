@@ -68,7 +68,7 @@ let formats.surround.icecast.aac =
             format = "adts",
             %audio(
               codec = "aac",
-              channel_layout = 5.1,
+              channels = 6,
               b = "192k",
               samplerate = 48000,
               profile = "aac_he"
@@ -81,7 +81,7 @@ let formats.surround.icecast.aac =
             format = "adts",
             %audio(
               codec = "aac",
-              channel_layout = 5.1,
+              channels = 6,
               b = "512k",
               samplerate = 48000,
               profile = "aac_low"
