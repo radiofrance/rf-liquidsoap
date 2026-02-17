@@ -11,16 +11,16 @@ jobs:
     name: liquidsoap scripts formatting (liquidsoap-prettier)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-    - run: 'npm install -g liquidsoap-prettier'
-    - run: |
-        ret=0
-        for file in $(find . -type f -name "*.liq"); do
-          if ! liquidsoap-prettier -c "${file}"; then
-            ret=2 ; echo "${file} is not formatted"
-          fi
-        done
-        exit $ret
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - run: "npm install -g liquidsoap-prettier"
+      - run: |
+          ret=0
+          for file in $(find . -type f -name "*.liq"); do
+            if ! liquidsoap-prettier -c "${file}"; then
+              ret=2 ; echo "${file} is not formatted"
+            fi
+          done
+          exit $ret
 
   docker_test_image:
     name: Find docker test image
@@ -28,13 +28,13 @@ jobs:
     outputs:
       docker_test_image: ${{ steps.docker_test_image.outputs.docker_test_image }}
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-    - name: "Find docker test image"
-      id: docker_test_image
-      run: |
-        DOCKER_TEST_IMAGE=`cat docker-compose.yml | grep -A 1 "container_name: liquidsoap-test" | grep image: | tr -s ' ' | cut -d' ' -f 3 | head -n 1`
-        echo "Docker test image: ${DOCKER_TEST_IMAGE}"
-        echo "docker_test_image=${DOCKER_TEST_IMAGE}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: "Find docker test image"
+        id: docker_test_image
+        run: |
+          DOCKER_TEST_IMAGE=`cat docker-compose.yml | grep -A 1 "container_name: liquidsoap-test" | grep image: | tr -s ' ' | cut -d' ' -f 3 | head -n 1`
+          echo "Docker test image: ${DOCKER_TEST_IMAGE}"
+          echo "docker_test_image=${DOCKER_TEST_IMAGE}" >> $GITHUB_OUTPUT
 
   liquidsoap-test-transcoder-stereo:
     name: liquidsoap syntax (transcoder stereo)
@@ -44,8 +44,8 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-    - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-transcoder-surround:
     name: liquidsoap syntax (transcoder surround)
@@ -55,8 +55,8 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-    - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq'
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-streamer-stereo:
     name: liquidsoap syntax (streamer stereo)
@@ -66,8 +66,8 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-    - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq'
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-streamer-surround:
     name: liquidsoap syntax (streamer surround)
@@ -77,5 +77,5 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-    - run: '/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq'
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq"
