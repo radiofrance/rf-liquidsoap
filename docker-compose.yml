@@ -1,5 +1,4 @@
 services:
-
   ###############
   # TRANSCODERS #
   ###############
@@ -10,7 +9,7 @@ services:
       - /conf/myradio.liq
       - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradio
-    image: savonet/liquidsoap:rolling-release-v2.4.x
+    image: savonet/liquidsoap:v2.4.2
     networks:
       - default
     restart: unless-stopped
@@ -35,7 +34,7 @@ services:
       - /conf/myradiosurround.liq
       - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-myradiosurround
-    image: savonet/liquidsoap:rolling-release-v2.4.x
+    image: savonet/liquidsoap:v2.4.2
     networks:
       - default
     restart: unless-stopped
@@ -129,7 +128,7 @@ services:
       - /conf/mystreamersurround.liq
       - /scripts/streamer/00-live.liq
     container_name: source-mystreamersurround
-    image: savonet/liquidsoap:rolling-release-v2.4.x
+    image: savonet/liquidsoap:v2.4.2
     networks:
       - default
     restart: unless-stopped
@@ -228,13 +227,13 @@ services:
   # Collector
   prometheus:
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention.time=200h'
-      - '--web.enable-lifecycle'
-      - '--log.level=warn'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--storage.tsdb.retention.time=200h"
+      - "--web.enable-lifecycle"
+      - "--log.level=warn"
     container_name: prometheus
     image: prom/prometheus:latest
     labels:
@@ -250,10 +249,10 @@ services:
 
   process_exporter:
     command:
-      - '-procfs'
-      - '/host/proc'
-      - '-config.path'
-      - '/etc/process_exporter/config.yml'
+      - "-procfs"
+      - "/host/proc"
+      - "-config.path"
+      - "/etc/process_exporter/config.yml"
     container_name: process_exporter
     image: ncabatoff/process-exporter
     privileged: true
@@ -318,7 +317,7 @@ services:
       - /conf/myradio.liq
       - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-stereo
-    image: savonet/liquidsoap:rolling-release-v2.4.x
+    image: savonet/liquidsoap:v2.4.2
     networks:
       - default
     volumes:
@@ -331,7 +330,7 @@ services:
       - /conf/myradiosurround.liq
       - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-surround
-    image: savonet/liquidsoap:rolling-release-v2.4.x
+    image: savonet/liquidsoap:v2.4.2
     networks:
       - default
     volumes:
@@ -344,7 +343,7 @@ services:
       - /conf/mystreamer.liq
       - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
-    image: savonet/liquidsoap:rolling-release-v2.4.x
+    image: savonet/liquidsoap:v2.4.2
     networks:
       - default
     volumes:
@@ -357,7 +356,7 @@ services:
       - /conf/mystreamersurround.liq
       - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-surround
-    image: savonet/liquidsoap:rolling-release-v2.4.x
+    image: savonet/liquidsoap:v2.4.2
     networks:
       - default
     volumes:

@@ -22,8 +22,7 @@ available_hls_formats =
 hlssegment_sent_create =
   prometheus.counter(
     labels=["radio", "code"],
-    help=
-      "Number of HLS segment send to segment-forwarder",
+    help="Number of HLS segment send to segment-forwarder",
     "liquidsoap_hlssegment_sent"
   )
 
