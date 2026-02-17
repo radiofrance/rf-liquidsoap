@@ -1,0 +1,30 @@
+# Commitlint configuration file
+# https://commitlint.js.org/
+#
+# Define the rules enforced by Fondation to redact commit messages (based on CONTRIBUTING.md)
+# https://commitlint.js.org/reference/rules-configuration.html
+rules:
+  # Commit header options
+  header-max-length: [1, always, 200]
+  subject-case:
+    - 1
+    - never
+    - [start-case, pascal-case, upper-case]
+  subject-empty: [2, never]
+  subject-full-stop: [2, never, .]
+  type-case: [2, always, lower-case]
+  type-empty: [2, never]
+  type-enum:
+    - 2
+    - always
+    - [bump, clean, doc, feat, fix, hotfix, refact, style, test, whitelist]
+
+  # Commit body options
+  body-leading-blank: [1, always]
+  body-max-line-length: [1, always, 100]
+
+  # Commit footer options
+  footer-leading-blank: [1, always]
+  footer-max-line-length: [1, always, 100]
+
+defaultIgnores: true # https://github.com/conventional-changelog/commitlint/blob/master/%40commitlint/is-ignored/src/defaults.ts
