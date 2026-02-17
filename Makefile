@@ -4,6 +4,9 @@ help: ## Display this message
 
 version = $(shell git describe --tags --long)
 
+fmt: ## Format liquidsoap scripts
+	@find . -type f -name '*.liq' -exec liquidsoap-prettier -w {} \;
+
 artifact: ## Build binary artifact
 	@mkdir /tmp/rf-liquidsoap-$(version)
 	@cp -r scripts/ /tmp/rf-liquidsoap-$(version)/
