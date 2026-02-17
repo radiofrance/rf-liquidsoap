@@ -73,7 +73,7 @@ let formats.surround.hls.libfdk_aac =
         interleaved = false,
         %audio(
           codec = "libfdk_aac",
-          channel_layout = 5.1,
+          channels = 6,
           b = "192k",
           samplerate = 48000,
           afterburner = 1,
@@ -88,7 +88,7 @@ let formats.surround.hls.libfdk_aac =
         interleaved = false,
         %audio(
           codec = "libfdk_aac",
-          channel_layout = 5.1,
+          channels = 6,
           b = "512k",
           samplerate = 48000,
           afterburner = 1,

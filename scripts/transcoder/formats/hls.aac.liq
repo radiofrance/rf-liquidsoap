@@ -69,7 +69,7 @@ let formats.surround.hls.aac =
         interleaved = false,
         %audio(
           codec = "aac",
-          channel_layout = 5.1,
+          channels = 6,
           b = "192k",
           samplerate = 48000,
           profile = "aac_low"
@@ -83,7 +83,7 @@ let formats.surround.hls.aac =
         interleaved = false,
         %audio(
           codec = "aac",
-          channel_layout = 5.1,
+          channels = 6,
           b = "512k",
           samplerate = 48000,
           profile = "aac_low"
