@@ -43,11 +43,20 @@ def post_playlist(req, res) =
 end
 
 harbor.http.register(
-  port=harbor_http_port, method="GET", "/readiness", get_readiness
+  port=harbor_http_port,
+  method="GET",
+  "/readiness",
+  get_readiness
 )
 harbor.http.register(
-  port=harbor_http_port, method="GET", "/playlist", get_playlist
+  port=harbor_http_port,
+  method="GET",
+  "/playlist",
+  get_playlist
 )
 harbor.http.register(
-  port=harbor_http_port, method="POST", "/playlist", post_playlist
+  port=harbor_http_port,
+  method="POST",
+  "/playlist",
+  post_playlist
 )
