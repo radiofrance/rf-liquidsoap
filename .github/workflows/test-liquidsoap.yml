@@ -45,7 +45,7 @@ jobs:
       options: --user root
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/transcoder-myradio.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-transcoder-surround:
     name: liquidsoap syntax (transcoder surround)
@@ -56,7 +56,7 @@ jobs:
       options: --user root
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq"
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/transcoder-myradiosurround.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-streamer-stereo:
     name: liquidsoap syntax (streamer stereo)
@@ -67,7 +67,7 @@ jobs:
       options: --user root
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/streamer-myradio.liq ./scripts/streamer/00-live.liq"
 
   liquidsoap-test-streamer-surround:
     name: liquidsoap syntax (streamer surround)
@@ -78,4 +78,4 @@ jobs:
       options: --user root
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq"
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/streamer-myradiosurround.liq ./scripts/streamer/00-live.liq"

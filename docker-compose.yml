@@ -4,11 +4,11 @@ services:
   ###############
 
   # Run liquidsoap and create "myradio" stream
-  liquidsoap-myradio:
+  transcoder-myradio:
     command:
-      - /conf/myradio.liq
+      - /conf/transcoder-myradio.liq
       - /scripts/transcoder/00-live.liq
-    container_name: liquidsoap-myradio
+    container_name: transcoder-myradio
     image: savonet/liquidsoap:v2.4.2
     networks:
       - default
@@ -29,11 +29,11 @@ services:
       - data_hls:/tmp/
       - data_liquidsoap:/state/
 
-  liquidsoap-myradiosurround:
+  transcoder-myradiosurround:
     command:
-      - /conf/myradiosurround.liq
+      - /conf/transcoder-myradiosurround.liq
       - /scripts/transcoder/00-live.liq
-    container_name: liquidsoap-myradiosurround
+    container_name: transcoder-myradiosurround
     image: savonet/liquidsoap:v2.4.2
     networks:
       - default
@@ -71,7 +71,7 @@ services:
       - wav
       - -codec:a
       - pcm_s16le
-      - "srt://liquidsoap-myradio:10000" # voieA_caller1
+      - "srt://transcoder-myradio:10000" # voieA_caller1
     container_name: source-voieA-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
@@ -92,7 +92,7 @@ services:
       - wav
       - -codec:a
       - pcm_s16le
-      - "srt://liquidsoap-myradio:10002" # voieB_caller1
+      - "srt://transcoder-myradio:10002" # voieB_caller1
     container_name: source-voieB-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
@@ -113,7 +113,7 @@ services:
       - wav
       - -codec:a
       - pcm_s16le
-      - "srt://liquidsoap-myradio:10004" # override_caller1
+      - "srt://transcoder-myradio:10004" # override_caller1
     container_name: source-override-caller1
     entrypoint: []
     image: linuxserver/ffmpeg:latest
@@ -123,11 +123,11 @@ services:
 
   # Feed myradiosurround with an example 5.1 SRT source with liquidsoap
   # (local playlist)
-  source-mystreamersurround:
+  source-streamer-myradiosurround:
     command:
-      - /conf/mystreamersurround.liq
+      - /conf/streamer-myradiosurround.liq
       - /scripts/streamer/00-live.liq
-    container_name: source-mystreamersurround
+    container_name: source-streamer-myradiosurround
     image: savonet/liquidsoap:v2.4.2
     networks:
       - default
@@ -153,7 +153,7 @@ services:
       - wav
       - -codec:a
       - pcm_s24le
-      - "srt://liquidsoap-myradiosurround:10012" # voieB_caller1
+      - "srt://transcoder-myradiosurround:10012" # voieB_caller1
     container_name: source-ffmpegsurround
     entrypoint: []
     image: linuxserver/ffmpeg:latest
@@ -314,7 +314,7 @@ services:
   liquidsoap-test-transcoder-stereo:
     command:
       - -c
-      - /conf/myradio.liq
+      - /conf/transcoder-myradio.liq
       - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-stereo
     image: savonet/liquidsoap:v2.4.2
@@ -327,7 +327,7 @@ services:
   liquidsoap-test-transcoder-surround:
     command:
       - -c
-      - /conf/myradiosurround.liq
+      - /conf/transcoder-myradiosurround.liq
       - /scripts/transcoder/00-live.liq
     container_name: liquidsoap-test-transcoder-surround
     image: savonet/liquidsoap:v2.4.2
@@ -340,7 +340,7 @@ services:
   liquidsoap-test-streamer-stereo:
     command:
       - -c
-      - /conf/mystreamer.liq
+      - /conf/streamer-myradio.liq
       - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-stereo
     image: savonet/liquidsoap:v2.4.2
@@ -353,7 +353,7 @@ services:
   liquidsoap-test-streamer-surround:
     command:
       - -c
-      - /conf/mystreamersurround.liq
+      - /conf/streamer-myradiosurround.liq
       - /scripts/streamer/00-live.liq
     container_name: liquidsoap-test-streamer-surround
     image: savonet/liquidsoap:v2.4.2

@@ -1,17 +1,5 @@
 # Icecast output
-icecast_aac_encoder =
-  if
-    aac_encoder == "libfdk_aac"
-  then
-    formats.icecast.libfdk_aac
-  else
-    formats.icecast.aac
-  end
-
-available_icecast_formats =
-  [("aac", icecast_aac_encoder), ("mp3", formats.icecast.mp3)]
-
-def mk_output(s, file_extension, quality, enc) =
+def mk_output(s, file_extension, quality) =
   # Wrap the source in a buffer to avoid blocking the whole
   # streaming thread when icecast is down
   s = buffer(s)
@@ -19,6 +7,12 @@ def mk_output(s, file_extension, quality, enc) =
   # Assign a unique id to the new clock
   icecast_id = "icecast_#{quality}#{file_extension}"
   clock(s.clock).id := icecast_id
+
+  enc =
+    file_extension == ".aac"
+    ? %ffmpeg(format = "adts", %audio.copy) :
+      %ffmpeg(format = "mp3", %audio.copy)
+
 
   output.icecast(
     id=icecast_id,
@@ -34,22 +28,18 @@ def mk_output(s, file_extension, quality, enc) =
   )
 end
 
-def mk_icecast_outputs(selected_formats, s) =
+def mk_icecast_outputs(selected_encoders) =
   list.iter(
-    fun (selected_format) ->
+    fun ((_, selected_sub_formats)) ->
       begin
-        let (selected_format, selected_sub_formats) = selected_format
-        format = list.assoc(selected_format, available_icecast_formats)
-
         list.iter(
-          fun (selected_sub_format) ->
+          fun ((selected_sub_format, {encoded_stream, file_extension})) ->
             begin
-              enc = list.assoc(selected_sub_format, format.sub_formats)
-              mk_output(s, format.file_extension, selected_sub_format, enc)
+              mk_output(encoded_stream, file_extension, selected_sub_format)
             end,
           selected_sub_formats
         )
       end,
-    selected_formats
+    selected_encoders
   )
 end
