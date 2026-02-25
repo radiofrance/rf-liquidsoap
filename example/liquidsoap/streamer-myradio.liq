@@ -1,4 +1,4 @@
-streamer_name = "mystreamer"
+streamer_name = "myradio"
 
 # Radio settings
 formats_picker = fun (formats) -> formats.flac.stereo
@@ -10,7 +10,7 @@ liquidsoap_log_level = 3
 input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
 
 # SRT output configuration
-srt_host = "liquidsoap-myradio"
+srt_host = "transcoder-myradio"
 
 # override_caller2
 srt_port = 10005
