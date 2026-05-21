@@ -4,6 +4,9 @@ help: ## Display this message
 
 version = $(shell git describe --tags --long)
 
+install:
+	@npm install -g liquidsoap-prettier@v1.8.3
+
 fmt: ## Format liquidsoap scripts
 	@find . -type f -name '*.liq' -exec liquidsoap-prettier -w {} \;
 

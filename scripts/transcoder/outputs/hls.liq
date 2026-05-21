@@ -65,8 +65,7 @@ end
 def on_file_change({state, path = fname}) =
   if
     (state == "created" or state == "updated")
-  and
-    file.extension(fname) != '.m3u8'
+    and file.extension(fname) != '.m3u8'
   then
     log.info(
       "Segment #{fname} written on disk."

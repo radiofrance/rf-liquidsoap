@@ -2,7 +2,6 @@ let formats.stereo.hls.libfdk_aac =
   [
     (
       "lofi",
-
       # See: https://github.com/savonet/liquidsoap/pull/4401
       %ffmpeg(
         format = "mpegts",

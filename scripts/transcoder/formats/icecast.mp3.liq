@@ -1,6 +1,6 @@
 let formats.stereo.icecast.mp3 =
   {
-    sub_formats=
+    sub_formats =
       [
         (
           "lofi",
@@ -31,7 +31,7 @@ let formats.stereo.icecast.mp3 =
           )
         )
       ],
-    file_extension=".mp3"
+    file_extension = ".mp3"
   }
 
-let formats.surround.icecast.mp3 = {sub_formats=[], file_extension=".mp3"}
+let formats.surround.icecast.mp3 = {sub_formats = [], file_extension = ".mp3"}

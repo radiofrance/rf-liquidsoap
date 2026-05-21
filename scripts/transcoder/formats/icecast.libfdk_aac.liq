@@ -1,6 +1,6 @@
 let formats.stereo.icecast.libfdk_aac =
   {
-    sub_formats=
+    sub_formats =
       [
         (
           "lofi",
@@ -63,12 +63,12 @@ let formats.stereo.icecast.libfdk_aac =
           )
         )
       ],
-    file_extension=".aac"
+    file_extension = ".aac"
   }
 
 let formats.surround.icecast.libfdk_aac =
   {
-    sub_formats=
+    sub_formats =
       [
         (
           "hifi",
@@ -101,5 +101,5 @@ let formats.surround.icecast.libfdk_aac =
           )
         )
       ],
-    file_extension=".aac"
+    file_extension = ".aac"
   }

@@ -9,10 +9,10 @@ end
 def get_livesource(_, response) =
   response.json(
     {
-      preferred_output=preferred_live_source(),
-      inputs=list.map(fun (s) -> s.name, input_sources),
-      real_output=real_live_source(),
-      is_output_blank=is_blank()
+      preferred_output = preferred_live_source(),
+      inputs = list.map(fun (s) -> s.name, input_sources),
+      real_output = real_live_source(),
+      is_output_blank = is_blank()
     }
   )
 end
@@ -26,7 +26,7 @@ def post_livesource(req, res) =
     res.status_code(400)
     res.json(
       {
-        error_message=
+        error_message =
           "input #{data} does not exist"
       }
     )
@@ -37,7 +37,7 @@ def post_livesource(req, res) =
     ignore(
       file.write(data=data, append=false, perms=0o644, livesource_state_path)
     )
-    res.json({preferred_output=data})
+    res.json({preferred_output = data})
   end
 end
 
