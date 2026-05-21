@@ -1,0 +1,47 @@
+name: PR Pre-Release
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Target PR number (required for manual trigger)"
+        required: true
+
+jobs:
+  pr-pre-release:
+    name: PR Pre-Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - name: Build artifacts via Makefile
+        run: |
+          mkdir -p dist
+          make artifact VERSION="pr-${{ github.event.pull_request.number || github.event.inputs.pr_number }}"
+          ls -la dist
+      - name: Create or update a draft pre-release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          name: "[Pre-release] ${{ github.event.pull_request.title }}"
+          body: |
+            Pre-release for PR #${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+          draft: true
+          prerelease: true
+          files: |
+            dist/*.zip
+            dist/*.md5
+      - name: Post or update PR comment with release link
+        if: github.event_name == 'pull_request' || github.event.inputs.pr_number != ''
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+          edit-mode: replace
+          body: |
+            Pre-release for PR #${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+            Download the artifacts from [here](https://github.com/radiofrance/rf-liquidsoap/releases).

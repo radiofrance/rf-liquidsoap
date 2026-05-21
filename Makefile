@@ -3,6 +3,8 @@ help: ## Display this message
 	@grep -E '(^[a-zA-Z0-9_.-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 version = $(shell git describe --tags --long)
+VERSION ?= $(shell git describe --tags --long 2>/dev/null || echo "v0.0.0")
+DIST_DIR := dist
 
 install:
 	@npm install -g liquidsoap-prettier@v1.8.3
@@ -10,12 +12,19 @@ install:
 fmt: ## Format liquidsoap scripts
 	@find . -type f -name '*.liq' -exec liquidsoap-prettier -w {} \;
 
-artifact: ## Build binary artifact
-	@mkdir /tmp/rf-liquidsoap-$(version)
-	@cp -r scripts/ /tmp/rf-liquidsoap-$(version)/
-	@tar --exclude-vcs --owner=0 --group=0 -C /tmp -cvzf rf-liquidsoap-$(version).tar.gz rf-liquidsoap-$(version)/
-	@rm -rf /tmp/rf-liquidsoap-$(version)/
-	@md5sum rf-liquidsoap-$(version).tar.gz
+artifact: ## Build binary artifact (zip + md5 in dist/)
+	@set -eu; \
+	mkdir -p $(DIST_DIR); \
+	TMPDIR=$$(mktemp -d /tmp/rf-liquidsoap-XXXX); \
+	cp -r scripts/ "$${TMPDIR}/rf-liquidsoap/"; \
+	cd "$${TMPDIR}" && zip -qr "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip" rf-liquidsoap; \
+	rm -rf "$${TMPDIR}"; \
+	if command -v md5 >/dev/null 2>&1; then \
+		md5 -q "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip" > "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip.md5"; \
+	else \
+		md5sum "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip" | awk '{print $$1}' > "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip.md5"; \
+	fi; \
+	ls -la $(CURDIR)/$(DIST_DIR)
 
 test: ## Run test on the liquidsoap configuration
 	@docker compose up \
