@@ -97,9 +97,9 @@ def mk_source(s) =
   tagged_source = source_tag(buffered_input, s.name)
 
   {
-    name=s.name,
-    is_autofallback=s.is_autofallback,
-    set_is_playing_metric=set_is_playing_metric,
-    source=tagged_source
+    name = s.name,
+    is_autofallback = s.is_autofallback,
+    set_is_playing_metric = set_is_playing_metric,
+    source = tagged_source
   }
 end

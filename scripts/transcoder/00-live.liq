@@ -56,12 +56,7 @@ radio_prod =
   fallback(
     id="fallback_prod",
     track_sensitive=false,
-    [
-      live,
-      ...list.fold(mk_fallback_source, [], input_sources),
-
-      safe_blank
-    ]
+    [live, ...list.fold(mk_fallback_source, [], input_sources), safe_blank]
   )
 
 # Create is_ready and duration_unready_seconds time series for the output and
@@ -109,11 +104,11 @@ def update_is_playing_metrics(m) =
     [
       ...input_sources,
       {
-        name="safe_blank",
-        is_autofallback=true,
-        is_ready=safe_blank.is_ready,
-        set_is_playing_metric=set_safe_blank_is_playing_metric,
-        source=safe_blank
+        name = "safe_blank",
+        is_autofallback = true,
+        is_ready = safe_blank.is_ready,
+        set_is_playing_metric = set_safe_blank_is_playing_metric,
+        source = safe_blank
       }
     ]
 

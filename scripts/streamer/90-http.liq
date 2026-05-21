@@ -22,9 +22,9 @@ end
 def get_playlist(_, res) =
   res.json(
     {
-      current_track=flatten_meta(radio.last_metadata()),
-      current_track_remaining=radio.remaining(),
-      time=radio.time()
+      current_track = flatten_meta(radio.last_metadata()),
+      current_track_remaining = radio.remaining(),
+      time = radio.time()
     }
   )
 end
