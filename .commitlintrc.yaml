@@ -18,18 +18,18 @@ rules:
     - 2
     - always
     - [
-        bump,
-        clean,
-        chore,
-        doc,
-        feat,
-        fix,
-        hotfix,
-        refact,
-        style,
-        test,
-        whitelist,
-      ]
+      bump,
+      clean,
+      chore,
+      doc,
+      feat,
+      fix,
+      hotfix,
+      refact,
+      style,
+      test,
+      whitelist,
+    ]
 
   # Commit body options
   body-leading-blank: [1, always]

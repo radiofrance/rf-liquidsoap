@@ -22,7 +22,7 @@ test: ## Run test on the liquidsoap configuration
 		liquidsoap-test-transcoder-stereo \
 		liquidsoap-test-streamer-stereo \
 		liquidsoap-test-transcoder-surround \
-	  liquidsoap-test-streamer-surround
+		liquidsoap-test-streamer-surround
 
 reload: ## Update containers if needed and restart all liquidsoaps
 	@docker compose up -d
@@ -30,7 +30,7 @@ reload: ## Update containers if needed and restart all liquidsoaps
 		liquidsoap-test-transcoder-stereo \
 		liquidsoap-test-streamer-stereo \
 		liquidsoap-test-transcoder-surround \
-	  liquidsoap-test-streamer-surround
+		liquidsoap-test-streamer-surround
 	@docker compose restart \
 		liquidsoap-myradio \
 		liquidsoap-myradiosurround \

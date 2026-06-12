@@ -10,31 +10,31 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets:
-        - cadvisor:8080
+          - cadvisor:8080
 
   - job_name: 'liquidsoap'
     scrape_interval: 5s
     static_configs:
       - targets:
-        - liquidsoap-myradio:9001
-        - liquidsoap-myradiosurround:9011
-        - liquidsoap-mystreamer:9021
+          - liquidsoap-myradio:9001
+          - liquidsoap-myradiosurround:9011
+          - liquidsoap-mystreamer:9021
 
   - job_name: 'prometheus'
     scrape_interval: 10s
     static_configs:
       - targets:
-        - localhost:9090
+          - localhost:9090
 
   - job_name: 'process_exporter'
     scrape_interval: 10s
     static_configs:
       - targets:
-        - process_exporter:9256
+          - process_exporter:9256
 
 alerting:
   alertmanagers:
     - scheme: http
       static_configs:
         - targets:
-          - alertmanager:9093
+            - alertmanager:9093
