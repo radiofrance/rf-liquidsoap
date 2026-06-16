@@ -1,0 +1,33 @@
+---
+name: Release
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        id: release
+        with:
+          release-type: simple
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Build artifacts via Makefile and upload to release
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p dist
+          VERSION="${{ steps.release.outputs.tag_name }}"
+          make artifact VERSION="$VERSION"
+          ls -la dist
+          gh release upload $VERSION \
+            ./dist/rf-liquidsoap-$VERSION.zip \
+            ./dist/rf-liquidsoap-$VERSION.zip.md5
