@@ -10,7 +10,7 @@ jobs:
   yamllint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - run: pip install yamllint
       - run: yamllint .
 
@@ -18,7 +18,7 @@ jobs:
     name: liquidsoap scripts formatting (liquidsoap-prettier)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - run: "npm install -g liquidsoap-prettier@v1.8.3"
       - run: |
           ret=0
@@ -37,7 +37,7 @@ jobs:
     outputs:
       docker_test_image: ${{ steps.docker_test_image.outputs.docker_test_image }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: "Find docker test image"
         id: docker_test_image
         run: |
@@ -53,7 +53,7 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-transcoder-surround:
@@ -64,7 +64,7 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-streamer-stereo:
@@ -75,7 +75,7 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-streamer-surround:
@@ -86,5 +86,5 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq"
