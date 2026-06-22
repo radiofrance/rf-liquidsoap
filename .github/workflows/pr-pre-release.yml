@@ -25,7 +25,7 @@ jobs:
           make artifact VERSION="pr-${{ github.event.pull_request.number || github.event.inputs.pr_number }}"
           ls -la dist
       - name: Create or update a draft pre-release
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
         with:
           name: "[Pre-release] ${{ github.event.pull_request.title }}"
           body: |
