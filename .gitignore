@@ -1,3 +1,4 @@
 example/audio/*
 .*.sw*
 .res/.$*
+node_modules/
