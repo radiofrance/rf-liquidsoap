@@ -1,12 +1,45 @@
 # CHANGELOG.md
 
-## 2.0.3 (2024-05-22)
+### [2.10.0](https://www.github.com/radiofrance/rf-liquidsoap/compare/v2.0.9...v2.10.0) (2026-02-17)
 
-Features:
+- chore(deps): update actions/checkout action to v5
+- test: add commitlintrc
+- feat(transcoder): remove non-existent channel_layout setting for 5.1
+- chore(liquidsoap): bump liquidsoap version to stable v2.4.2
+- feat(Makefile): add liquidsoap-prettier in makefile
 
-- upgrade liquidsoap to v2.2.5
+### [2.0.9](https://www.github.com/radiofrance/rf-liquidsoap/compare/v2.0.6...v2.0.9) (2025-09-30)
 
-## 2.0.2 (2024-03-12)
+- bump(config): migrate config renovate.json
+- chore(deps): pin savonet/liquidsoap docker tag to a546c25
+- Change ffmpeg image
+- Add dashboard with cpu usage per thread
+- clean: reindent docker-compose
+- Assign named clocks
+- fix: remove a typo in the Makefile
+- Drop use of latency metrics
+- Use only one queue
+- fix(settings): keep one fast queue to protect clocked threads
+- Set interleaved to false
+- feat(liquidsoap): upgrade liquidsoap to fix segfaults and memleaks
+- Cleanup top-level variable overrides
+- Use docker-compose image for tests
+- Updates for 2.4.x APIs
+
+### [2.0.6](https://www.github.com/radiofrance/rf-liquidsoap/compare/v2.0.2...v2.0.6) (2025-05-27)
+
+- bump(config): migrate renovate config
+- chore(deps): pin savonet/liquidsoap docker tag to a546c25
+- Change ffmpeg image
+- Add dashboard with cpu usage per thread
+- Assign named clocks
+- Drop use of latency metrics
+- Use only one queue
+- fix(settings): keep one fast queue to protect clocked threads
+- Set interleaved to false
+- feat(liquidsoap): upgrade liquidsoap to fix segfaults and memleaks
+
+### [2.0.2](https://www.github.com/radiofrance/rf-liquidsoap/compare/v2.0.1...v2.0.2) (2024-03-12)
 
 Features:
 
@@ -22,7 +55,7 @@ Bugfix :
   isn't supported
 - fix fdkaac profiles names to match real codec names
 
-## 2.0.1 (2024-01-08)
+### [2.0.1](https://www.github.com/radiofrance/rf-liquidsoap/compare/v2.0.0...v2.0.1) (2024-01-08)
 
 Features:
 
@@ -50,47 +83,3 @@ Breaking changes:
 - a new function must be declared in the configuration file to select a channel
   layout (stereo or surround).
 - scripts paths have changed, be careful if you use the scripts folder directly.
-
-## 1.2.1 (2023-09-06)
-
-Features:
-
-- add new dashboard for LUFS levels.
-- add new graphs in liquidsoap dashboard for SRT inputs, packet loss, drops, etc.
-- improve README.md.
-- improve docker-compose.yml, Makefile and examples.
-- improve CHANGELOG.md.
-- add GREETINGS.md.
-- upgrade liquidsoap to v2.2.1.
-
-## 1.0.6 (2023-04-18)
-
-Features:
-
-- add a prometheus metric to monitor LUFS levels of final radio stream.
-
-## 1.0.5 (2023-04-05)
-
-Bugfix:
-
-- prevent freezes of the main loop protecting input sources with a buffer.
-  We were experiencing icecast server restarts due to this issue.
-
-## 1.0.4 (2023-03-17)
-
-Features:
-
-- add new SRT and input buffer metrics.
-- add a Makefile.
-- improve docker-compose.yml.
-
-# Known issues
-
-- situations where SRT inputs get stuck with "No room to store incoming packets"
-  when sources are flapping / restarting too fast / due to network errors.
-
-- SRT input buffers tend to get consumed faster than the source is able to
-  produce audio, leading to unwanted temporary source switch after buffer
-  exhaustion. This behavior gets worse with network congestion / packet loss. A
-  "catch back" mecanism or an adaptative buffer could help but needs
-  investigations.
