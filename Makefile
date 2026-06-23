@@ -8,6 +8,13 @@ DIST_DIR := dist
 
 install:
 	@npm install -g liquidsoap-prettier@v1.8.3
+	@npm install
+
+init: install ## Initialize git hooks for commitlint
+	@npx husky install
+
+commitlint: ## Run commitlint on the last commit
+	@npx commitlint --from HEAD~1 --to HEAD --verbose
 
 fmt: ## Format liquidsoap scripts
 	@find . -type f -name '*.liq' -exec liquidsoap-prettier -w {} \;
