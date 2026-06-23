@@ -1,0 +1,67 @@
+---
+name: Pre-release
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # create/update releases
+      packages: write
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          # checkout merge request HEAD instead of merge commit
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      # semver-action automatically finds the latest tag on master (“current”)
+      # and calculates your next version (“next”) based on conventional commits
+      - name: Compute next semver version
+        id: semver
+        uses: ietf-tools/semver-action@v1
+        if: ${{ !env.ACT }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+
+      - name: Compute short SHA
+        id: short_sha
+        run: echo "SHORT_SHA=${GITHUB_SHA::8}" >> $GITHUB_ENV
+
+      - name: Changelog since last tag
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fromTag: ${{ steps.semver.outputs.current }}
+          toTag: ${{ steps.semver.outputs.next }}-pre-${{ github.head_ref }}
+
+      - name: Build artifacts
+        id: artifact
+        run: make version=${{ steps.semver.outputs.next }}-pre-${{ env.SHORT_SHA }} artifact
+
+      - name: Create / update draft prerelease
+        id: release
+        uses: ncipollo/release-action@v1
+        if: ${{ !env.ACT }}
+        with:
+          tag: ${{ steps.semver.outputs.next }}-pre-${{ github.head_ref }}
+          name: rf-liquidsoap-preview-${{ github.head_ref }}
+          artifacts: "rf-liquidsoap*.tar.gz"
+          body: ${{ steps.changelog.outputs.changes }}
+          commit: ${{ github.event.pull_request.head.sha }}
+          draft: true
+          allowUpdates: true
+          removeArtifacts: true
+          replacesArtifacts: true
+          updateOnlyUnreleased: true
+          token: ${{ secrets.GITHUB_TOKEN }}

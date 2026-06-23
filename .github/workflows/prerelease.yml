@@ -1,0 +1,63 @@
+name: rolling pre-release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute next semver
+        id: semver
+        uses: ietf-tools/semver-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+
+      - name: Capture short SHA
+        run: echo "SHORT=${GITHUB_SHA::8}" >> $GITHUB_ENV
+
+      - name: Generate changelog since last stable
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fromTag: ${{ steps.semver.outputs.current }}
+          toTag: ${{ steps.semver.outputs.next }}-rolling
+
+      - name: Build artifact
+        run: make version=${{ steps.semver.outputs.next }}-pr-${{ env.SHORT }} artifact
+
+      - name: Create/Update prerelease
+        id: prerel
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.semver.outputs.next }}-pr
+          name: Prerelease ${{ steps.semver.outputs.next }}
+          body: ${{ steps.changelog.outputs.changes }}
+          draft: false
+          prerelease: true
+          allowUpdates: true
+          removeArtifacts: true
+          replacesArtifacts: true
+          updateOnlyUnreleased: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifact
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.prerel.outputs.upload_url }}
+          asset_path: rf-liquidsoap*.tar.gz
+          asset_name: rf-liquidsoap-${{ steps.semver.outputs.next }}-pr-${{ env.SHORT }}.tar.gz
+          asset_content_type: application/gzip
