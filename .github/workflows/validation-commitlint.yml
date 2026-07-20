@@ -1,6 +1,8 @@
 ---
-name: Commitlint
-on: [push, pull_request]
+name: Validation (commitlint)
+on:
+  pull_request:
+  push:
 
 permissions:
   contents: read
@@ -12,19 +14,9 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          cache: npm
+
       - name: Install commitlint
         run: npm install -D @commitlint/cli@21.0.2 @commitlint/config-conventional@21.0.2
-      - name: Print versions
-        run: |
-          git --version
-          node --version
-          npm --version
-          npx commitlint --version
 
       - name: In case of a push, validate only the last commit
         if: github.event_name == 'push'

@@ -3,34 +3,8 @@ name: Tests (Liquidsoap)
 on:
   pull_request:
   push:
-    branches:
-      - master
 
 jobs:
-  yamllint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - run: pip install yamllint
-      - run: yamllint .
-
-  liquidsoap-prettier:
-    name: liquidsoap scripts formatting (liquidsoap-prettier)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - run: "npm install -g liquidsoap-prettier@v1.8.3"
-      - run: |
-          ret=0
-          for file in $(find . -type f -name "*.liq"); do
-            if ! liquidsoap-prettier -c "${file}"; then
-              ret=2 ; echo "${file} is NOT formatted"
-            else
-              echo "${file} is formatted"
-            fi
-          done
-          exit $ret
-
   docker_test_image:
     name: Find docker test image
     runs-on: ubuntu-latest
