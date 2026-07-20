@@ -271,22 +271,22 @@ scripts.
 
 ### Exported Prometheus metrics in the Liquidsoap script
 
-| Name                                        | Type    | Description                            |
-|-------------------------------------------- | ------- | -------------------------------------- |
-| liquidsoap_hlssegment_sent                  | counter | Number of HLS segment send to segment-forwarder |
-| liquidsoap_output_lufs_5s                   | gauge   | Audio LUFS Analysis of radio_prod with 5s windows |
-| liquidsoap_source_is_blank                  | gauge   | Is source blank? (no audio) |
-| liquidsoap_source_is_playing                | gauge   | Is source playing? |
-| liquidsoap_source_is_preferred_livesource   | gauge   | Is source the preferred livesource? |
-| liquidsoap_source_is_ready                  | gauge   | Is source ready? |
+| Name                                        | Type    | Description                                                   |
+| ------------------------------------------- | ------- | ------------------------------------------------------------- |
+| liquidsoap_hlssegment_sent                  | counter | Number of HLS segment send to segment-forwarder               |
+| liquidsoap_output_lufs_5s                   | gauge   | Audio LUFS Analysis of radio_prod with 5s windows             |
+| liquidsoap_source_is_blank                  | gauge   | Is source blank? (no audio)                                   |
+| liquidsoap_source_is_playing                | gauge   | Is source playing?                                            |
+| liquidsoap_source_is_preferred_livesource   | gauge   | Is source the preferred livesource?                           |
+| liquidsoap_source_is_ready                  | gauge   | Is source ready?                                              |
 | liquidsoap_source_unready_duration_seconds  | counter | Cumulative duration in seconds of the source in unready state |
-| liquidsoap_srt_input_buffer_length          | gauge   | Length of the SRT buffer |
-| liquidsoap_srt_input_bytes_available        | gauge   | SRT stat byteAvailRcvBuf |
-| liquidsoap_srt_input_packet_drop_total      | gauge   | SRT stat pktRcvDropTotal (cumulative) |
-| liquidsoap_srt_input_packet_loss_total      | gauge   | SRT stat pktRcvLossTotal (cumulative) |
-| liquidsoap_srt_input_packet_received_buffer | gauge   | SRT stat pktRcvBuf |
-| liquidsoap_srt_input_packet_received_total  | gauge   | SRT stat pktRecvTotal (cumulative) |
-| liquidsoap_time_of_last_data_timestamp      | gauge   | Last time source produced some data. |
+| liquidsoap_srt_input_buffer_length          | gauge   | Length of the SRT buffer                                      |
+| liquidsoap_srt_input_bytes_available        | gauge   | SRT stat byteAvailRcvBuf                                      |
+| liquidsoap_srt_input_packet_drop_total      | gauge   | SRT stat pktRcvDropTotal (cumulative)                         |
+| liquidsoap_srt_input_packet_loss_total      | gauge   | SRT stat pktRcvLossTotal (cumulative)                         |
+| liquidsoap_srt_input_packet_received_buffer | gauge   | SRT stat pktRcvBuf                                            |
+| liquidsoap_srt_input_packet_received_total  | gauge   | SRT stat pktRecvTotal (cumulative)                            |
+| liquidsoap_time_of_last_data_timestamp      | gauge   | Last time source produced some data.                          |
 
 ### Prometheus metric exploration
 

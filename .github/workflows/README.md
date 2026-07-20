@@ -45,5 +45,5 @@ The most important prefixes we should have in mind are:
 - `fix:` which represents bug fixes, and correlates to a [SemVer](https://semver.org/)
   patch.
 - `feat:` which represents a new feature, and correlates to a SemVer minor.
-- `feat!:`,  or `fix!:`, `refactor!:`, etc., which represent a breaking change
+- `feat!:`, or `fix!:`, `refactor!:`, etc., which represent a breaking change
   (indicated by the `!`) and will result in a SemVer major.
