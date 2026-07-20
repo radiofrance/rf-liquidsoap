@@ -1,5 +1,24 @@
 # CHANGELOG.md
 
+## [2.11.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.10.0...v2.11.0) (2026-07-20)
+
+
+### Features
+
+* **CI:** add new commitlint job ([e34c8a4](https://github.com/radiofrance/rf-liquidsoap/commit/e34c8a44aedeeb29c45d2d062ea276307aa3032d))
+* **CI:** add new commitlint job ([7a9e795](https://github.com/radiofrance/rf-liquidsoap/commit/7a9e795b3ed2692ec66355a8368cbf83be7e81cf))
+* **CI:** add PR pre-release artifacts ([dd5ac6b](https://github.com/radiofrance/rf-liquidsoap/commit/dd5ac6b6b75dd3c330340d970c03d0da742dc1b8))
+* **CI:** add PR pre-release artifacts ([abc88a4](https://github.com/radiofrance/rf-liquidsoap/commit/abc88a47dc3426d571ac50bb453c3d33e51efc76))
+* **CI:** add yamllint ([f333753](https://github.com/radiofrance/rf-liquidsoap/commit/f33375393668cddc1e8f9c5c1bb87d344524bd49))
+* **CI:** add yamllint ([a45b51f](https://github.com/radiofrance/rf-liquidsoap/commit/a45b51fc724dc4974a418aa882cd2c6f1d75711d))
+* **CI:** improve the release workflow ([951266f](https://github.com/radiofrance/rf-liquidsoap/commit/951266f68eed21074957be7ce82ef25c1fa34a11))
+
+
+### Bug Fixes
+
+* use liquidsoap-prettier v1.8.3 to format files ([f753e28](https://github.com/radiofrance/rf-liquidsoap/commit/f753e281bdb25bcae8b23716946e032b3b86f355))
+* use liquidsoap-prettier v1.8.3 to format files ([a88556c](https://github.com/radiofrance/rf-liquidsoap/commit/a88556ce775d978fc40305c332924a54bd8fb533))
+
 ### [2.10.0](https://www.github.com/radiofrance/rf-liquidsoap/compare/v2.0.9...v2.10.0) (2026-02-17)
 
 - chore(deps): update actions/checkout action to v5
