@@ -1,4 +1,4 @@
 route:
-  receiver: 'nullreceiver'
+  receiver: "nullreceiver"
 receivers:
-- name: nullreceiver
+  - name: nullreceiver

@@ -2,9 +2,7 @@
   "id": null,
   "title": "Docker Containers",
   "description": "Containers metrics",
-  "tags": [
-    "docker"
-  ],
+  "tags": ["docker"],
   "style": "dark",
   "timezone": "browser",
   "editable": true,
@@ -40,9 +38,7 @@
           "id": 4,
           "interval": null,
           "isNew": true,
-          "links": [
-
-          ],
+          "links": [],
           "mappingType": 1,
           "mappingTypes": [
             {
@@ -124,9 +120,7 @@
           "id": 7,
           "interval": null,
           "isNew": true,
-          "links": [
-
-          ],
+          "links": [],
           "mappingType": 1,
           "mappingTypes": [
             {
@@ -206,9 +200,7 @@
           "id": 5,
           "interval": null,
           "isNew": true,
-          "links": [
-
-          ],
+          "links": [],
           "mappingType": 1,
           "mappingTypes": [
             {
@@ -291,9 +283,7 @@
           "id": 2,
           "interval": null,
           "isNew": true,
-          "links": [
-
-          ],
+          "links": [],
           "mappingType": 1,
           "mappingTypes": [
             {
@@ -376,9 +366,7 @@
           "id": 6,
           "interval": null,
           "isNew": true,
-          "links": [
-
-          ],
+          "links": [],
           "mappingType": 1,
           "mappingTypes": [
             {
@@ -461,9 +449,7 @@
           "id": 3,
           "interval": null,
           "isNew": true,
-          "links": [
-
-          ],
+          "links": [],
           "mappingType": 1,
           "mappingTypes": [
             {
@@ -530,9 +516,7 @@
       "height": "150px",
       "panels": [
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": true,
           "datasource": "Prometheus",
           "decimals": 0,
@@ -559,17 +543,13 @@
           },
           "lines": false,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-
-          ],
+          "seriesOverrides": [],
           "span": 4,
           "stack": false,
           "steppedLine": false,
@@ -616,9 +596,7 @@
           ]
         },
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": true,
           "datasource": "Prometheus",
           "decimals": 2,
@@ -644,9 +622,7 @@
           },
           "lines": false,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
@@ -705,9 +681,7 @@
           ]
         },
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": false,
           "datasource": "Prometheus",
           "editable": true,
@@ -734,9 +708,7 @@
           },
           "lines": true,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
@@ -829,9 +801,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": false,
           "datasource": "Prometheus",
           "decimals": 2,
@@ -859,17 +829,13 @@
           },
           "lines": true,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-
-          ],
+          "seriesOverrides": [],
           "span": 12,
           "stack": false,
           "steppedLine": false,
@@ -924,9 +890,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": false,
           "datasource": "Prometheus",
           "decimals": 2,
@@ -954,17 +918,13 @@
           },
           "lines": true,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-
-          ],
+          "seriesOverrides": [],
           "span": 12,
           "stack": false,
           "steppedLine": false,
@@ -1011,9 +971,7 @@
           ]
         },
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": false,
           "datasource": "Prometheus",
           "decimals": 2,
@@ -1041,17 +999,13 @@
           },
           "lines": true,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-
-          ],
+          "seriesOverrides": [],
           "span": 12,
           "stack": false,
           "steppedLine": false,
@@ -1106,9 +1060,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": false,
           "datasource": "Prometheus",
           "decimals": 2,
@@ -1136,17 +1088,13 @@
           },
           "lines": true,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-
-          ],
+          "seriesOverrides": [],
           "span": 12,
           "stack": false,
           "steppedLine": false,
@@ -1193,9 +1141,7 @@
           ]
         },
         {
-          "aliasColors": {
-
-          },
+          "aliasColors": {},
           "bars": false,
           "datasource": "Prometheus",
           "decimals": 2,
@@ -1223,17 +1169,13 @@
           },
           "lines": true,
           "linewidth": 2,
-          "links": [
-
-          ],
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-
-          ],
+          "seriesOverrides": [],
           "span": 12,
           "stack": false,
           "steppedLine": false,
@@ -1300,32 +1242,16 @@
       "2h",
       "1d"
     ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "templating": {
-    "list": [
-
-    ]
+    "list": []
   },
   "annotations": {
-    "list": [
-
-    ]
+    "list": []
   },
   "refresh": "10s",
   "schemaVersion": 12,
-  "links": [
-
-  ],
+  "links": [],
   "gnetId": null
 }

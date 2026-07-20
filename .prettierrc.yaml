@@ -1,0 +1,11 @@
+overrides:
+  - files:
+      - "**/*.{yaml,yml}"
+    options:
+      bracketSpacing: true
+      endOfLine: lf # LF line endings (Unix standard)
+      printWidth: 120 # Print width for line wrapping
+      proseWrap: preserve
+      singleQuote: false # Single quotes for strings
+      tabWidth: 2 # Use 2 spaces for indentation
+      useTabs: false # Use spaces, not tabs
