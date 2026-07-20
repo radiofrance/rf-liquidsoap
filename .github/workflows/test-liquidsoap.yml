@@ -11,7 +11,7 @@ jobs:
     outputs:
       docker_test_image: ${{ steps.docker_test_image.outputs.docker_test_image }}
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: "Find docker test image"
         id: docker_test_image
         run: |
@@ -27,7 +27,7 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-transcoder-surround:
@@ -38,7 +38,7 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradiosurround.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-streamer-stereo:
@@ -49,7 +49,7 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
 
   liquidsoap-test-streamer-surround:
@@ -60,5 +60,5 @@ jobs:
       image: ${{ needs.docker_test_image.outputs.docker_test_image }}
       options: --user root
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq"
