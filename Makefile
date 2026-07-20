@@ -7,7 +7,6 @@ VERSION ?= $(shell git describe --tags --long 2>/dev/null || echo "v0.0.0")
 DIST_DIR := dist
 
 install:
-	@npm install -g liquidsoap-prettier@v1.8.3
 	@npm install
 
 init: install ## Initialize git hooks for commitlint
@@ -74,6 +73,7 @@ status: ## Show status of docker containers
 
 clean: ## Stop and remove all containers, networks and volumes
 	@docker compose down -v
+	@rm -rf node_modules/
 
 logs: ## Show logs
 	@docker compose logs -f

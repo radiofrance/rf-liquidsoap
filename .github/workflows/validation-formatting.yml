@@ -1,0 +1,37 @@
+---
+name: Validation (formatting)
+on:
+  pull_request:
+  push:
+
+jobs:
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - run: pip install yamllint
+      - run: yamllint .
+
+  prettier:
+    name: prettier formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Install prettier and liquidsoap-prettier
+        run: npm install -D liquidsoap-prettier@v1.8.3 prettier@v3.9.5
+
+      - name: Run liquidsoap-prettier on liquidsoap scripts
+        run: |
+          ret=0
+          for file in $(find . -type f -name "*.liq" -not -path "./node_modules/*"); do
+            if ! npx liquidsoap-prettier -c "${file}"; then
+              ret=2 ; echo "${file} is NOT formatted"
+            else
+              echo "${file} is formatted"
+            fi
+          done
+          exit $ret
+
+      - name: Run prettier on every other files
+        run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,css,scss,md,yaml,yml}"
