@@ -8,6 +8,6 @@
     "@commitlint/config-conventional": "21.2.0",
     "husky": "9.1.7",
     "liquidsoap-prettier": "1.8.3",
-    "prettier": "3.9.5"
+    "prettier": "3.9.6"
   }
 }
