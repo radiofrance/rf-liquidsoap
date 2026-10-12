@@ -20,8 +20,8 @@ jobs:
 
       - name: In case of a push, validate only the last commit
         if: github.event_name == 'push'
-        run: npx commitlint --last --verbose
+        run: npm run commitlint -- --last
 
       - name: In case of a PR, validate all the commits compared to the base branch
         if: github.event_name == 'pull_request'
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: npm run commitlint -- --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
