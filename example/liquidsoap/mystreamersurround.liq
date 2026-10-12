@@ -1,4 +1,5 @@
-streamer_name = "mystreamer"
+streamer_name = "myradiosurround"
+settings.frame.audio.channels.set(6)
 
 # Radio settings
 formats_picker = fun (formats) -> formats.flac.surround
