@@ -15,8 +15,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install commitlint
-        run: npm install -D @commitlint/cli@21.0.2 @commitlint/config-conventional@21.0.2
+      - name: Install dependencies
+        run: npm ci
 
       - name: In case of a push, validate only the last commit
         if: github.event_name == 'push'

@@ -18,8 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Install prettier and liquidsoap-prettier
-        run: npm install -D liquidsoap-prettier@v1.8.3 prettier@v3.9.5
+      - name: Install dependencies
+        run: npm ci
 
       - name: Run liquidsoap-prettier on liquidsoap scripts
         run: |
