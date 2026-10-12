@@ -13,10 +13,10 @@ init: install ## Initialize git hooks for commitlint
 	@npx husky install
 
 commitlint: ## Run commitlint on the last commit
-	@npx commitlint --from HEAD~1 --to HEAD --verbose
+	@npm run commitlint -- --last
 
-fmt: ## Format liquidsoap scripts
-	@find . -type f -name '*.liq' -exec liquidsoap-prettier -w {} \;
+fmt: ## Format liquidsoap scripts and other files
+	@npm run format
 
 artifact: ## Build binary artifact (zip + md5 in dist/)
 	@set -eu; \

@@ -3,6 +3,11 @@
   "version": "2.10.0",
   "description": "Radio France's Liquidsoap scripts",
   "type": "module",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "commitlint": "commitlint --verbose"
+  },
   "devDependencies": {
     "@commitlint/cli": "21.2.3",
     "@commitlint/config-conventional": "21.2.3",

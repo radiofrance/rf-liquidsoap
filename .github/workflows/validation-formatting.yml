@@ -21,17 +21,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run liquidsoap-prettier on liquidsoap scripts
-        run: |
-          ret=0
-          for file in $(find . -type f -name "*.liq" -not -path "./node_modules/*"); do
-            if ! npx liquidsoap-prettier -c "${file}"; then
-              ret=2 ; echo "${file} is NOT formatted"
-            else
-              echo "${file} is formatted"
-            fi
-          done
-          exit $ret
-
-      - name: Run prettier on every other files
-        run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,css,scss,md,yaml,yml}"
+      - name: Check formatting
+        run: npm run format:check

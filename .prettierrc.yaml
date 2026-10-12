@@ -1,3 +1,6 @@
+plugins:
+  - liquidsoap-prettier
+
 overrides:
   - files:
       - "**/*.{yaml,yml}"
