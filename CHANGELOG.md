@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## [2.12.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.11.0...v2.12.0) (2026-10-15)
+
+
+### Features
+
+* **renovate:** import common configuration elements from our main template ([14d880a](https://github.com/radiofrance/rf-liquidsoap/commit/14d880a6dcd16f1b1d148b7774510ff3f1261bb5))
+
 ## [2.11.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.10.0...v2.11.0) (2026-10-12)
 
 
