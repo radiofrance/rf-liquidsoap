@@ -2,6 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices",
+    ":enableVulnerabilityAlerts",
+    ":gitSignOff",
+    ":ignoreModulesAndTests",
+    ":prConcurrentLimitNone",
+    ":prHourlyLimitNone",
     ":label(dependencies)",
     ":semanticCommits",
     ":semanticCommitType(bump)"
@@ -17,6 +22,13 @@
       "description": "Group all liquidsoap containers versions",
       "matchPackageNames": ["savonet/liquidsoap"],
       "groupName": "liquidsoap"
+    },
+    {
+      "description": "Group GitHub Actions related bumps",
+      "groupName": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["/action/"],
+      "separateMajorMinor": false
     }
   ]
 }
