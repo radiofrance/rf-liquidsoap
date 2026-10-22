@@ -261,7 +261,17 @@ ffmpeg -re -i $LIVESTREAM -vn -f wav -codec:a pcm_s16le srt://127.0.0.1:10001
 
 The port `:10001` should be modified to match the SRT input you want to use.
 Each SRT input in the fallback loop has its own port. See
-[`input_list`](example/liquidsoap/myradio.liq#L9) to find port definitions.
+[`input_list`](example/liquidsoap/myradio.liq#L13) to find port definitions.
+
+Each entry of `input_list` has a `kind` field: `"srt"` (the default when
+omitted) or `"harbor"`. A `harbor` input is an Icecast-compatible harbor that
+accepts a source client on its `port`, with an optional `mount` (defaults to the
+input name) and `password` (defaults to `"hackme"`):
+
+```bash
+ffmpeg -re -i $AUDIOFILE -vn -c:a libmp3lame -f mp3 \
+  icecast://source:hackme@127.0.0.1:10007/icecast_input1
+```
 
 ## Monitoring
 
