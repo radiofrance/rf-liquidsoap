@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## [2.13.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.12.0...v2.13.0) (2026-10-22)
+
+
+### Features
+
+* **ci:** add sha256 checksum in each release ([28b4c16](https://github.com/radiofrance/rf-liquidsoap/commit/28b4c165cf977529cf4b98f0ae0d2dc1aec461d1))
+
 ## [2.12.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.11.0...v2.12.0) (2026-10-22)
 
 
