@@ -1,16 +1,19 @@
 Useful URLs and exposed services with default configuration.
 
 # Liquidsoap transcoder (liquidsoap-myradio)
-http://127.0.0.1:9001/metrics     # Liquidsoap (myradio) Prometheus Metrics
-http://127.0.0.1:7000/livesource  # Liquidsoap (myradio) HTTP API
-srt://127.0.0.1:10000             # Liquidsoap (myradio) SRT input port voieA_caller1
-srt://127.0.0.1:10001             # Liquidsoap (myradio) SRT input port voieA_caller2
-srt://127.0.0.1:10002             # Liquidsoap (myradio) SRT input port voieB_caller1
-srt://127.0.0.1:10003             # Liquidsoap (myradio) SRT input port voieB_caller2
-srt://127.0.0.1:10004             # Liquidsoap (myradio) SRT input port override_caller1
-srt://127.0.0.1:10005             # Liquidsoap (myradio) SRT input port override_caller2
-srt://127.0.0.1:10006             # Liquidsoap (myradio) SRT input port sat_sat1
-icecast://127.0.0.1:10007/icecast_input1 # Liquidsoap (myradio) Icecast (harbor) input icecast_input1 (source / hackme)
+## listening inputs
+http://127.0.0.1:9001/metrics             # Liquidsoap (myradio) Prometheus Metrics
+http://127.0.0.1:7000/livesource          # Liquidsoap (myradio) HTTP API
+srt://127.0.0.1:10000                     # Liquidsoap (myradio) SRT input port voieA_caller1
+srt://127.0.0.1:10001                     # Liquidsoap (myradio) SRT input port voieA_caller2
+srt://127.0.0.1:10002                     # Liquidsoap (myradio) SRT input port voieB_caller1
+srt://127.0.0.1:10003                     # Liquidsoap (myradio) SRT input port voieB_caller2
+srt://127.0.0.1:10004                     # Liquidsoap (myradio) SRT input port override_caller1
+srt://127.0.0.1:10005                     # Liquidsoap (myradio) SRT input port override_caller2
+srt://127.0.0.1:10006                     # Liquidsoap (myradio) SRT input port sat_sat1
+icecast://127.0.0.1:10007/icecast_input1  # Liquidsoap (myradio) Icecast (harbor) input icecast_input1 (source / hackme)
+## relay inputs
+http://icecast.radiofrance.fr/fipelectro-hifi.aac?id=rf-liquidsoap # Icecast relay input (pulls FIP electro)
 
 # Liquidsoap transcoder surround (liquidsoap-myradiosurround)
 http://127.0.0.1:9011/metrics     # Liquidsoap (myradiosurround) Prometheus Metrics
@@ -65,3 +68,6 @@ curl -s -d voieB_caller1 http://127.0.0.1:7010/livesource
 # Test the Icecast (harbor) input of myradio: send a stream, then switch to it
 ffmpeg -re -i $AUDIOFILE -vn -c:a libmp3lame -f mp3 icecast://source:hackme@127.0.0.1:10007/icecast_input1
 curl -s -d icecast_input1 http://127.0.0.1:7000/livesource
+
+# Test the Icecast relay input of myradio (pulls FIP): switch to it
+curl -s -d icecast_relay1 http://127.0.0.1:7000/livesource

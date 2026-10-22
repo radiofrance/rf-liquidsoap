@@ -264,13 +264,26 @@ Each SRT input in the fallback loop has its own port. See
 [`input_list`](example/liquidsoap/myradio.liq#L13) to find port definitions.
 
 Each entry of `input_list` has a `kind` field: `"srt"` (the default when
-omitted) or `"harbor"`. A `harbor` input is an Icecast-compatible harbor that
+omitted), `"harbor"` or `"http"`. A `harbor` input is an Icecast-compatible harbor that
 accepts a source client on its `port`, with an optional `mount` (defaults to the
 input name) and `password` (defaults to `"hackme"`):
 
 ```bash
 ffmpeg -re -i $AUDIOFILE -vn -c:a libmp3lame -f mp3 \
   icecast://source:hackme@127.0.0.1:10007/icecast_input1
+```
+
+A `harbor` input waits for a source to push to it. To relay a remote Icecast
+server instead, use an `http` input: it pulls the stream at its `url` (Icecast,
+HTTP or HLS, via FFmpeg) and reconnects on failure. It needs no `port`:
+
+```liquidsoap
+{
+  name = "icecast_relay1",
+  is_autofallback = false,
+  kind = "http",
+  url = "http://icecast.radiofrance.fr/fip-hifi.aac?id=rf-liquidsoap"
+}
 ```
 
 ## Monitoring
