@@ -18,7 +18,7 @@ commitlint: ## Run commitlint on the last commit
 fmt: ## Format liquidsoap scripts and other files
 	@npm run format
 
-artifact: ## Build binary artifact (zip + md5 in dist/)
+artifact: ## Build binary artifact (zip + md5 + sha256 in dist/)
 	@set -eu; \
 	mkdir -p $(DIST_DIR); \
 	TMPDIR=$$(mktemp -d /tmp/rf-liquidsoap-XXXX); \
@@ -29,6 +29,11 @@ artifact: ## Build binary artifact (zip + md5 in dist/)
 		md5 -q "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip" > "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip.md5"; \
 	else \
 		md5sum "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip" | awk '{print $$1}' > "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip.md5"; \
+	fi; \
+	if command -v sha256sum >/dev/null 2>&1; then \
+		sha256sum "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip" | awk '{print $$1}' > "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip.sha256"; \
+	else \
+		shasum -a 256 "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip" | awk '{print $$1}' > "$(CURDIR)/$(DIST_DIR)/rf-liquidsoap-$(VERSION).zip.sha256"; \
 	fi; \
 	ls -la $(CURDIR)/$(DIST_DIR)
 

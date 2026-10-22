@@ -30,4 +30,5 @@ jobs:
           ls -la dist
           gh release upload $VERSION \
             ./dist/rf-liquidsoap-$VERSION.zip \
-            ./dist/rf-liquidsoap-$VERSION.zip.md5
+            ./dist/rf-liquidsoap-$VERSION.zip.md5 \
+            ./dist/rf-liquidsoap-$VERSION.zip.sha256
