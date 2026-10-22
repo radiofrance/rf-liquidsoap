@@ -1,5 +1,14 @@
 # CHANGELOG.md
 
+## [2.12.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.11.0...v2.12.0) (2026-10-22)
+
+
+### Features
+
+* **renovate:** import common configuration elements from our main template ([14d880a](https://github.com/radiofrance/rf-liquidsoap/commit/14d880a6dcd16f1b1d148b7774510ff3f1261bb5))
+* **transcoder:** add http/icecast relay input ([15db241](https://github.com/radiofrance/rf-liquidsoap/commit/15db24115b36c79fb39c1af22753f0518e332f40))
+* **transcoder:** add icecast input (harbor input) ([a14bdee](https://github.com/radiofrance/rf-liquidsoap/commit/a14bdee5084c9f8796a2b14606032188e74ba93f))
+
 ## [2.11.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.10.0...v2.11.0) (2026-10-12)
 
 
