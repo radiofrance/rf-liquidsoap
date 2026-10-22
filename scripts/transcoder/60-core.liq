@@ -10,7 +10,10 @@ def source_tag(s, tag) =
 end
 
 def mk_source(s) =
-  # Input kind: "srt" (default) or "harbor" (icecast source client)
+  # Input kinds:
+  # - "srt" (default, srt source client pushing to us),
+  # - "harbor" (icecast source client pushing to us)
+  # - "http" (icecast/http relay, pulling a stream from an URL)
   kind = s?.kind ?? "srt"
 
   # Common pipeline for every input kind: clock, metrics, buffer and tag
@@ -82,7 +85,10 @@ def mk_source(s) =
   if
     kind == "srt"
   then
-    srt_input = input.srt(id=(s.name : string), max=3.0, port=s.port)
+    #############
+    # SRT INPUT #
+    #############
+    srt_input = input.srt(id=(s.name : string), max=3.0, port=null.get(s?.port))
 
     srt_input_bytes_available_set =
       srt_input_bytes_available_create(
@@ -126,21 +132,35 @@ def mk_source(s) =
   elsif
     kind == "harbor"
   then
-    # Icecast source clients connect to this mountpoint (defaults to the
-    # input name) on the given port.
+    ########################
+    # ICECAST HARBOR INPUT #
+    ########################
+    # Icecast source clients connect to this mountpoint (defaults to the input
+    # name) on the given port.
     harbor_input =
       input.harbor(
         id=(s.name : string),
-        port=s.port,
+        port=null.get(s?.port),
         password=s?.password ?? "hackme",
         s?.mount ?? s.name
       )
 
     mk_buffered_source(harbor_input)
+  elsif
+    kind == "http"
+  then
+    ###################
+    # HTTP PULL INPUT #
+    ###################
+    # Relay a remote icecast (or any http/hls) stream, reconnects on failure
+    http_input = input.http(id=(s.name : string), null.get(s?.url))
+
+    mk_buffered_source(http_input)
   else
     error.raise(
       error.invalid,
-      "Unknown input kind #{kind} for input #{s.name}, expected srt or harbor"
+      "Unknown input kind #{kind} for input #{s.name}, expected srt, harbor or \
+       http"
     )
   end
 end

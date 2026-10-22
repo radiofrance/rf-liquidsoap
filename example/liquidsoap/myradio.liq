@@ -8,8 +8,9 @@ prometheus_server_port = 9001
 liquidsoap_log_level = 3
 
 # Inputs configuration
-# kind is "srt" (default) or "harbor" (icecast source client, mount defaults
-# to the input name, password defaults to "hackme")
+# kind is "srt" (default), "harbor" (icecast source client pushing to us, mount
+# defaults to the input name, password defaults to "hackme") or "http" (icecast
+# relay pulling the stream at url, no port needed)
 input_list =
   [
     {name = "voieA_caller1", is_autofallback = true, port = 10000},
@@ -20,10 +21,17 @@ input_list =
     {name = "override_caller2", is_autofallback = false, port = 10005},
     {name = "sat_sat1", is_autofallback = true, port = 10006, kind = "srt"},
     {
+      kind = "harbor",
       name = "icecast_input1",
       is_autofallback = false,
       port = 10007,
-      kind = "harbor"
+      password = "hackme"
+    },
+    {
+      kind = "http",
+      name = "icecast_relay1",
+      is_autofallback = false,
+      url = "http://icecast.radiofrance.fr/fipcultes-hifi.aac?id=rf-liquidsoap"
     }
   ]
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
