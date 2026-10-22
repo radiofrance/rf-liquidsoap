@@ -7,7 +7,9 @@ harbor_http_port = 7000
 prometheus_server_port = 9001
 liquidsoap_log_level = 3
 
-# SRT inputs configuration
+# Inputs configuration
+# kind is "srt" (default) or "harbor" (icecast source client, mount defaults
+# to the input name, password defaults to "hackme")
 input_list =
   [
     {name = "voieA_caller1", is_autofallback = true, port = 10000},
@@ -16,7 +18,13 @@ input_list =
     {name = "voieB_caller2", is_autofallback = true, port = 10003},
     {name = "override_caller1", is_autofallback = false, port = 10004},
     {name = "override_caller2", is_autofallback = false, port = 10005},
-    {name = "sat_sat1", is_autofallback = true, port = 10006}
+    {name = "sat_sat1", is_autofallback = true, port = 10006, kind = "srt"},
+    {
+      name = "icecast_input1",
+      is_autofallback = false,
+      port = 10007,
+      kind = "harbor"
+    }
   ]
 livesource_state_path = "/state/#{radio_name}.livesourcestate"
 

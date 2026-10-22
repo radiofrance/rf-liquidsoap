@@ -7,7 +7,7 @@ harbor_http_port = 7010
 prometheus_server_port = 9011
 liquidsoap_log_level = 3
 
-# SRT inputs configuration
+# Inputs configuration
 input_list =
   [
     {name = "voieA_caller1", is_autofallback = true, port = 10010},

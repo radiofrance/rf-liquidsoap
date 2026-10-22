@@ -23,6 +23,7 @@ services:
       - 10004:10004/tcp
       - 10005:10005/tcp
       - 10006:10006/tcp
+      - 10007:10007/tcp
     volumes:
       - ./example/liquidsoap/:/conf/:ro
       - ./scripts/transcoder/:/scripts/transcoder/:ro
