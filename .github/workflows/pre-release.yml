@@ -31,3 +31,4 @@ jobs:
           files: |
             dist/*.zip
             dist/*.md5
+            dist/*.sha256
