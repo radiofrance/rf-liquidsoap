@@ -9,8 +9,8 @@
     "commitlint": "commitlint --verbose"
   },
   "devDependencies": {
-    "@commitlint/cli": "21.2.3",
-    "@commitlint/config-conventional": "21.2.3",
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
     "husky": "9.1.7",
     "liquidsoap-prettier": "1.9.0",
     "prettier": "3.9.10"
