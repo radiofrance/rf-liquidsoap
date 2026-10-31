@@ -2,6 +2,7 @@ radio_name = "myradio"
 
 # Radio settings
 formats_picker = fun (formats) -> formats.stereo
+audio_channels = 2
 aac_encoder = "aac"
 harbor_http_port = 7000
 prometheus_server_port = 9001

@@ -16,7 +16,11 @@ settings.harbor.verbose.set(false)
 
 # Audio settings
 settings.frame.audio.samplerate.set(48000)
-settings.frame.audio.channels.set(2)
+
+# channels of the stream (audio_channels of the radio config, 2 or 6): the
+# default of the sources liquidsoap builds while streaming, which must match
+# the stream or a 5.1 radio dies on a stereo source
+settings.frame.audio.channels.set(audio_channels)
 settings.audio.converter.samplerate.libsamplerate.quality.set("fast")
 
 # Prometheus server settings
