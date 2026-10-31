@@ -3,6 +3,10 @@ settings.frame.audio.channels.set(6)
 
 # Radio settings
 formats_picker = fun (formats) -> formats.flac.surround
+
+# 5.1: the sources liquidsoap builds while streaming (crossfade transitions)
+# take this default, stereo otherwise
+settings.frame.audio.channels.set(6)
 harbor_http_port = 7030
 prometheus_server_port = 9031
 liquidsoap_log_level = 3

@@ -2,6 +2,7 @@ radio_name = "myradiosurround"
 
 # Radio settings
 formats_picker = fun (formats) -> formats.surround
+audio_channels = 6
 aac_encoder = "libfdk_aac"
 harbor_http_port = 7010
 prometheus_server_port = 9011
