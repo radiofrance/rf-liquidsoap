@@ -8,6 +8,11 @@ harbor_http_port = 7010
 prometheus_server_port = 9011
 liquidsoap_log_level = 3
 
+# Track metadata: publish title, artists, album, label, catalognumber and year
+# sent by the streamers, as the Icecast song line and as X-Meta-* headers on
+# the HLS segment uploads. Cleared when the live input changes.
+metadata_enabled = false
+
 # Inputs configuration
 input_list =
   [

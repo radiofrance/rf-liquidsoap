@@ -19,6 +19,15 @@ metadata_fields = list.map(fst, metadata_headers)
 # input changes
 metadata_clear_key = "liq_metadata_clear"
 
+# The encoders, and so the Icecast song line, only get the metadata of this
+# list: the default one drops artists, label, catalognumber and the clear
+# marker.
+if
+  metadata_enabled
+then
+  settings.encoder.metadata.export.set([...metadata_fields, metadata_clear_key])
+end
+
 # Bytes kept of each value
 metadata_value_max_bytes = 512
 
@@ -110,13 +119,14 @@ def metadata_updater() =
 end
 
 # The Icecast song line: "Title - Artists - Album (Label, Catalognumber,
-# Year)", without the missing parts. Empty to clear, null for no update.
+# Year)", without the missing parts. The radio name to clear (an
+# empty song never reaches Icecast), null for no update.
 def metadata_song(m) =
   try
     if
       list.assoc(default="", metadata_clear_key, m) != ""
     then
-      ""
+      radio_name
     else
       m = metadata_published(m)
       def join(separator, keys) =
