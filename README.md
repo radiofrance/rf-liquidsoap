@@ -231,6 +231,17 @@ $ curl -s -d override_caller1 http://127.0.0.1:7000/livesource
 {"preferred_output": "override_caller1"}
 ```
 
+### Transitions between tracks
+
+The streamer crossfades its tracks on the points of liquidsoap's
+[autocue](https://www.liquidsoap.info/doc-dev/autocue.html): an ebur128
+analysis of each file, when it is queued, cuts the silences of its head and
+tail, and starts the next track while the current one fades out. The overlap
+follows each track's detected ending, up to 20 seconds for a long fade out.
+The tracks autocue can't analyze crossfade with a 6 seconds fade out and a 3
+seconds fade in. The loudness stays with the ReplayGain settings: the autocue
+gain is ignored.
+
 ### Track metadata
 
 The streamer can push the track metadata of its files with the audio, and the

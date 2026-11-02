@@ -48,6 +48,9 @@ end
 # play unchanged: the gain is never computed here.
 if replaygain_enabled then enable_replaygain_metadata(compute=false) end
 
+# Autocue and crossfade between the tracks
+%include "40-transitions.liq"
+
 # Track metadata, after the replaygain decoder: rf_metadata replaces the file
 # tag decoders, and keeps the others
 %include "50-metadata.liq"
@@ -73,15 +76,22 @@ radio =
   if
     replaygain_enabled
   then
-    lookahead_limit(
-      normalize_track_gain(metadata.map(replaygain_offset, radio))
-    )
+    normalize_track_gain(metadata.map(replaygain_offset, radio))
   else
     radio
   end
 
+# Crossfade the playlist tracks themselves, before the fallback: the blank of
+# mksafe never takes part in a transition. The limiter comes after the
+# crossfade to also catch the peaks of two overlapping tracks.
+radio = transitions(radio)
+radio = if replaygain_enabled then lookahead_limit(radio) else radio end
+
+radio = mksafe(id="playlist", radio)
+
 # Keep the published metadata fields only. After the replaygain chain,
-# which reads the replaygain_track_gain tag.
+# which reads the replaygain_track_gain tag, and the crossfade, which reads
+# the autocue metadata.
 radio =
   if
     metadata_enabled
@@ -96,9 +106,6 @@ radio =
   else
     radio
   end
-
-radio = mksafe(id="playlist", radio)
-radio = crossfade(fade_out=3., fade_in=3., duration=5., radio)
 
 %include "80-outputs.liq"
 %include "90-http.liq"
