@@ -3,6 +3,9 @@
 #
 # Define the rules enforced by Fondation to redact commit messages (based on CONTRIBUTING.md)
 # https://commitlint.js.org/reference/rules-configuration.html
+# Conventional Commits parser: accepts the breaking change marker (feat!: or feat(scope)!:)
+parserPreset: conventional-changelog-conventionalcommits
+
 rules:
   # Commit header options
   header-max-length: [1, always, 200]
