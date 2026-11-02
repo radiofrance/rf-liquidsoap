@@ -6,6 +6,11 @@ harbor_http_port = 7020
 prometheus_server_port = 9021
 liquidsoap_log_level = 3
 
+# ReplayGain: apply the replaygain_track_gain tag of the files, and reach
+# this loudness (LUFS)
+replaygain_enabled = true
+replaygain_target_lufs = -14.
+
 # Inputs configuration
 input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
 
