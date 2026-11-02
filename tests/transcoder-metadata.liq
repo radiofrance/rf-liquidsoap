@@ -138,6 +138,11 @@ assert_equal(
   update([("source_tag", "c")])
 )
 assert_equal(
+  "untagged track clears",
+  [(metadata_clear_key, "1")],
+  update([("source_tag", "c"), (metadata_clear_key, "1")])
+)
+assert_equal(
   "export list",
   [...metadata_fields, metadata_clear_key],
   settings.encoder.metadata.export()

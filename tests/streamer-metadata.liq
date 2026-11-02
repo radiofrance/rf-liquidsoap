@@ -72,13 +72,17 @@ assert_equal(
 )
 assert_equal(
   "never originaldate",
-  [],
+  [("liq_metadata_clear", "1")],
   metadata_consolidate([("originaldate", "1970"), ("date", "unknown")])
 )
-assert_equal("empty", [], metadata_consolidate([]))
+assert_equal(
+  "untagged track clears",
+  [("liq_metadata_clear", "1")],
+  metadata_consolidate([("filename", "/audio/jingle.flac"), ("comment", "c")])
+)
 assert_equal(
   "export list",
-  metadata_fields,
+  [...metadata_fields, "liq_metadata_clear"],
   settings.encoder.metadata.export()
 )
 test_done()

@@ -88,7 +88,8 @@ end
 
 # A function giving the metadata to publish for each metadata m of
 # radio_prod. It follows the source_tag of the live input: when it changes,
-# the published fields are cleared, unless m carries new ones. The 1 s
+# the published fields are cleared, unless m carries new ones. The clear
+# marker of a streamer (untagged track) clears them too. The 1 s
 # source_tag re-inserts give no metadata.
 def metadata_updater() =
   last_tag = ref("")
@@ -103,7 +104,7 @@ def metadata_updater() =
       then
         published
       elsif
-        changed
+        changed or list.assoc(default="", metadata_clear_key, m) != ""
       then
         [(metadata_clear_key, "1")]
       else

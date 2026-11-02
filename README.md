@@ -262,12 +262,14 @@ The transcoder publishes:
 - on the HLS segment uploads, one header per field: `X-Meta-Title`,
   `X-Meta-Artists`, `X-Meta-Album`, `X-Meta-Label`, `X-Meta-Catalognumber`,
   `X-Meta-Year`. Values are form url-encoded (`Beyonc%C3%A9+Knowles`: space is
-  `+`), decode them with a standard url decoder. Values are stripped of
+  `+`), decode them with a form decoder (e.g. Python
+  `urllib.parse.unquote_plus`, Go `url.QueryUnescape`). Values are stripped of
   control characters and cut to 512 bytes.
 
-When the live input changes, the published metadata is cleared until the new
-input sends a track: the uploads carry no `X-Meta-*` header, and the Icecast
-song becomes the radio name.
+When the live input changes, or a track has none of the fields (e.g. an
+untagged jingle), the published metadata is cleared until the next track: the
+uploads carry no `X-Meta-*` header, and the Icecast song becomes the radio
+name.
 
 ### Show default exposed URLs and useful ports
 
