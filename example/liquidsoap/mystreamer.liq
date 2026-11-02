@@ -11,6 +11,11 @@ liquidsoap_log_level = 3
 replaygain_enabled = true
 replaygain_target_lufs = -14.
 
+# Track metadata: push title, artists, album, label, catalognumber and year
+# of the files with the audio. The SRT stream is then Ogg/FLAC: plain FLAC
+# can't carry per-track tags.
+metadata_enabled = true
+
 # Inputs configuration
 input_playlist_file = "/audio/lib/#{streamer_name}.m3u"
 

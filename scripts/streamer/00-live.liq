@@ -2,6 +2,7 @@
 
 %include "10-settings.liq"
 %include "20-prometheus.liq"
+%include "50-metadata.liq"
 
 # Build the playlist
 # The playlist is an m3u without #EXTM3U header: without a mime type,
@@ -71,6 +72,23 @@ radio =
   then
     lookahead_limit(
       normalize_track_gain(metadata.map(replaygain_offset, radio))
+    )
+  else
+    radio
+  end
+
+# Keep the published metadata fields only. After the replaygain chain,
+# which reads the replaygain_track_gain tag.
+radio =
+  if
+    metadata_enabled
+  then
+    metadata.map(
+      id="metadata_consolidate",
+      update=false,
+      strip=true,
+      metadata_consolidate,
+      radio
     )
   else
     radio

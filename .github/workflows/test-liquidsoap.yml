@@ -50,7 +50,7 @@ jobs:
       options: --user root
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/myradio.liq ./scripts/transcoder/00-live.liq"
+      - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamer.liq ./scripts/streamer/00-live.liq"
 
   liquidsoap-test-streamer-surround:
     name: liquidsoap syntax (streamer surround)
