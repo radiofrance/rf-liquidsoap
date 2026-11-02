@@ -364,6 +364,17 @@ services:
       - ./example/liquidsoap/:/conf/:ro
       - ./scripts/streamer/:/scripts/streamer/:ro
 
+  liquidsoap-test-unit-streamer:
+    command:
+      - /tests/streamer-metadata.liq
+    container_name: liquidsoap-test-unit-streamer
+    image: savonet/liquidsoap:v2.4.6
+    networks:
+      - default
+    volumes:
+      - ./tests/:/tests/:ro
+      - ./scripts/streamer/:/scripts/streamer/:ro
+
 volumes:
   data_grafana: {}
   data_hls: {}

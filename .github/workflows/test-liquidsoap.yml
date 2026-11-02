@@ -62,3 +62,14 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: "/usr/bin/liquidsoap -c ./example/liquidsoap/mystreamersurround.liq ./scripts/streamer/00-live.liq"
+
+  liquidsoap-test-unit-streamer:
+    name: liquidsoap unit tests (streamer)
+    runs-on: ubuntu-latest
+    needs: docker_test_image
+    container:
+      image: ${{ needs.docker_test_image.outputs.docker_test_image }}
+      options: --user root
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: "/usr/bin/liquidsoap ./tests/streamer-metadata.liq"
