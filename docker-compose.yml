@@ -375,6 +375,17 @@ services:
       - ./tests/:/tests/:ro
       - ./scripts/streamer/:/scripts/streamer/:ro
 
+  liquidsoap-test-unit-transcoder:
+    command:
+      - /tests/transcoder-metadata.liq
+    container_name: liquidsoap-test-unit-transcoder
+    image: savonet/liquidsoap:v2.4.6
+    networks:
+      - default
+    volumes:
+      - ./tests/:/tests/:ro
+      - ./scripts/transcoder/:/scripts/transcoder/:ro
+
 volumes:
   data_grafana: {}
   data_hls: {}
