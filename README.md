@@ -231,6 +231,44 @@ $ curl -s -d override_caller1 http://127.0.0.1:7000/livesource
 {"preferred_output": "override_caller1"}
 ```
 
+### Track metadata
+
+The streamer can push the track metadata of its files with the audio, and the
+transcoder can publish it. Both are set with `metadata_enabled` in the radio
+config: the variable is required, `false` keeps the stream without metadata.
+
+Only these fields are published, read from the tags written by
+[beets](https://beets.io/) (tag names in any case):
+
+| Field           | Tags, first non-blank wins           |
+| --------------- | ------------------------------------ |
+| `title`         | `title`                              |
+| `artists`       | `artists`, `artist`                  |
+| `album`         | `album`                              |
+| `label`         | `label`, `publisher`, `organization` |
+| `catalognumber` | `catalognumber`, `catalognum`        |
+| `year`          | 4 digits of `year`, else of `date`   |
+
+`originaldate` is never used.
+
+With `metadata_enabled = true`, the streamer sends Ogg/FLAC over SRT instead of
+FLAC: plain FLAC can't carry per-track tags. The transcoder accepts both.
+
+The transcoder publishes:
+
+- to Icecast, one song line, e.g.
+  `Title - Artists - Album (Label, Catalognumber, Year)`, without the missing
+  parts;
+- on the HLS segment uploads, one header per field: `X-Meta-Title`,
+  `X-Meta-Artists`, `X-Meta-Album`, `X-Meta-Label`, `X-Meta-Catalognumber`,
+  `X-Meta-Year`. Values are form url-encoded (`Beyonc%C3%A9+Knowles`: space is
+  `+`), decode them with a standard url decoder. Values are stripped of
+  control characters and cut to 512 bytes.
+
+When the live input changes, the published metadata is cleared until the new
+input sends a track: the uploads carry no `X-Meta-*` header, and the Icecast
+song becomes the radio name.
+
 ### Show default exposed URLs and useful ports
 
 ```
