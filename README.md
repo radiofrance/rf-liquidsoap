@@ -249,7 +249,9 @@ Only these fields are published, read from the tags written by
 | `catalognumber` | `catalognumber`, `catalognum`        |
 | `year`          | 4 digits of `year`, else of `date`   |
 
-`originaldate` is never used.
+`originaldate` is never used. With `metadata_enabled = true`, the streamer only
+reads these tags and `replaygain_track_gain` from the files: liquidsoap ignores
+the others (e.g. the long `acoustid_fingerprint` of beets).
 
 With `metadata_enabled = true`, the streamer sends Ogg/FLAC over SRT instead of
 FLAC: plain FLAC can't carry per-track tags. The transcoder accepts both.

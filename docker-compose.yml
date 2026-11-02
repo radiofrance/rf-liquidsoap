@@ -368,6 +368,8 @@ services:
     command:
       - /tests/streamer-metadata.liq
     container_name: liquidsoap-test-unit-streamer
+    # the test reads tests/fixtures relative to the tests folder
+    working_dir: /tests
     image: savonet/liquidsoap:v2.4.6
     networks:
       - default

@@ -2,7 +2,6 @@
 
 %include "10-settings.liq"
 %include "20-prometheus.liq"
-%include "50-metadata.liq"
 
 # Build the playlist
 # The playlist is an m3u without #EXTM3U header: without a mime type,
@@ -48,6 +47,10 @@ end
 # catches the peaks of the tracks raised above full scale. Untagged tracks
 # play unchanged: the gain is never computed here.
 if replaygain_enabled then enable_replaygain_metadata(compute=false) end
+
+# Track metadata, after the replaygain decoder: rf_metadata replaces the file
+# tag decoders, and keeps the others
+%include "50-metadata.liq"
 
 # Add the offset to the track gain (e.g. "-11.4 dB"), of the tagged tracks only
 def replaygain_offset(m) =
