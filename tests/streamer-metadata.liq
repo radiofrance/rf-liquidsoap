@@ -3,7 +3,7 @@ metadata_enabled = true
 
 %include "lib.liq"
 
-# As in 00-live.liq: replaygain registers its metadata decoder first
+# As in 00-live.liq: 30-replaygain.liq registers its metadata decoder first
 enable_replaygain_metadata(compute=false)
 %include "../scripts/streamer/50-metadata.liq"
 

@@ -15,7 +15,7 @@ metadata_sources =
 metadata_fields = list.map(fst, metadata_sources)
 
 # The tags read from the files: the source tags, and the ReplayGain 2.0 one
-# of the replaygain chain (00-live.liq)
+# of the replaygain chain (30-replaygain.liq)
 metadata_tags =
   [...list.flatten(list.map(snd, metadata_sources)), "replaygain_track_gain"]
 
