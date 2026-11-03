@@ -1,5 +1,9 @@
 radio_name = "myradiosurround"
 
+# Icecast song line when no track metadata is published (no tag received)
+radio_description =
+  "My Radio Surround"
+
 # Radio settings
 formats_picker = fun (formats) -> formats.surround
 audio_channels = 6

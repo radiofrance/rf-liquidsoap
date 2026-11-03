@@ -1,5 +1,9 @@
 radio_name = "myradio"
 
+# Icecast song line when no track metadata is published (no tag received)
+radio_description =
+  "My Radio"
+
 # Radio settings
 formats_picker = fun (formats) -> formats.stereo
 audio_channels = 2

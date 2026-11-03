@@ -290,8 +290,8 @@ The transcoder publishes:
 
 When the live input changes, or a track has none of the fields (e.g. an
 untagged jingle), the published metadata is cleared until the next track: the
-uploads carry no `X-Meta-*` header, and the Icecast song becomes the radio
-name.
+uploads carry no `X-Meta-*` header, and the Icecast song becomes the
+`radio_description` of the transcoder configuration.
 
 ### Show default exposed URLs and useful ports
 

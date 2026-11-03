@@ -120,14 +120,14 @@ def metadata_updater() =
 end
 
 # The Icecast song line: "Title - Artists - Album (Label, Catalognumber,
-# Year)", without the missing parts. The radio name to clear (an
+# Year)", without the missing parts. The radio description to clear (an
 # empty song never reaches Icecast), null for no update.
 def metadata_song(m) =
   try
     if
       list.assoc(default="", metadata_clear_key, m) != ""
     then
-      radio_name
+      radio_description
     else
       m = metadata_published(m)
       def join(separator, keys) =

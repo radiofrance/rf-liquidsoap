@@ -1,6 +1,8 @@
 # Unit tests of scripts/transcoder/50-metadata.liq
 metadata_enabled = true
 radio_name = "myradio"
+radio_description =
+  "My Radio"
 
 %include "lib.liq"
 %include "../scripts/transcoder/50-metadata.liq"
@@ -84,7 +86,7 @@ assert_equal(
 )
 assert_equal(
   "song clear",
-  "myradio",
+  "My Radio",
   null.get(metadata_song([(metadata_clear_key, "1")]))
 )
 assert_equal(
