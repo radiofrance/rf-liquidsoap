@@ -273,8 +273,7 @@ Only these fields are published, read from the tags written by
 reads these tags and `replaygain_track_gain` from the files: liquidsoap ignores
 the others (e.g. the long `acoustid_fingerprint` of beets).
 
-With `metadata_enabled = true`, the streamer sends Ogg/FLAC over SRT instead of
-FLAC: plain FLAC can't carry per-track tags. The transcoder accepts both.
+The streamer sends Ogg/FLAC over SRT, with or without the metadata.
 
 The transcoder publishes:
 

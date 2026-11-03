@@ -3,8 +3,7 @@
 ## Intent
 
 The streamer plays a local playlist of files tagged with beets. Today none of
-the file tags reach listeners: the streamer sends plain FLAC over SRT (FLAC
-only carries tags in its header, so per-track tags never cross), and the
+the file tags reach listeners: the streamer drops them, and the
 transcoder sends no metadata to Icecast (`send_icy_metadata=false`).
 
 We want the track info to flow end to end, opt-in on both sides:
@@ -44,10 +43,9 @@ We want the track info to flow end to end, opt-in on both sides:
 ## Anti-goals (failure even if it "works")
 
 - **Any change in behaviour when `metadata_enabled = false`.** Disabled must mean:
-  streamer still outputs plain `%flac` exactly as today; transcoder Icecast
+  streamer sends no track metadata; transcoder Icecast
   output still has `send_icy_metadata=false`; HLS upload headers are exactly
-  `[("Origin", …)]`. Implement so the disabled path is the current code, not a
-  re-implementation of it.
+  `[("Origin", …)]`.
 - **Liquidsoap crashing or a stream stopping** because of metadata: missing
   tags, unexpected tag names, invalid UTF-8, huge values, control characters,
   a stream format that doesn't carry metadata. Worst case is a log line and
@@ -78,7 +76,7 @@ coverart`). `label` was observed dropped in the test. The streamer must set
 
 ## Decided by the user
 
-- Switch the streamer to Ogg/FLAC **when metadata is enabled**.
+- The streamer always sends Ogg/FLAC over SRT, metadata enabled or not.
 - Field set: `TITLE, ARTISTS, ALBUM, LABEL, CATALOGNUMBER, YEAR`.
   `YEAR`, never `ORIGINALDATE`.
 - Files are tagged with beets.
@@ -123,11 +121,9 @@ When enabled:
   not be exported by the encoder anyway).
 
 - `80-outputs.liq` uses `%ogg(%flac(channels = 2))` / `%ogg(%flac(channels =
-6))` instead of `%flac(...)`. Keep the `formats_picker` mechanism: add the
-  Ogg variants to the `formats` record (e.g. `formats.ogg_flac.stereo`)
-  and pick by `metadata_enabled`, or equivalent; the example configs'
-  `formats_picker = fun (formats) -> formats.flac.stereo` must keep working
-  unchanged when disabled.
+6))`, whatever `metadata_enabled`. The `formats_picker` mechanism stays: the
+  example configs' `formats_picker = fun (formats) -> formats.flac.stereo`
+  picks the Ogg/FLAC stereo format.
 - `GET /playlist` (90-http.liq) keeps returning `radio.last_metadata()`; it
   will show the consolidated fields when enabled. Acceptable.
 
@@ -210,7 +206,7 @@ changes. Acceptable for now.
 ### Example configs (my call)
 
 - `mystreamer.liq`, `myradio.liq` (stereo): `metadata_enabled = true`, with
-  a comment (streamer side: explains it switches SRT to Ogg/FLAC).
+  a comment.
 - `mystreamersurround.liq`, `myradiosurround.liq`: `metadata_enabled =
 false`, explicitly, with a comment. This keeps the existing four CI checks
   covering both paths. Note the running demo: `source-mystreamersurround`

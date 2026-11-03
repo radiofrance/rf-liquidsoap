@@ -4,7 +4,7 @@
 
 **Goal:** Carry six track fields from the streamer's files over SRT to the transcoder, which publishes them to Icecast (one song line) and as headers on HLS segment uploads, behind a required `metadata_enabled` switch on each side.
 
-**Architecture:** Each side gets a `50-metadata.liq` holding pure functions plus one source wrapper. The streamer consolidates file tags with `metadata.map(update=false, strip=true)` and switches its SRT format from `%flac` to `%ogg(%flac)`. The transcoder filters `radio_prod`'s metadata once (dropping `source_tag`, emitting a clear marker on input switch) and both outputs consume that filtered source.
+**Architecture:** Each side gets a `50-metadata.liq` holding pure functions plus one source wrapper. The streamer consolidates file tags with `metadata.map(update=false, strip=true)` and sends Ogg/FLAC (`%ogg(%flac)`) over SRT. The transcoder filters `radio_prod`'s metadata once (dropping `source_tag`, emitting a clear marker on input switch) and both outputs consume that filtered source.
 
 **Tech Stack:** Liquidsoap 2.4.6 (`savonet/liquidsoap:v2.4.6`), docker compose, GitHub Actions, prettier + liquidsoap-prettier.
 
@@ -14,7 +14,7 @@
 
 - Published fields, in this order everywhere: `title`, `artists`, `album`, `label`, `catalognumber`, `year`.
 - `originaldate` is never read, not even as a fallback.
-- `metadata_enabled` is a required bool in every config (streamer and transcoder). `false` = byte-for-byte today's behaviour: streamer `%flac`, Icecast `send_icy_metadata=false, icy_metadata=[]`, HLS upload headers exactly `[("Origin", hls_segments_http_post_origin)]`.
+- `metadata_enabled` is a required bool in every config (streamer and transcoder). `false` = no metadata: streamer still Ogg/FLAC with no track tags, Icecast `send_icy_metadata=false, icy_metadata=[]`, HLS upload headers exactly `[("Origin", hls_segments_http_post_origin)]`.
 - Metadata must never crash liquidsoap or fail an upload: any byte sequence in a tag yields a valid header.
 - Header names: `X-Meta-Title`, `X-Meta-Artists`, `X-Meta-Album`, `X-Meta-Label`, `X-Meta-Catalognumber`, `X-Meta-Year`; values = `url.encode(sanitized value)`; missing field → header omitted.
 - Value cap: 512 bytes per value, cut byte-wise before encoding.
@@ -28,7 +28,6 @@
 - `r/[\x00-\x1F\x7F]/g.replace(fun (_) -> "", v)` and `string.case(lower=true, v)` keep invalid bytes intact.
 - `url.encode` is byte-wise: `é`→`%C3%A9`, `\xff`→`%FF`, space→`+`.
 - `exit(n)` sets the process exit code.
-- `if c then {stereo = %ogg(%flac(channels = 2))} else {stereo = %flac(channels = 2)} end` type-checks.
 - `settings.encoder.metadata.export` default lacks `label`, `artists`, `catalognumber`.
 
 ## Review Focus
@@ -205,7 +204,7 @@ Expected: both fail on undefined `metadata_enabled`.
 
 - [ ] **Step 2: Add the variable to the examples**
 
-`mystreamer.liq`: `metadata_enabled = true`; `mystreamersurround.liq`: `metadata_enabled = false`. Each with a comment block like the replaygain one: it pushes title/artists/album/label/catalognumber/year with the audio, and switches the SRT stream to Ogg/FLAC (plain FLAC can't carry per-track tags).
+`mystreamer.liq`: `metadata_enabled = true`; `mystreamersurround.liq`: `metadata_enabled = false`. Each with a comment block like the replaygain one: it pushes title/artists/album/label/catalognumber/year with the audio.
 
 - [ ] **Step 3: Apply the consolidation in `00-live.liq`**
 
@@ -214,7 +213,7 @@ After the replaygain `radio = if replaygain_enabled …` block and before `mksaf
 
 - [ ] **Step 4: Switch the SRT format in `80-outputs.liq`**
 
-Keep `formats_picker` unchanged for configs: bind `formats` to `{flac = {stereo = %ogg(%flac(channels = 2)), surround = %ogg(%flac(channels = 6))}}` when `metadata_enabled`, else today's record. Comment why. The `output.srt` call stays as is.
+Keep `formats_picker` unchanged for configs: bind `formats` to `{flac = {stereo = %ogg(%flac(channels = 2)), surround = %ogg(%flac(channels = 6))}}`, whatever `metadata_enabled`. The `output.srt` call stays as is.
 
 - [ ] **Step 5: Verify both paths**
 
@@ -226,7 +225,7 @@ Expected: all three exit 0.
 ```bash
 npm run format && npm run format:check
 git add scripts/streamer example/liquidsoap/mystreamer*.liq .github/workflows/test-liquidsoap.yml
-git commit -m "feat(streamer)!: push the track metadata over srt" -m "Consolidate title, artists, album, label, catalognumber and year from the file tags, and send them in an Ogg/FLAC stream (plain FLAC carries no per-track tags)." -m "BREAKING CHANGE: a streamer config defines metadata_enabled."
+git commit -m "feat(streamer)!: push the track metadata over srt" -m "Consolidate title, artists, album, label, catalognumber and year from the file tags, and send them in an Ogg/FLAC stream." -m "BREAKING CHANGE: a streamer config defines metadata_enabled."
 ```
 
 ---
@@ -474,7 +473,7 @@ git commit -m "feat(transcoder)!: publish the track metadata to icecast and hls 
 
 - Modify: `README.md` (new `### Track metadata` section after `### Using HTTP API`)
 
-- [ ] **Step 1: Write the section**: the `metadata_enabled` variable on both sides (required, `false` = today), the six fields and their beets source tags (`originaldate` never used), the Ogg/FLAC switch, the Icecast line format with an example, the `X-Meta-*` header names and their `application/x-www-form-urlencoded` encoding (space is `+`), and clearing on input switch.
+- [ ] **Step 1: Write the section**: the `metadata_enabled` variable on both sides (required, `false` = today), the six fields and their beets source tags (`originaldate` never used), the Ogg/FLAC SRT stream, the Icecast line format with an example, the `X-Meta-*` header names and their `application/x-www-form-urlencoded` encoding (space is `+`), and clearing on input switch.
 
 - [ ] **Step 2: Check and commit**
 

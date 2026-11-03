@@ -1,22 +1,12 @@
 # Outputs
 
 # SRT Output
-# With the track metadata, FLAC goes in an Ogg container: plain FLAC only
-# carries tags in its header, Ogg chains a new header on each track.
+# Ogg/FLAC, stereo or 5.1: the radio config picks one with formats_picker.
 let formats =
-  if
-    metadata_enabled
-  then
-    {
-      flac =
-        {
-          stereo = %ogg(%flac(channels = 2)),
-          surround = %ogg(%flac(channels = 6))
-        }
-    }
-  else
-    {flac = {stereo = %flac(channels = 2), surround = %flac(channels = 6)}}
-  end
+  {
+    flac =
+      {stereo = %ogg(%flac(channels = 2)), surround = %ogg(%flac(channels = 6))}
+  }
 
 # Dither: add a TPDF noise of one 16 bits LSB (about -96 dBFS, inaudible).
 # FLAC encodes digital silence (track tails, gaps, the blank of mksafe) into a

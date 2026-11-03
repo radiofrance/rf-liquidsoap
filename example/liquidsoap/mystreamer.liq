@@ -12,8 +12,7 @@ replaygain_enabled = true
 replaygain_target_lufs = -14.
 
 # Track metadata: push title, artists, album, label, catalognumber and year
-# of the files with the audio. The SRT stream is then Ogg/FLAC: plain FLAC
-# can't carry per-track tags.
+# of the files with the audio (in the Ogg/FLAC SRT stream).
 metadata_enabled = true
 
 # Inputs configuration
