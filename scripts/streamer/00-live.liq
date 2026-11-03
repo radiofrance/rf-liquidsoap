@@ -82,12 +82,14 @@ radio =
   end
 
 # Crossfade the playlist tracks themselves, before the fallback: the blank of
-# mksafe never takes part in a transition. The limiter comes after the
-# crossfade to also catch the peaks of two overlapping tracks.
+# mksafe never takes part in a transition.
 radio = transitions(radio)
-radio = if replaygain_enabled then lookahead_limit(radio) else radio end
-
 radio = mksafe(id="playlist", radio)
+
+# The limiter catches the peaks of two overlapping tracks too. After mksafe:
+# its ffmpeg filter graph then always runs, a fallback switching to it would
+# lose the metadata of the first track.
+radio = if replaygain_enabled then lookahead_limit(radio) else radio end
 
 # Keep the published metadata fields only. After the replaygain chain,
 # which reads the replaygain_track_gain tag, and the crossfade, which reads

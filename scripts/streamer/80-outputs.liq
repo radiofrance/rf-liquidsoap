@@ -25,6 +25,7 @@ let formats =
 # times out (input.srt read_timeout, 1s) and drops the connection, then gets
 # the stalled data as a burst. With it, the encoded rate never collapses.
 lsb = 1. / 32768.
+tracks = radio
 radio =
   add(
     id="dither",
@@ -33,12 +34,34 @@ radio =
   )
 
 # Never stopped: radio is infallible (mksafe), the output streams at any time.
-output.srt(
-  formats_picker(formats),
-  id="srt_output",
-  host=srt_host,
-  port=srt_port,
-  mode="caller",
-  streamid=streamer_name,
-  radio
-)
+srt_output =
+  output.srt(
+    formats_picker(formats),
+    id="srt_output",
+    host=srt_host,
+    port=srt_port,
+    mode="caller",
+    streamid=streamer_name,
+    radio
+  )
+
+# The receiver only reads the metadata chained in the stream, not the one of
+# the header a new connection starts with: after each (re)connection, the
+# current track would stay without metadata until the next one. Insert it
+# again once the stream has started.
+if
+  metadata_enabled
+then
+  srt_output.on_connect(
+    synchronous=true,
+    fun () ->
+      thread.run(
+        delay=1.,
+        fun () ->
+          begin
+            m = tracks.last_metadata() ?? []
+            if m != [] then radio.insert_metadata(m) end
+          end
+      )
+  )
+end
