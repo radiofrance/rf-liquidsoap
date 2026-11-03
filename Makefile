@@ -42,7 +42,9 @@ test: ## Run test on the liquidsoap configuration
 		liquidsoap-test-transcoder-stereo \
 		liquidsoap-test-streamer-stereo \
 		liquidsoap-test-transcoder-surround \
-		liquidsoap-test-streamer-surround
+		liquidsoap-test-streamer-surround \
+		liquidsoap-test-unit-streamer \
+		liquidsoap-test-unit-transcoder
 
 reload: ## Update containers if needed and restart all liquidsoaps
 	@docker compose up -d
