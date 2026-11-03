@@ -62,13 +62,13 @@ end
 if
   metadata_enabled
 then
-  def metadata_decoder(~metadata:_, path) =
+  def metadata_decoder(~metadata:_, filename) =
     try
-      metadata_keep_tags(file.metadata.ffmpeg(path))
+      metadata_keep_tags(file.metadata.ffmpeg(filename))
     catch err do
       log.important(
         label="metadata",
-        "No metadata for #{path}: #{err}"
+        "No metadata for #{filename}: #{err}"
       )
       []
     end
@@ -112,8 +112,8 @@ def metadata_consolidate(m) =
       end
     end
 
-    def first(source) =
-      let (field, keys) = source
+    def first(field_sources) =
+      let (field, keys) = field_sources
       (
         field,
         list.fold(
