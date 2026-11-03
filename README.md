@@ -242,6 +242,15 @@ The tracks autocue can't analyze crossfade with a 6 seconds fade out and a 3
 seconds fade in. The loudness stays with the ReplayGain settings: the autocue
 gain is ignored.
 
+### A continuous SRT output
+
+The streamer's SRT output never stops: when the playlist has nothing to play,
+it streams silence. An inaudible dither (one 16 bits LSB, about -96 dBFS) keeps
+the FLAC rate up during silences: FLAC compresses a digital silence to a few
+bytes per second, and the SRT output only sends full 1316 bytes packets. Without
+it, a silence of a few seconds holds the packets back, the receiver times out
+(1 second) and reconnects, then gets the held data as a burst.
+
 ### Track metadata
 
 The streamer can push the track metadata of its files with the audio, and the
