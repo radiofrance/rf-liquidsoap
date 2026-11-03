@@ -90,6 +90,23 @@ assert_equal(
   null.get(metadata_song([(metadata_clear_key, "1")]))
 )
 assert_equal(
+  "icy fields",
+  [("artist", "x\xffy")],
+  metadata_icy_fields(
+    [("title", "T"), ("artists", "x\xffy\r\n"), ("album", "Al")]
+  )
+)
+assert_equal(
+  "icy fields none",
+  [],
+  metadata_icy_fields([(metadata_clear_key, "1")])
+)
+assert_equal(
+  "icy metadata",
+  ["song", "title", "artist"],
+  metadata_icy
+)
+assert_equal(
   "headers",
   [
     ("X-Meta-Title", "Beyonc%C3%A9+%E6%97%A5"),
@@ -146,7 +163,7 @@ assert_equal(
 )
 assert_equal(
   "export list",
-  [...metadata_fields, metadata_clear_key],
+  [...metadata_fields, "artist", metadata_clear_key],
   settings.encoder.metadata.export()
 )
 test_done()

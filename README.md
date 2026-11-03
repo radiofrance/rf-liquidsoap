@@ -277,9 +277,10 @@ The streamer sends Ogg/FLAC over SRT, with or without the metadata.
 
 The transcoder publishes:
 
-- to Icecast, one song line, e.g.
+- to Icecast, the song line, e.g.
   `Title - Artists - Album (Label, Catalognumber, Year)`, without the missing
-  parts;
+  parts: the `StreamTitle` the listeners get. Along with it, the `title` and
+  `artist` (the `artists` field) of the track, the Icecast names;
 - on the HLS segment uploads, one header per field: `X-Meta-Title`,
   `X-Meta-Artists`, `X-Meta-Album`, `X-Meta-Label`, `X-Meta-Catalognumber`,
   `X-Meta-Year`. Values are form url-encoded (`Beyonc%C3%A9+Knowles`: space is

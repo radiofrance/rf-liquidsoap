@@ -1,7 +1,7 @@
 # Track metadata
 # When metadata_enabled, the outputs publish these fields of the track
-# metadata sent by the streamers: one song line to Icecast, X-Meta-* headers
-# on the HLS segment uploads.
+# metadata sent by the streamers: the song line, title and artist to Icecast,
+# X-Meta-* headers on the HLS segment uploads.
 # The metadata is filtered at the outputs, not on radio_prod: the is_playing
 # metrics read source_tag there.
 metadata_headers =
@@ -19,13 +19,19 @@ metadata_fields = list.map(fst, metadata_headers)
 # input changes
 metadata_clear_key = "liq_metadata_clear"
 
-# The encoders, and so the Icecast song line, only get the metadata of this
-# list: the default one drops artists, label, catalognumber and the clear
-# marker.
+# The ICY metadata sent to Icecast: the song line (StreamTitle of the
+# listeners), and the track title and artist, as Icecast names them.
+metadata_icy = ["song", "title", "artist"]
+
+# The encoders, and so the Icecast metadata, only get the metadata of this
+# list: the default one drops artists, label, catalognumber, the clear marker
+# and, without title or artist in it, the ICY artist.
 if
   metadata_enabled
 then
-  settings.encoder.metadata.export.set([...metadata_fields, metadata_clear_key])
+  settings.encoder.metadata.export.set(
+    [...metadata_fields, "artist", metadata_clear_key]
+  )
 end
 
 # Bytes kept of each value
@@ -171,6 +177,20 @@ def metadata_song(m) =
       "No song metadata: #{err}"
     )
     null
+  end
+end
+
+# The ICY fields that the published fields of m lack: artist, from artists
+def metadata_icy_fields(m) =
+  try
+    artists = list.assoc(default="", "artists", metadata_published(m))
+    if artists != "" then [("artist", artists)] else [] end
+  catch err do
+    log.important(
+      label="metadata",
+      "No ICY artist: #{err}"
+    )
+    []
   end
 end
 
