@@ -1,5 +1,9 @@
 radio_name = "myradiosurround"
 
+# Icecast song line when no track metadata is published (no tag received)
+radio_description =
+  "My Radio Surround"
+
 # Radio settings
 formats_picker = fun (formats) -> formats.surround
 audio_channels = 6
@@ -7,6 +11,12 @@ aac_encoder = "libfdk_aac"
 harbor_http_port = 7010
 prometheus_server_port = 9011
 liquidsoap_log_level = 3
+
+# Track metadata: publish title, artists, album, label, catalognumber and year
+# sent by the streamers, as the Icecast song line (with title and artist) and
+# as X-Meta-* headers on the HLS segment uploads. Cleared when the live input
+# changes.
+metadata_enabled = false
 
 # Inputs configuration
 input_list =

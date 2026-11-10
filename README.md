@@ -231,6 +231,68 @@ $ curl -s -d override_caller1 http://127.0.0.1:7000/livesource
 {"preferred_output": "override_caller1"}
 ```
 
+### Transitions between tracks
+
+The streamer crossfades its tracks on the points of liquidsoap's
+[autocue](https://www.liquidsoap.info/doc-dev/autocue.html): an ebur128
+analysis of each file, when it is queued, cuts the silences of its head and
+tail, and starts the next track while the current one fades out. The overlap
+follows each track's detected ending, up to 20 seconds for a long fade out.
+The tracks autocue can't analyze crossfade with a 6 seconds fade out and a 3
+seconds fade in. The loudness stays with the ReplayGain settings: the autocue
+gain is ignored.
+
+### A continuous SRT output
+
+The streamer's SRT output never stops: when the playlist has nothing to play,
+it streams silence. An inaudible dither (one 16 bits LSB, about -96 dBFS) keeps
+the FLAC rate up during silences: FLAC compresses a digital silence to a few
+bytes per second, and the SRT output only sends full 1316 bytes packets. Without
+it, a silence of a few seconds holds the packets back, the receiver times out
+(1 second) and reconnects, then gets the held data as a burst.
+
+### Track metadata
+
+The streamer can push the track metadata of its files with the audio, and the
+transcoder can publish it. Both are set with `metadata_enabled` in the radio
+config: the variable is required, `false` keeps the stream without metadata.
+
+Only these fields are published, read from the tags written by
+[beets](https://beets.io/) (tag names in any case):
+
+| Field           | Tags, first non-blank wins           |
+| --------------- | ------------------------------------ |
+| `title`         | `title`                              |
+| `artists`       | `artists`, `artist`                  |
+| `album`         | `album`                              |
+| `label`         | `label`, `publisher`, `organization` |
+| `catalognumber` | `catalognumber`, `catalognum`        |
+| `year`          | 4 digits of `year`, else of `date`   |
+
+`originaldate` is never used. With `metadata_enabled = true`, the streamer only
+reads these tags and `replaygain_track_gain` from the files: liquidsoap ignores
+the others (e.g. the long `acoustid_fingerprint` of beets).
+
+The streamer sends Ogg/FLAC over SRT, with or without the metadata.
+
+The transcoder publishes:
+
+- to Icecast, the song line, e.g.
+  `Title - Artists - Album (Label, Catalognumber, Year)`, without the missing
+  parts: the `StreamTitle` the listeners get. Along with it, the `title` and
+  `artist` (the `artists` field) of the track, the Icecast names;
+- on the HLS segment uploads, one header per field: `X-Meta-Title`,
+  `X-Meta-Artists`, `X-Meta-Album`, `X-Meta-Label`, `X-Meta-Catalognumber`,
+  `X-Meta-Year`. Values are form url-encoded (`Beyonc%C3%A9+Knowles`: space is
+  `+`), decode them with a form decoder (e.g. Python
+  `urllib.parse.unquote_plus`, Go `url.QueryUnescape`). Values are stripped of
+  control characters and cut to 512 bytes.
+
+When the live input changes, or a track has none of the fields (e.g. an
+untagged jingle), the published metadata is cleared until the next track: the
+uploads carry no `X-Meta-*` header, and the Icecast song becomes the
+`radio_description` of the transcoder configuration.
+
 ### Show default exposed URLs and useful ports
 
 ```
