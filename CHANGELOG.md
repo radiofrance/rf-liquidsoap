@@ -1,5 +1,23 @@
 # CHANGELOG.md
 
+## [3.0.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.13.0...v3.0.0) (2026-11-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* **streamer:** a streamer config defines replaygain_enabled and replaygain_target_lufs.
+
+### Features
+
+* **streamer:** apply the replaygain tags of the files ([ee2babf](https://github.com/radiofrance/rf-liquidsoap/commit/ee2babf147274a8211eb50ed4bd201100e99cd94))
+
+
+### Bug Fixes
+
+* **ci:** parse the breaking change marker in commitlint ([2bada02](https://github.com/radiofrance/rf-liquidsoap/commit/2bada02f76dab6ce0f3c8a34b35f03a64df9bdea))
+* **streamer:** read the playlist as m3u ([28794c1](https://github.com/radiofrance/rf-liquidsoap/commit/28794c11e13bd8c0a6479f6eb75be951049624f3))
+* **transcoder:** set the default channels from the radio config ([6cfb9d6](https://github.com/radiofrance/rf-liquidsoap/commit/6cfb9d67549894ff2fee0c40b42eaf395d5c507c))
+
 ## [2.13.0](https://github.com/radiofrance/rf-liquidsoap/compare/v2.12.0...v2.13.0) (2026-10-22)
 
 
