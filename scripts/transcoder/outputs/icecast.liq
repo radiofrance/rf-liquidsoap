@@ -16,6 +16,21 @@ def mk_output(s, file_extension, quality, enc) =
   # streaming thread when icecast is down
   s = buffer(s)
 
+  # The ICY artist, from the artists field
+  s =
+    if
+      metadata_enabled
+    then
+      metadata.map(
+        id="metadata_icy_#{quality}#{file_extension}",
+        update=true,
+        metadata_icy_fields,
+        s
+      )
+    else
+      s
+    end
+
   # Assign a unique id to the new clock
   icecast_id = "icecast_#{quality}#{file_extension}"
   clock(s.clock).id := icecast_id
@@ -25,8 +40,9 @@ def mk_output(s, file_extension, quality, enc) =
     fallible=true,
     host=icecast_host,
     port=icecast_port,
-    icy_metadata=[],
-    send_icy_metadata=false,
+    icy_metadata=if metadata_enabled then metadata_icy else [] end,
+    icy_song=metadata_song,
+    send_icy_metadata=metadata_enabled,
     password=icecast_password,
     mount="#{radio_name}-#{quality}#{file_extension}",
     enc,

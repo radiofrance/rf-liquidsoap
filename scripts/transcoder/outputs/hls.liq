@@ -62,6 +62,28 @@ def segment_name(
   }.ts"
 end
 
+# Headers of the segment uploads: the X-Meta-* headers of the current track
+# follow the Origin when metadata_enabled. A metadata error never fails the
+# upload.
+def upload_headers() =
+  origin = [("Origin", hls_segments_http_post_origin)]
+  if
+    metadata_enabled
+  then
+    try
+      [...origin, ...metadata_http_headers(metadata_current())]
+    catch err do
+      log.important(
+        label="metadata",
+        "Uploading without metadata headers: #{err}"
+      )
+      origin
+    end
+  else
+    origin
+  end
+end
+
 def on_file_change({state, path = fname}) =
   if
     (state == "created" or state == "updated")
@@ -78,7 +100,7 @@ def on_file_change({state, path = fname}) =
         data = file.contents(fname)
         uploadsegment =
           http.post(
-            headers=[("Origin", hls_segments_http_post_origin)],
+            headers=upload_headers(),
             data=data,
             timeout=2.,
             target ^ "/#{path.basename(fname)}"
