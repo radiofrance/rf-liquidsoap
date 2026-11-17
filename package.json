@@ -13,7 +13,7 @@
     "@commitlint/config-conventional": "21.2.4",
     "conventional-changelog-conventionalcommits": "10.4.1",
     "husky": "9.1.7",
-    "liquidsoap-prettier": "1.9.0",
+    "liquidsoap-prettier": "1.9.1",
     "prettier": "3.10.1"
   }
 }
